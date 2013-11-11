@@ -9,7 +9,7 @@ CSV data can be read off any input stream. Character set decoding
 is accomplished by passing a charset to TextReader, or `NULL`
 to use auto-detection.
 
-```
+```php
 use text\csv\CsvListReader;
 use io\streams\TextReader;
 use io\streams\FileInputStream;
@@ -29,7 +29,7 @@ Writing
 CSV data can be written to any output stream. Character set encoding
 is accomplished by passing a charset to TextWriter.
 
-```
+```php
 use text\csv\CsvListWriter;
 use io\streams\TextWriter;
 use io\streams\FileOutputStream;
