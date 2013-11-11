@@ -1,10 +1,9 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
 use unittest\TestCase;
 use text\csv\CsvListWriter;
 use text\csv\processors\FormatDate;
 use io\streams\MemoryOutputStream;
-
 
 /**
  * TestCase

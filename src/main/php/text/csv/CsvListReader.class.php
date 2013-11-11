@@ -1,25 +1,20 @@
-<?php
-/* This class is part of the XP framework
+<?php namespace text\csv;
+
+
+
+/**
+ * Reads values from CSV lines into a list
  *
- * $Id: CsvListReader.class.php 11419 2009-09-13 11:49:30Z friebe $ 
+ * @test     xp://net.xp_framework.unittest.text.csv.CsvListReaderTest
  */
-
-  uses('text.csv.CsvReader');
-
+class CsvListReader extends CsvReader {
+  
   /**
-   * Reads values from CSV lines into a list
+   * Read a record
    *
-   * @test     xp://net.xp_framework.unittest.text.csv.CsvListReaderTest
+   * @return  string[] or NULL if end of the file is reached
    */
-  class CsvListReader extends CsvReader {
-    
-    /**
-     * Read a record
-     *
-     * @return  string[] or NULL if end of the file is reached
-     */
-    public function read() {
-      return $this->readValues();
-    }    
-  }
-?>
+  public function read() {
+    return $this->readValues();
+  }    
+}

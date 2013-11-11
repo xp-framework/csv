@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
 use unittest\TestCase;
 use text\csv\CsvListReader;
@@ -18,7 +18,6 @@ use text\csv\processors\constraint\Unique;
 use net\xp_framework\unittest\core\Coin;
 use io\streams\MemoryInputStream;
 use io\streams\MemoryOutputStream;
-
 
 /**
  * TestCase
@@ -722,7 +721,7 @@ class CellProcessorTest extends TestCase {
       
       public function process($in) {
         if ($this->unwanted !== $in) return $this->proceed($in);
-        throw new FormatException("Unwanted value ".xp::stringOf($this->unwanted)." encountered");
+        throw new \lang\FormatException("Unwanted value ".\xp::stringOf($this->unwanted)." encountered");
       }
     }');
   }

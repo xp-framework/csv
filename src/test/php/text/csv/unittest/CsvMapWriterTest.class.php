@@ -1,9 +1,8 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
 use unittest\TestCase;
 use text\csv\CsvMapWriter;
 use io\streams\MemoryOutputStream;
-
 
 /**
  * TestCase

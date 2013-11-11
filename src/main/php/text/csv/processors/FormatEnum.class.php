@@ -1,32 +1,29 @@
-<?php
-/* This class is part of the XP framework
+<?php namespace text\csv\processors;
+
+use text\csv\CellProcessor;
+use lang\Enum;
+
+
+/**
+ * Formats enums as cell values. Uses the enum's name member as string
+ * representation.
  *
- * $Id: FormatEnum.class.php 11504 2009-09-15 13:36:13Z friebe $
+ * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @see     xp://text.csv.CellProcessor
  */
-
-  uses('text.csv.CellProcessor', 'lang.Enum');
-
+class FormatEnum extends CellProcessor {
+  
   /**
-   * Formats enums as cell values. Uses the enum's name member as string
-   * representation.
+   * Processes cell value
    *
-   * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
-   * @see     xp://text.csv.CellProcessor
+   * @param   var in
+   * @return  var
+   * @throws  lang.FormatException
    */
-  class FormatEnum extends CellProcessor {
-    
-    /**
-     * Processes cell value
-     *
-     * @param   var in
-     * @return  var
-     * @throws  lang.FormatException
-     */
-    public function process($in) {
-      if (!$in->getClass()->isEnum()) {
-        throw new FormatException('Cannot format non-enum '.xp::stringOf($in));
-      }
-      return $this->proceed($in->name());
+  public function process($in) {
+    if (!$in->getClass()->isEnum()) {
+      throw new \lang\FormatException('Cannot format non-enum '.\xp::stringOf($in));
     }
+    return $this->proceed($in->name());
   }
-?>
+}

@@ -1,32 +1,24 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
-use unittest\TestCase;
 use text\csv\AbstractCsvProcessor;
 use text\csv\processors\constraint\Optional;
 use text\csv\processors\constraint\Required;
-
 
 /**
  * TestCase
  *
  * @see      xp://text.csv.AbstractCsvProcessor
  */
-class ProcessorAccessorsTest extends TestCase {
+class ProcessorAccessorsTest extends \unittest\TestCase {
   protected $fixture= null;
 
   /**
    * Sets up test case
-   *
    */
   public function setUp() {
-    $this->fixture= newinstance('text.csv.AbstractCsvProcessor', array(), '{
-    }');
+    $this->fixture= newinstance('text.csv.AbstractCsvProcessor', array(), '{ }');
   }
   
-  /**
-   * Test setting and getting cell processors
-   *
-   */
   #[@test]
   public function setProcessors() {
     $processors= array(new Optional(), new Required());
@@ -34,10 +26,6 @@ class ProcessorAccessorsTest extends TestCase {
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
-  /**
-   * Test setting and getting cell processors
-   *
-   */
   #[@test]
   public function withProcessors() {
     $processors= array(new Optional(), new Required());
@@ -45,19 +33,11 @@ class ProcessorAccessorsTest extends TestCase {
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
-  /**
-   * Test withProcessor() method returns fixture
-   *
-   */
   #[@test]
-  public function withProcessorsReturnsFixture() {
+  public function withProcessors_returns_fixture() {
     $this->assertEquals($this->fixture, $this->fixture->withProcessors(array()));
   }
 
-  /**
-   * Test adding processors
-   *
-   */
   #[@test]
   public function addProcessor() {
     $processors= array(new Optional(), new Required());
@@ -65,12 +45,9 @@ class ProcessorAccessorsTest extends TestCase {
     $this->fixture->addProcessor($processors[1]);
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
-  /**
-   * Test adding processors
-   *
-   */
+
   #[@test]
-  public function addProcessorReturnsProcessor() {
+  public function addProcessor_returns_added_processor() {
     $processor= new Optional();
     $this->assertEquals($processor, $this->fixture->addProcessor($processor));
   }

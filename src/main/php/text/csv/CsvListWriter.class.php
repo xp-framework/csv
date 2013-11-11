@@ -1,25 +1,20 @@
-<?php
-/* This class is part of the XP framework
+<?php namespace text\csv;
+
+
+
+/**
+ * Writes a list of values to CSV lines
  *
- * $Id: CsvListWriter.class.php 11468 2009-09-15 09:50:52Z friebe $
+ * @test     xp://net.xp_framework.unittest.text.csv.CsvListWriterTest
  */
-
-  uses('text.csv.CsvWriter');
-
+class CsvListWriter extends CsvWriter {
+  
   /**
-   * Writes a list of values to CSV lines
+   * Write a record
    *
-   * @test     xp://net.xp_framework.unittest.text.csv.CsvListWriterTest
+   * @param   string[]
    */
-  class CsvListWriter extends CsvWriter {
-    
-    /**
-     * Write a record
-     *
-     * @param   string[]
-     */
-    public function write(array $values) {
-      $this->writeValues($values);
-    }    
-  }
-?>
+  public function write(array $values) {
+    $this->writeValues($values);
+  }    
+}

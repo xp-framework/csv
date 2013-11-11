@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
 use unittest\TestCase;
 use text\csv\CsvBeanReader;
@@ -29,7 +29,7 @@ class CsvBeanReaderTest extends TestCase {
    */
   #[@test]
   public function readPerson() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('net.xp_framework.unittest.text.csv.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(array('id', 'name', 'email'))
@@ -42,7 +42,7 @@ class CsvBeanReaderTest extends TestCase {
    */
   #[@test]
   public function readPersonReSorted() {
-    $in= $this->newReader('friebe@example.com;1549;Timm', \lang\XPClass::forName('net.xp_framework.unittest.text.csv.Person'));
+    $in= $this->newReader('friebe@example.com;1549;Timm', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(array('email', 'id', 'name'))
@@ -55,7 +55,7 @@ class CsvBeanReaderTest extends TestCase {
    */
   #[@test]
   public function readPersonCompletely() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('net.xp_framework.unittest.text.csv.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read()
@@ -68,7 +68,7 @@ class CsvBeanReaderTest extends TestCase {
    */
   #[@test]
   public function readPersonPartially() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('net.xp_framework.unittest.text.csv.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', ''), 
       $in->read(array('id', 'name'))
@@ -81,7 +81,7 @@ class CsvBeanReaderTest extends TestCase {
    */
   #[@test]
   public function readEmpty() {
-    $in= $this->newReader('', \lang\XPClass::forName('net.xp_framework.unittest.text.csv.Person'));
+    $in= $this->newReader('', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertNull($in->read(array('id', 'name', 'email')));
   }
 }

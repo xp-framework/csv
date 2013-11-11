@@ -1,27 +1,26 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
 use unittest\TestCase;
-use text\csv\CsvBeanWriter;
+use text\csv\CsvObjectWriter;
 use io\streams\MemoryOutputStream;
-
 
 /**
  * TestCase
  *
- * @see      xp://text.csv.CsvBeanWriter
+ * @see      xp://text.csv.CsvObjectWriter
  */
-class CsvBeanWriterTest extends TestCase {
+class CsvObjectWriterTest extends TestCase {
   protected $out= null;
 
   /**
-   * Creates a new bean writer
+   * Creates a new object writer
    *
    * @param   text.csv.CsvFormat format
-   * @return  text.csv.CsvBeanWriter
+   * @return  text.csv.CsvObjectWriter
    */
   protected function newWriter(\text\csv\CsvFormat $format= null) {
     $this->out= new MemoryOutputStream();
-    return new CsvBeanWriter(new \io\streams\TextWriter($this->out), $format);
+    return new CsvObjectWriter(new \io\streams\TextWriter($this->out), $format);
   }
 
   /**
@@ -52,5 +51,25 @@ class CsvBeanWriterTest extends TestCase {
   public function writePersonPartially() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), array('id', 'name'));
     $this->assertEquals("1549;Timm\n", $this->out->getBytes());
+  }
+
+  /**
+   * Test writing an address object
+   *
+   */
+  #[@test]
+  public function writeAddress() {
+    $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'));
+    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
+  }
+
+  /**
+   * Test writing an address object
+   *
+   */
+  #[@test]
+  public function writeAddressPartially() {
+    $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'), array('city', 'zip'));
+    $this->assertEquals("Karlsruhe;76137\n", $this->out->getBytes());
   }
 }

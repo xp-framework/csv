@@ -1,15 +1,13 @@
-<?php namespace net\xp_framework\unittest\text\csv;
+<?php namespace text\csv\unittest;
 
-use unittest\TestCase;
 use text\csv\Quoting;
-
 
 /**
  * TestCase
  *
  * @see      xp://text.csv.Quoting
  */
-class QuotingTest extends TestCase {
+class QuotingTest extends \unittest\TestCase {
   private static $never;
 
   /**
@@ -21,7 +19,7 @@ class QuotingTest extends TestCase {
   public static function neverQuotingStrategy() {
     self::$never= newinstance('text.csv.QuotingStrategy', array(), '{
       public function necessary($value, $delimiter, $quote) {
-        return FALSE;
+        return false;
       }
     }');
   }
@@ -75,33 +73,21 @@ class QuotingTest extends TestCase {
     $this->assertFalse($strategy->necessary('Hello World', ';', '"'));
   }
 
-  /**
-   * Test empty values are not quoted in the default strategy
-   */
   #[@test]
   public function emtpy_string_not_quoted_with_default() {
     $this->assertFalse(Quoting::$DEFAULT->necessary('', ';', '"'));
   }
 
-  /**
-   * Test empty values are quoted in the empty strategy
-   */
   #[@test]
   public function emtpy_string_quoted_with_empty() {
     $this->assertTrue(Quoting::$EMPTY->necessary('', ';', '"'));
   }
 
-  /**
-   * Test any of the above are quoted in the "always" strategy
-   */
   #[@test, @values(array('', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'))]
   public function anything_is_quoted_with_always_strategy($value) {
     $this->assertTrue(Quoting::$ALWAYS->necessary($value, ';', '"'), $value);
   }
 
-  /**
-   * Test none of the above are quoted in the "never" strategy
-   */
   #[@test, @values(array('', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'))]
   public function nothing_is_quoted_with_never_strategy($value) {
     $this->assertFalse(self::$never->necessary($value, ';', '"'));
