@@ -15,7 +15,6 @@ use text\csv\processors\FormatNumber;
 use text\csv\processors\constraint\Optional;
 use text\csv\processors\constraint\Required;
 use text\csv\processors\constraint\Unique;
-use net\xp_framework\unittest\core\Coin;
 use io\streams\MemoryInputStream;
 use io\streams\MemoryOutputStream;
 
@@ -393,9 +392,9 @@ class CellProcessorTest extends TestCase {
   public function pennyCoin() {
     $in= $this->newReader('200;penny')->withProcessors(array(
       null,
-      new AsEnum(\lang\XPClass::forName('net.xp_framework.unittest.core.Coin'))
+      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
     ));
-    $this->assertEquals(array('200', \net\xp_framework\unittest\core\Coin::$penny), $in->read());
+    $this->assertEquals(array('200', Coin::$penny), $in->read());
   }
 
   /**
@@ -406,7 +405,7 @@ class CellProcessorTest extends TestCase {
   public function invalidCoin() {
     $this->newReader('200;dollar')->withProcessors(array(
       null,
-      new AsEnum(\lang\XPClass::forName('net.xp_framework.unittest.core.Coin'))
+      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
     ))->read();
   }
 
@@ -418,7 +417,7 @@ class CellProcessorTest extends TestCase {
   public function emptyCoin() {
     $this->newReader('200;')->withProcessors(array(
       null,
-      new AsEnum(\lang\XPClass::forName('net.xp_framework.unittest.core.Coin'))
+      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
     ))->read();
   }
 
@@ -432,7 +431,7 @@ class CellProcessorTest extends TestCase {
       null,
       new FormatEnum()
     ));
-    $writer->write(array('200', \net\xp_framework\unittest\core\Coin::$penny));
+    $writer->write(array('200', Coin::$penny));
     $this->assertEquals("200;penny\n", $this->out->getBytes());
   }
 
