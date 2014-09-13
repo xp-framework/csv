@@ -38,9 +38,9 @@ use io\streams\FileOutputStream;
 
 $out= new CsvListWriter(new TextWriter(new FileOutputStream('out.csv')));
 
-$out->setHeader(array('name', 'city', 'zip'));
-$out->write(array('Timm', 'Karlsruhe', 76137));
-$out->write(array('Alex', 'Karlsruhe', 76131));
+$out->setHeader(['name', 'city', 'zip']);
+$out->write(['Timm', 'Karlsruhe', 76137]);
+$out->write(['Alex', 'Karlsruhe', 76131]);
 
 $out->close();
 ```
@@ -50,7 +50,7 @@ Format
 CSV files usually use the semi-colon to separate values. Depending on the file we're parsing, this might be a different character. Both readers and writers accept an optional second parameter with which the format can be changed.
 
 ```php
-$format= create(new CsvFormat())->withDelimiter(',');
+$format= (new CsvFormat())->withDelimiter(',');
 $format= CsvFormat::$COMMAS;    // Short-hand for the above
 
 $writer= new CsvListWriter(..., $format);
