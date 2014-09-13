@@ -1,0 +1,7 @@
+{
+  "name"    : "xp-framework/csv",
+  "version" : "6.0.0",
+  "require" : {
+    "xp-framework/core" : "~6.0"
+  }
+}
