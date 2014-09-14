@@ -6,7 +6,7 @@ use text\csv\CellProcessor;
 /**
  * Throws an exception if a value is encountered more than once.
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class Unique extends CellProcessor {

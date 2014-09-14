@@ -8,7 +8,7 @@ use lang\Enum;
  * Formats enums as cell values. Uses the enum's name member as string
  * representation.
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class FormatEnum extends CellProcessor {

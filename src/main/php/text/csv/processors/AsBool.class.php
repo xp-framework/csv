@@ -13,7 +13,7 @@ use text\csv\CellProcessor;
  *
  * Note: The values are recognized case-sensitively!
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class AsBool extends CellProcessor {

@@ -6,7 +6,7 @@
  * Reads values from CSV lines into maps.
  *
  * @see      xp://text.csv.CsvListReader
- * @test     xp://net.xp_framework.unittest.text.csv.CsvMapReaderTest
+ * @test     xp://text.csv.unittest.CsvMapReaderTest
  */
 class CsvMapReader extends CsvReader {
   protected $keys= array();

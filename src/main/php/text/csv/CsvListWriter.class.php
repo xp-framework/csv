@@ -5,7 +5,7 @@
 /**
  * Writes a list of values to CSV lines
  *
- * @test     xp://net.xp_framework.unittest.text.csv.CsvListWriterTest
+ * @test     xp://text.csv.unittest.CsvListWriterTest
  */
 class CsvListWriter extends CsvWriter {
   

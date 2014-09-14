@@ -24,7 +24,7 @@ use lang\XPClass;
  * with the value read.
  *
  * @see      xp://text.csv.CsvObjectReader
- * @test     xp://net.xp_framework.unittest.text.csv.CsvBeanReaderTest
+ * @test     xp://text.csv.unittest.CsvBeanReaderTest
  */
 class CsvBeanReader extends CsvReader {
   protected $class= null;

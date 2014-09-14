@@ -5,7 +5,7 @@
 /**
  * Writes objects to CSV lines
  *
- * @test     xp://net.xp_framework.unittest.text.csv.CsvObjectWriterTest
+ * @test     xp://text.csv.unittest.CsvObjectWriterTest
  */
 class CsvObjectWriter extends CsvWriter {
 

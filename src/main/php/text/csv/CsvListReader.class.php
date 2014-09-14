@@ -5,7 +5,7 @@
 /**
  * Reads values from CSV lines into a list
  *
- * @test     xp://net.xp_framework.unittest.text.csv.CsvListReaderTest
+ * @test     xp://text.csv.unittest.CsvListReaderTest
  */
 class CsvListReader extends CsvReader {
   

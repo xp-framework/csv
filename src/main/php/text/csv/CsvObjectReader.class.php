@@ -19,7 +19,7 @@
  * the value read.
  *
  * @see      xp://text.csv.CsvBeanReader
- * @test     xp://net.xp_framework.unittest.text.csv.CsvObjectReaderTest
+ * @test     xp://text.csv.unittest.CsvObjectReaderTest
  */
 class CsvObjectReader extends CsvReader {
   protected

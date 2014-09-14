@@ -7,7 +7,7 @@ use rdbms\finder\FinderMethod;
 /**
  * Returns cell values as a DataSet
  *
- * @test    xp://net.xp_framework.unittest.text.csv.DataSetCellProcessorTest
+ * @test    xp://text.csv.unittest.DataSetCellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class FindDataSet extends CellProcessor {

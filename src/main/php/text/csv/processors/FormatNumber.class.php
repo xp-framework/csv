@@ -6,7 +6,7 @@ use text\csv\CellProcessor;
 /**
  * Formats a given number given the formatting options
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class FormatNumber extends CellProcessor {

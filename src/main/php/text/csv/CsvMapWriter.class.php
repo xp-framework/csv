@@ -5,7 +5,7 @@
 /**
  * Writes maps to CSV lines
  *
- * @test     xp://net.xp_framework.unittest.text.csv.CsvMapWriterTest
+ * @test     xp://text.csv.unittest.CsvMapWriterTest
  */
 class CsvMapWriter extends CsvWriter {
   protected $keys= null;

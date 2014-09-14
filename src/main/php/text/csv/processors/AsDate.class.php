@@ -8,7 +8,7 @@ use text\DateFormat;
 /**
  * Returns cell values as a date objects
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class AsDate extends CellProcessor {

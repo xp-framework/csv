@@ -1,9 +1,6 @@
 <?php namespace text\csv;
- 
-
 
 use lang\Enum;
-
 
 /**
  * CSV quoting strategy enumeration. The following strategies are
@@ -14,7 +11,7 @@ use lang\Enum;
  *   <li>ALWAYS  - quotes regardless of value's content</li>
  * </ul>
  *
- * @test     xp://net.xp_framework.unittest.text.csv.QuotingTest
+ * @test     xp://text.csv.unittest.QuotingTest
  * @see      xp://text.csv.QuotingStrategy
  * @see      xp://text.csv.CsvFormat#setQuoting
  */

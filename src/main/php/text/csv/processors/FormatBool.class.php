@@ -8,7 +8,7 @@ use text\csv\CellProcessor;
  * the string "false" for FALSE values per default, which may be changed
  * by supplying other values in the constructor.
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class FormatBool extends CellProcessor {

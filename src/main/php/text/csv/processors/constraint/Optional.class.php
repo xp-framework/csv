@@ -6,7 +6,7 @@ use text\csv\CellProcessor;
 /**
  * Returns a default value if an empty string is encountered.
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.Required
  * @see     xp://text.csv.CellProcessor
  */

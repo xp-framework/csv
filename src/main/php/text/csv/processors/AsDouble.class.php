@@ -6,7 +6,7 @@ use text\csv\CellProcessor;
 /**
  * Returns cell values as an integer
  *
- * @test    xp://net.xp_framework.unittest.text.csv.CellProcessorTest
+ * @test    xp://text.csv.unittest.CellProcessorTest
  * @see     xp://text.csv.CellProcessor
  */
 class AsDouble extends CellProcessor {
