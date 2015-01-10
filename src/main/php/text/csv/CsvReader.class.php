@@ -1,7 +1,8 @@
 <?php namespace text\csv;
 
 use io\streams\TextReader;
-
+use lang\IllegalStateException;
+use lang\FormatException;
 
 /**
  * Abstract base class
@@ -38,7 +39,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
    */
   public function getHeaders() {
     if ($this->line > 0) {
-      throw new \lang\IllegalStateException('Cannot read headers - already started reading data');
+      throw new IllegalStateException('Cannot read headers - already started reading data');
     }
     return $this->readValues(true);
   }
@@ -49,7 +50,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
    * @param   string message
    */
   protected function raise($message) {
-    throw new \lang\FormatException(sprintf('Line %d: %s', $this->line, $message));
+    throw new FormatException(sprintf('Line %d: %s', $this->line, $message));
   }
   
   /**
@@ -73,7 +74,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
     //   escaped, e.g. "'He said ''hello'' when he arrived',B,C"
     // * Quoted values may span multiple lines.
     $exception= null;
-    $values= array(); 
+    $values= []; 
     $v= 0;
     $escape= $this->quote.$this->quote;
     $whitespace= " \t";

@@ -1,6 +1,9 @@
 <?php namespace text\csv;
 
 use io\streams\TextWriter;
+use lang\IllegalStateException;
+use lang\FormatException;
+use lang\Throwable;
 
 /**
  * Abstract base class
@@ -33,7 +36,7 @@ abstract class CsvWriter extends \text\csv\AbstractCsvProcessor {
    */
   public function setHeaders($headers) {
     if ($this->line > 0) {
-      throw new \lang\IllegalStateException('Cannot writer headers - already started writing data');
+      throw new IllegalStateException('Cannot writer headers - already started writing data');
     }
     return $this->writeValues($headers, true);
   }
@@ -42,9 +45,10 @@ abstract class CsvWriter extends \text\csv\AbstractCsvProcessor {
    * Raise an exception
    *
    * @param   string message
+   * @throws  lang.Throwable
    */
   protected function raise($message) {
-    throw new \lang\FormatException(sprintf('Line %d: %s', $this->line, $message));
+    throw new FormatException(sprintf('Line %d: %s', $this->line, $message));
   }
   
   /**
@@ -61,7 +65,7 @@ abstract class CsvWriter extends \text\csv\AbstractCsvProcessor {
       if (!$raw && isset($this->processors[$i])) {
         try {
           $value= $this->processors[$i]->process($value);
-        } catch (\lang\Throwable $e) {
+        } catch (Throwable $e) {
           $this->raise($e->getMessage());
         }
       }

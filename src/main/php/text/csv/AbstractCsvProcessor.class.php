@@ -8,7 +8,7 @@
  * @test    xp://text.csv.ProcessorAccessorsTest
  */
 abstract class AbstractCsvProcessor extends \lang\Object {
-  protected $processors= array();
+  protected $processors= [];
 
   /**
    * Adds a processor
