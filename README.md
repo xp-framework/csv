@@ -20,7 +20,7 @@ use io\streams\FileInputStream;
 
 $in= new CsvListReader(new TextReader(new FileInputStream('in.csv')));
 
-$header= $in->getHeaders();
+Console::writeLine($in->getHeaders());
 while ($record= $in->read()) {
   Console::writeLine('- ', $record);
 }
