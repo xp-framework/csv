@@ -1,19 +1,21 @@
 <?php namespace text\csv;
 
-
+use io\streams\TextReader;
+use lang\XPClass;
 
 /**
  * Reads values from CSV lines into objects.
  *
- * Example:
- * <code>
- *   class Person extends Object {
- *     protected $name= '';
- *   }
- *   
- *   // ...
- *   $beanreader->read(array('name'));
- * </code>
+ * Example
+ *
+ * ```php
+ * class Person extends Object {
+ *   protected $name= '';
+ * }
+ * 
+ * // ...
+ * $beanreader->read(['name']);
+ * ```
  *
  * The read creates a Person instance and sets its name property to
  * the value read.
@@ -22,8 +24,7 @@
  * @test     xp://text.csv.unittest.CsvObjectReaderTest
  */
 class CsvObjectReader extends CsvReader {
-  protected
-    $class  = null;
+  protected $class;
 
   /**
    * Creates a new CSV reader reading data from a given TextReader
@@ -33,7 +34,7 @@ class CsvObjectReader extends CsvReader {
    * @param   lang.XPClass class
    * @param   text.csv.CsvFormat format
    */
-  public function  __construct(\io\streams\TextReader $reader, \lang\XPClass $class, CsvFormat $format= null) {
+  public function  __construct(TextReader $reader, XPClass $class, CsvFormat $format= null) {
     parent::__construct($reader, $format);
     $this->class= $class;
   }
@@ -44,27 +45,23 @@ class CsvObjectReader extends CsvReader {
    * @param   string[] fields if omitted, class fields are used in order of appearance
    * @return  lang.Object or NULL if end of the file is reached
    */
-  public function read(array $fields= array()) {
+  public function read(array $fields= []) {
     if (null === ($values= $this->readValues())) return null;
-    
-    if (!$fields) foreach ($this->class->getFields() as $f) {
-      $fields[]= $f->getName();
-    }
-    
-    // Create an object by deserialization. This enables us to also set
-    // private and protected fields as well as avoids the constructor call.
-    $n= \xp::reflect($this->class->getName());
-    $s= 'O:'.strlen($n).':"'.$n.'":'.sizeof($fields).':{';
-    foreach ($fields as $i => $name) {
-      $f= $this->class->getField($name);
-      switch ($f->getModifiers() & (MODIFIER_PUBLIC | MODIFIER_PROTECTED | MODIFIER_PRIVATE)) {
-        case MODIFIER_PUBLIC: $s.= serialize($f->getName()); break;
-        case MODIFIER_PROTECTED: $s.= serialize("\0*\0".$f->getName()); break;
-        case MODIFIER_PRIVATE: $s.= serialize("\0".$n."\0".$f->getName()); break;
+
+    $instance= $this->class->newInstance();
+    if ($fields) {
+      foreach ($fields as $i => $name) {
+        $this->class->getField($name)->setAccessible(true)->set($instance, $values[$i]);
       }
-      $s.= serialize($values[$i]);
+    } else {
+      $i= 0;
+      foreach ($this->class->getFields() as $field) {
+        if (!($field->getModifiers() & MODIFIER_STATIC)) {
+          $field->setAccessible(true)->set($instance, $values[$i++]);
+        }
+      }
     }
-    $s.= '}';
-    return unserialize($s);
+
+    return $instance;
   }    
 }

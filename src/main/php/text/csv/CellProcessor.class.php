@@ -2,7 +2,6 @@
 
 /**
  * Processes a cell's value
- *
  */
 abstract class CellProcessor extends \lang\Object {
   protected $next= null;
@@ -10,7 +9,7 @@ abstract class CellProcessor extends \lang\Object {
   /**
    * Creates a new cell processor
    *
-   * @param   text.csv.CellProcessor if omitted, no further processing will be done
+   * @param   text.csv.CellProcessor $next if omitted, no further processing will be done
    */
   public function __construct(CellProcessor $next= null) {
     $this->next= $next;
@@ -19,7 +18,7 @@ abstract class CellProcessor extends \lang\Object {
   /**
    * Processes a cell value
    *
-   * @param   var
+   * @param   var $in
    * @return  var
    */
   public abstract function process($in);
@@ -27,7 +26,7 @@ abstract class CellProcessor extends \lang\Object {
   /**
    * Processes a cell value
    *
-   * @param   var
+   * @param   var $in
    * @return  var
    */
   public function proceed($in) {
