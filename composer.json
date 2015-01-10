@@ -1,0 +1,15 @@
+{
+  "name" : "xp-framework/csv",
+  "type" : "library",
+  "homepage" : "http://xp-framework.net/",
+  "license" : "BSD-3-Clause",
+  "description" : "Contains the XP Framework's CSV API",
+  "keywords": ["module", "xp"],
+  "require" : {
+    "xp-framework/core": "dev-master",
+    "php" : ">=5.4.0"
+  },
+  "autoload" : {
+    "files" : ["src/main/php/autoload.php"]
+  }
+}
