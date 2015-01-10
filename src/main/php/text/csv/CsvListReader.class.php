@@ -1,7 +1,5 @@
 <?php namespace text\csv;
 
-
-
 /**
  * Reads values from CSV lines into a list
  *

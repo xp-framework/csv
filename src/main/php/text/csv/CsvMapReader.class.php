@@ -1,6 +1,6 @@
 <?php namespace text\csv;
 
-
+use io\streams\TextReader;
 
 /**
  * Reads values from CSV lines into maps.
@@ -19,7 +19,7 @@ class CsvMapReader extends CsvReader {
    * @param   string[] keys
    * @param   text.csv.CsvFormat format
    */
-  public function  __construct(\io\streams\TextReader $reader, array $keys= array(), CsvFormat $format= null) {
+  public function  __construct(TextReader $reader, array $keys= [], CsvFormat $format= null) {
     parent::__construct($reader, $format);
     $this->keys= $keys;
   }
@@ -61,7 +61,7 @@ class CsvMapReader extends CsvReader {
   public function read() {
     if (null === ($values= $this->readValues())) return null;
 
-    $map= array();
+    $map= [];
     $s= sizeof($values)- 1;
     foreach ($this->keys as $i => $key) {
       $map[$key]= $i > $s ? null : $values[$i];

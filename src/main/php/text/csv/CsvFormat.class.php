@@ -1,21 +1,22 @@
 <?php namespace text\csv;
 
+use lang\IllegalStateException;
+use lang\IllegalArgumentException;
+
 /**
  * CSV format: Specifies which delimiter and quoting characters should
- * be used.
+ * be used. Example:
  *
- * Example:
- * <code>
- *   $format= create(new CsvFormat())->withDelimiter(';')->withQuote('"');
- * </code>
+ * ```php
+ * $format= (new CsvFormat())->withDelimiter(';')->withQuote('"');
+ * ```
  *
  * Contains the following static members with predefined formats:
- * <ul>
- *   <li>CsvFormat::$DEFAULT - ';' and '"'</li>
- *   <li>CsvFormat::$PIPES   - '|' and '"'</li>
- *   <li>CsvFormat::$COMMAS  - ',' and '"'</li>
- *   <li>CsvFormat::$TABS    - [TAB] and '"'</li>
- * </ul>
+ * 
+ * - CsvFormat::$DEFAULT - ';' and '"'
+ * - CsvFormat::$PIPES   - '|' and '"'
+ * - CsvFormat::$COMMAS  - ',' and '"'
+ * - CsvFormat::$TABS    - [TAB] and '"'
  *
  * @test     xp://text.csv.CsvFormatTest
  * @see      xp://text.csv.CsvReader
@@ -26,10 +27,7 @@ class CsvFormat extends \lang\Object {
   protected $quoting= null;
   protected $final= false;
   
-  public static $DEFAULT= null;
-  public static $PIPES= null;
-  public static $COMMAS= null;
-  public static $TABS= null;
+  public static $DEFAULT, $PIPES, $COMMAS, $TABS= null;
   
   static function __static() {
     self::$DEFAULT= self::predefined(';', '"');
@@ -69,10 +67,10 @@ class CsvFormat extends \lang\Object {
    */
   public function setDelimiter($delimiter) {
     if ($this->final) {
-      throw new \lang\IllegalStateException('Cannot change final object');
+      throw new IllegalStateException('Cannot change final object');
     }
     if (strlen($delimiter) != 1) {
-      throw new \lang\IllegalArgumentException('Delimiter '.\xp::stringOf($delimiter).' must be 1 character long');
+      throw new IllegalArgumentException('Delimiter '.\xp::stringOf($delimiter).' must be 1 character long');
     }
     $this->delimiter= $delimiter;
   }    
@@ -110,10 +108,10 @@ class CsvFormat extends \lang\Object {
    */
   public function setQuote($quote) {
     if ($this->final) {
-      throw new \lang\IllegalStateException('Cannot change final object');
+      throw new IllegalStateException('Cannot change final object');
     }
     if (strlen($quote) != 1) {
-      throw new \lang\IllegalArgumentException('Quote '.\xp::stringOf($quote).' must be 1 character long');
+      throw new IllegalArgumentException('Quote '.\xp::stringOf($quote).' must be 1 character long');
     }
     $this->quote= $quote;
     return $this;
@@ -152,7 +150,7 @@ class CsvFormat extends \lang\Object {
    */
   public function setQuoting(QuotingStrategy $quoting) {
     if ($this->final) {
-      throw new \lang\IllegalStateException('Cannot change final object');
+      throw new IllegalStateException('Cannot change final object');
     }
     $this->quoting= $quoting;
   }    

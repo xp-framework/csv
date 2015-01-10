@@ -1,7 +1,5 @@
 <?php namespace text\csv;
 
-
-
 /**
  * Writes a list of values to CSV lines
  *

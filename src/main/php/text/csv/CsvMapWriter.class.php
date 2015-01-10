@@ -1,7 +1,5 @@
 <?php namespace text\csv;
 
-
-
 /**
  * Writes maps to CSV lines
  *
@@ -28,7 +26,7 @@ class CsvMapWriter extends CsvWriter {
    * @param   string[] fields if omitted, all fields will be written
    */
   public function write(array $map) {
-    $values= array();
+    $values= [];
     if (null === $this->keys) {
       foreach ($map as $key => $value) {
         $values[]= $value;
