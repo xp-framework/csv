@@ -1,7 +1,12 @@
 <?php namespace text\csv;
 
+/**
+ * Lines in a CSV file
+ *
+ * @test  xp://text.csv.unittest.LinesTest
+ */
 class Lines extends \lang\Object implements \Iterator {
-  const EOF = -1;
+  const EOF = null;
   private $reader, $line, $number;
 
   /**
@@ -35,7 +40,7 @@ class Lines extends \lang\Object implements \Iterator {
 
   /** @return void */
   public function rewind() {
-    $this->number= 0;
+    $this->number= -1;
     $this->next();
   }
 }
