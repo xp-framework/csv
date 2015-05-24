@@ -3,6 +3,10 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.1.0 / 2015-05-24
+
+* Merged xp-framework/csv#1: Iterable lines - @thekid
+
 ## 6.0.1 / 2015-02-12
 
 * Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid
