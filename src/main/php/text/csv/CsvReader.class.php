@@ -3,6 +3,7 @@
 use io\streams\TextReader;
 use lang\IllegalStateException;
 use lang\FormatException;
+use lang\Throwable;
 
 /**
  * Abstract base class
@@ -25,7 +26,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
    */
   public function  __construct(TextReader $reader, CsvFormat $format= null) {
     $this->reader= $reader;
-    with ($f= $format ? $format : CsvFormat::$DEFAULT); {
+    with ($f= $format ?: CsvFormat::$DEFAULT); {
       $this->delimiter= $f->getDelimiter();
       $this->quote= $f->getQuote();
     }
@@ -52,7 +53,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
   protected function raise($message) {
     throw new FormatException(sprintf('Line %d: %s', $this->line, $message));
   }
-  
+
   /**
    * Reads values
    *
@@ -132,7 +133,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
       if (!$raw && isset($this->processors[$v])) {
         try {
           $values[$v]= $this->processors[$v]->process($value);
-        } catch (\lang\Throwable $exception) {
+        } catch (Throwable $exception) {
           // Store for later
         }
       } else {
@@ -145,4 +146,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
     if ($exception) throw $exception;
     return $values;
   }
+
+  /** @return text.csv.Lines */
+  public function lines() { return new Lines($this); }
 }
