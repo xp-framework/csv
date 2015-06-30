@@ -22,10 +22,6 @@ class CsvObjectReaderTest extends TestCase {
     return new CsvObjectReader(new \io\streams\TextReader(new MemoryInputStream($str)), $class);
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readAddress() {
     $in= $this->newReader('Timm;Karlsruhe;76137', \lang\XPClass::forName('text.csv.unittest.Address'));
@@ -35,10 +31,6 @@ class CsvObjectReaderTest extends TestCase {
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPerson() {
     $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
@@ -48,10 +40,6 @@ class CsvObjectReaderTest extends TestCase {
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonReSorted() {
     $in= $this->newReader('friebe@example.com;1549;Timm', \lang\XPClass::forName('text.csv.unittest.Person'));
@@ -61,10 +49,6 @@ class CsvObjectReaderTest extends TestCase {
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonCompletely() {
     $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
@@ -74,10 +58,6 @@ class CsvObjectReaderTest extends TestCase {
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonPartially() {
     $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
@@ -87,10 +67,6 @@ class CsvObjectReaderTest extends TestCase {
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readEmpty() {
     $in= $this->newReader('', \lang\XPClass::forName('text.csv.unittest.Address'));

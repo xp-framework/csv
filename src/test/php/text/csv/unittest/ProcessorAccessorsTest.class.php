@@ -14,33 +14,35 @@ class ProcessorAccessorsTest extends \unittest\TestCase {
 
   /**
    * Sets up test case
+   *
+   * @return void
    */
   public function setUp() {
-    $this->fixture= newinstance('text.csv.AbstractCsvProcessor', array(), '{ }');
+    $this->fixture= newinstance('text.csv.AbstractCsvProcessor', []);
   }
   
   #[@test]
   public function setProcessors() {
-    $processors= array(new Optional(), new Required());
+    $processors= [new Optional(), new Required()];
     $this->fixture->setProcessors($processors);
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
   #[@test]
   public function withProcessors() {
-    $processors= array(new Optional(), new Required());
+    $processors= [new Optional(), new Required()];
     $this->fixture->withProcessors($processors);
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
   #[@test]
   public function withProcessors_returns_fixture() {
-    $this->assertEquals($this->fixture, $this->fixture->withProcessors(array()));
+    $this->assertEquals($this->fixture, $this->fixture->withProcessors([]));
   }
 
   #[@test]
   public function addProcessor() {
-    $processors= array(new Optional(), new Required());
+    $processors= [new Optional(), new Required()];
     $this->fixture->addProcessor($processors[0]);
     $this->fixture->addProcessor($processors[1]);
     $this->assertEquals($processors, $this->fixture->getProcessors());

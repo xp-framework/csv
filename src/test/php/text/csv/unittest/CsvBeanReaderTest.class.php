@@ -1,16 +1,16 @@
 <?php namespace text\csv\unittest;
 
-use unittest\TestCase;
 use text\csv\CsvBeanReader;
 use io\streams\MemoryInputStream;
-
+use io\streams\TextReader;
+use lang\XPClass;
 
 /**
  * TestCase
  *
  * @see      xp://text.csv.CsvBreanReader
  */
-class CsvBeanReaderTest extends TestCase {
+class CsvBeanReaderTest extends \unittest\TestCase {
 
   /**
    * Creates a new object reader
@@ -19,69 +19,49 @@ class CsvBeanReaderTest extends TestCase {
    * @param   lang.XPClass class
    * @return  text.csv.CsvBeanReader
    */
-  protected function newReader($str, \lang\XPClass $class) {
-    return new CsvBeanReader(new \io\streams\TextReader(new MemoryInputStream($str)), $class);
+  protected function newReader($str, XPClass $class) {
+    return new CsvBeanReader(new TextReader(new MemoryInputStream($str)), $class);
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPerson() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(array('id', 'name', 'email'))
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonReSorted() {
-    $in= $this->newReader('friebe@example.com;1549;Timm', \lang\XPClass::forName('text.csv.unittest.Person'));
+    $in= $this->newReader('friebe@example.com;1549;Timm', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(array('email', 'id', 'name'))
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonCompletely() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read()
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readPersonPartially() {
-    $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
+    $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', ''), 
       $in->read(array('id', 'name'))
     );
   }
 
-  /**
-   * Test
-   *
-   */
   #[@test]
   public function readEmpty() {
-    $in= $this->newReader('', \lang\XPClass::forName('text.csv.unittest.Person'));
+    $in= $this->newReader('', XPClass::forName('text.csv.unittest.Person'));
     $this->assertNull($in->read(array('id', 'name', 'email')));
   }
 }

@@ -1,10 +1,7 @@
 <?php namespace text\csv\unittest;
 
-
-
 /**
  * Address value object
- *
  */
 class Address extends \lang\Object {
   public 

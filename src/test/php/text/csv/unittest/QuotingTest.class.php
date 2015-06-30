@@ -17,7 +17,7 @@ class QuotingTest extends \unittest\TestCase {
    */
   #[@beforeClass]
   public static function neverQuotingStrategy() {
-    self::$never= newinstance('text.csv.QuotingStrategy', array(), '{
+    self::$never= newinstance('text.csv.QuotingStrategy', [], '{
       public function necessary($value, $delimiter, $quote) {
         return false;
       }
@@ -30,7 +30,7 @@ class QuotingTest extends \unittest\TestCase {
    * @return  var[]
    */
   public function quotingStrategies() {
-    return array(Quoting::$DEFAULT, Quoting::$EMPTY);
+    return [Quoting::$DEFAULT, Quoting::$EMPTY];
   }
 
   #[@test, @values('quotingStrategies')]

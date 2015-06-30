@@ -2,13 +2,9 @@
 
 /**
  * Person value object
- *
  */
 class Person extends \lang\Object {
-  protected
-    $id     = '', 
-    $name   = '', 
-    $email  = '';
+  private $id, $name, $email;
   
   /**
    * Constructor
