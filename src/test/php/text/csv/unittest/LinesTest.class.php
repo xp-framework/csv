@@ -20,7 +20,9 @@ class LinesTest extends \unittest\TestCase {
   #[@test, @values([
   #  ["Timm;1549", [['Timm', '1549']]],
   #  ["Timm;1549\n", [['Timm', '1549']]],
-  #  ["Timm;1549\nAlex;1552", [['Timm', '1549'], ['Alex', '1552']]]
+  #  ["Timm;1549\n\n", [['Timm', '1549']]],
+  #  ["Timm;1549\nAlex;1552", [['Timm', '1549'], ['Alex', '1552']]],
+  #  ["Timm;1549\n\nAlex;1552", [['Timm', '1549'], ['Alex', '1552']]]
   #])]
   public function iteration($input, $expected) {
     $this->assertEquals($expected, iterator_to_array($this->newFixture($input)));
