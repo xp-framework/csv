@@ -62,7 +62,14 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
    * @throws  lang.FormatException if a formatting error is detected
    */
   protected function readValues($raw= false) {
-    if (null === ($line= $this->reader->readLine())) return null;
+    static $whitespace= " \t";
+
+    // Skip over all-empty lines
+    do {
+      if (null === ($line= $this->reader->readLine())) return null;
+      $this->line++;
+      $l= strlen($line);
+    } while ($l === 0 || $l < strspn($line, $whitespace));
 
     // Parse line. 
     // * In the easiest form, we have values separated by the delimiter 
@@ -77,14 +84,13 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
     $exception= null;
     $values= []; 
     $v= 0;
+    $o= 0;
     $escape= $this->quote.$this->quote;
-    $whitespace= " \t";
-    $this->line++;
-    $o= 0; $l= strlen($line);
     do {
       $b= $o + strspn($line, $whitespace, $o);                  // Skip leading WS
       if ($b >= $l) {
         $value= '';
+        $e= 0;
       } else if ($this->quote === $line{$b}) {
 
         // Find end of quoted value (= quote not preceded by quote)

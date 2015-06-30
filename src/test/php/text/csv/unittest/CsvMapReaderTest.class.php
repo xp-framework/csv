@@ -60,9 +60,9 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test]
-  public function readEmpty() {
-    $in= $this->newReader('', ['id', 'name', 'email']);
+  #[@test, @values(["", "\n", "\n\n"])]
+  public function readEmpty($input) {
+    $in= $this->newReader($input, ['id', 'name', 'email']);
     $this->assertNull($in->read());
   }
 
@@ -81,6 +81,24 @@ class CsvMapReaderTest extends TestCase {
     $this->assertEquals(
       ['id' => '1549', 'name' => 'Timm', 'email' => null],
       $in->read()
+    );
+  }
+
+  #[@test]
+  public function readRecordAfterEmptyLine() {
+    $in= $this->newReader("\n1549;Timm", ['id', 'name']);
+    $this->assertEquals(
+      ['id' => '1549', 'name' => 'Timm'],
+      $in->read()
+    );
+  }
+
+  #[@test]
+  public function readRecordsWithEmptyLineInBetween() {
+    $in= $this->newReader("1549;Timm\n1552;Alex", ['id', 'name']);
+    $this->assertEquals(
+      [['id' => '1549', 'name' => 'Timm'], ['id' => '1552', 'name' => 'Alex']],
+      [$in->read(), $in->read()]
     );
   }
 }
