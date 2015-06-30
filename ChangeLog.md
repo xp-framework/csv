@@ -3,6 +3,8 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.1.1 / 2015-06-30
+
 * Added handling to skip empty lines or lines consisting completely of
   whitespace (space, newlines and tabs).
   (@thekid)
