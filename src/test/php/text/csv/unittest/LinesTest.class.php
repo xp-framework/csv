@@ -12,9 +12,9 @@ class LinesTest extends \unittest\TestCase {
     return new Lines(new CsvListReader(new TextReader(new MemoryInputStream($input))));
   }
 
-  #[@test]
-  public function iteration_of_empty() {
-    $this->assertEquals([], iterator_to_array($this->newFixture('')));
+  #[@test, @values(['', "\n", "\n\n"])]
+  public function iteration_of_empty($input) {
+    $this->assertEquals([], iterator_to_array($this->newFixture($input)));
   }
 
   #[@test, @values([
