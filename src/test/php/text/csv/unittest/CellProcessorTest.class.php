@@ -121,7 +121,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test, @expect('lang.FormatException')]
   public function emptyAsDate() {
     $this->newReader(';Order placed')->withProcessors(array(
-      create(new AsDate()),
+      (new AsDate()),
       null
     ))->read();
   }
@@ -129,7 +129,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test, @expect('lang.FormatException')]
   public function emptyAsDateWithNullDefault() {
     $this->newReader(';Order placed')->withProcessors(array(
-      create(new AsDate())->withDefault(null),
+      (new AsDate())->withDefault(null),
       null
     ))->read();
   }
@@ -138,7 +138,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function emptyAsDateWithDefault() {
     $now= \util\Date::now();
     $in= $this->newReader(';Order placed')->withProcessors(array(
-      create(new AsDate())->withDefault($now),
+      (new AsDate())->withDefault($now),
       null
     ));
     $this->assertEquals(array($now, 'Order placed'), $in->read());
@@ -174,7 +174,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function formatNullWithDefault() {
     $now= \util\Date::now();
     $writer= $this->newWriter()->withProcessors(array(
-      create(new FormatDate('Y-m-d H:i'))->withDefault($now),
+      (new FormatDate('Y-m-d H:i'))->withDefault($now),
       null
     ));
     $writer->write(array(null, 'Order placed'));
@@ -333,8 +333,8 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test]
   public function formatNumber() {
     $writer= $this->newWriter()->withProcessors(array(
-      create(new FormatNumber())->withFormat(5, '.'),
-      create(new FormatNumber())->withFormat(2, ',', "'")
+      (new FormatNumber())->withFormat(5, '.'),
+      (new FormatNumber())->withFormat(2, ',', "'")
     ));
     $writer->write(array(3.75, 10000000.5));
     $this->assertEquals("3.75000;10'000'000,50\n", $this->out->getBytes());
@@ -343,7 +343,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test]
   public function formatNumberNull() {
     $writer= $this->newWriter()->withProcessors(array(
-      create(new FormatNumber())->withFormat(2, '.')
+      (new FormatNumber())->withFormat(2, '.')
     ));
     $writer->write(array(null));
     $this->assertEquals("0.00\n", $this->out->getBytes());
@@ -352,7 +352,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test, @expect('lang.FormatException')]
   public function formatNotANumber() {
     $this->newWriter()->withProcessors(array(
-      create(new FormatNumber())->withFormat(2, '.')
+      (new FormatNumber())->withFormat(2, '.')
     ))->write(array('Hello'));
   }
 
@@ -378,7 +378,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function optionalEmptyWithDefault() {
     $in= $this->newReader('666;')->withProcessors(array(
       null,
-      create(new Optional())->withDefault('(unknown)')
+      (new Optional())->withDefault('(unknown)')
     ));
     $this->assertEquals(array('666', '(unknown)'), $in->read());
   }
@@ -413,7 +413,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test]
   public function writeOptionalWithDefault() {
     $this->newWriter()->withProcessors(array(
-      create(new Optional())->withDefault('(unknown)'),
+      (new Optional())->withDefault('(unknown)'),
       null
     ))->write(array('', 'Test'));
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
@@ -422,7 +422,7 @@ class CellProcessorTest extends \unittest\TestCase {
   #[@test]
   public function writeOptionalNullWithDefault() {
     $this->newWriter()->withProcessors(array(
-      create(new Optional())->withDefault('(unknown)'),
+      (new Optional())->withDefault('(unknown)'),
       null
     ))->write(array(null, 'Test'));
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
@@ -547,7 +547,7 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function processorExceptionsDoNotBreakReadingMultiline() {
-    $in= $this->newReader("200;'OK\nThank god'\n404;'Not found\nFamous'", create(new \text\csv\CsvFormat())->withQuote("'"))->withProcessors(array(
+    $in= $this->newReader("200;'OK\nThank god'\n404;'Not found\nFamous'", (new \text\csv\CsvFormat())->withQuote("'"))->withProcessors(array(
       $this->newUnwantedValueProcessor('200'),
       null
     ));
