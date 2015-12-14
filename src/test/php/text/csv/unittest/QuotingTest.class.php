@@ -1,5 +1,6 @@
 <?php namespace text\csv\unittest;
 
+use text\csv\QuotingStrategy;
 use text\csv\Quoting;
 
 /**
@@ -17,7 +18,7 @@ class QuotingTest extends \unittest\TestCase {
    */
   #[@beforeClass]
   public static function neverQuotingStrategy() {
-    self::$never= newinstance('text.csv.QuotingStrategy', [], '{
+    self::$never= newinstance(QuotingStrategy::class, [], '{
       public function necessary($value, $delimiter, $quote) {
         return false;
       }
@@ -83,12 +84,12 @@ class QuotingTest extends \unittest\TestCase {
     $this->assertTrue(Quoting::$EMPTY->necessary('', ';', '"'));
   }
 
-  #[@test, @values(array('', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'))]
+  #[@test, @values(['', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'])]
   public function anything_is_quoted_with_always_strategy($value) {
     $this->assertTrue(Quoting::$ALWAYS->necessary($value, ';', '"'), $value);
   }
 
-  #[@test, @values(array('', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'))]
+  #[@test, @values(['', ';', '"', "\r", "\n", "\r\n", 'A', 'Hello'])]
   public function nothing_is_quoted_with_never_strategy($value) {
     $this->assertFalse(self::$never->necessary($value, ';', '"'));
   }

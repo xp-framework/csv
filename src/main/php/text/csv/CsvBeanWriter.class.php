@@ -13,8 +13,8 @@ class CsvBeanWriter extends CsvWriter {
    * @param   lang.Generic object
    * @param   string[] fields if omitted, all fields will be written
    */
-  public function write(\lang\Generic $object, array $fields= array()) {
-    $values= array();
+  public function write(\lang\Generic $object, array $fields= []) {
+    $values= [];
     $class= $object->getClass();
     if (!$fields) {
       foreach ($class->getFields() as $f) {

@@ -27,7 +27,7 @@ class CsvObjectReaderTest extends TestCase {
     $in= $this->newReader('Timm;Karlsruhe;76137', \lang\XPClass::forName('text.csv.unittest.Address'));
     $this->assertEquals(
       new Address('Timm', 'Karlsruhe', '76137'), 
-      $in->read(array('name', 'city', 'zip'))
+      $in->read(['name', 'city', 'zip'])
     );
   }
 
@@ -36,7 +36,7 @@ class CsvObjectReaderTest extends TestCase {
     $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
-      $in->read(array('id', 'name', 'email'))
+      $in->read(['id', 'name', 'email'])
     );
   }
 
@@ -45,7 +45,7 @@ class CsvObjectReaderTest extends TestCase {
     $in= $this->newReader('friebe@example.com;1549;Timm', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
-      $in->read(array('email', 'id', 'name'))
+      $in->read(['email', 'id', 'name'])
     );
   }
 
@@ -63,13 +63,13 @@ class CsvObjectReaderTest extends TestCase {
     $in= $this->newReader('1549;Timm;friebe@example.com', \lang\XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', ''), 
-      $in->read(array('id', 'name'))
+      $in->read(['id', 'name'])
     );
   }
 
   #[@test]
   public function readEmpty() {
     $in= $this->newReader('', \lang\XPClass::forName('text.csv.unittest.Address'));
-    $this->assertNull($in->read(array('name', 'city', 'zip')));
+    $this->assertNull($in->read(['name', 'city', 'zip']));
   }
 }

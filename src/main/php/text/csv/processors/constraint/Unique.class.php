@@ -10,7 +10,7 @@ use text\csv\CellProcessor;
  * @see     xp://text.csv.CellProcessor
  */
 class Unique extends CellProcessor {
-  protected $values= array();
+  protected $values= [];
 
   /**
    * Processes cell value

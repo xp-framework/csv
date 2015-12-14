@@ -48,7 +48,7 @@ class CsvBeanReader extends CsvReader {
    * @param   string[] fields if omitted, class fields are used in order of appearance
    * @return  lang.Object or NULL if end of the file is reached
    */
-  public function read(array $fields= array()) {
+  public function read(array $fields= []) {
     if (null === ($values= $this->readValues())) return null;
 
     if (!$fields) foreach ($this->class->getFields() as $f) {
@@ -57,7 +57,7 @@ class CsvBeanReader extends CsvReader {
     
     $instance= $this->class->newInstance();
     foreach ($fields as $i => $name) {
-      $this->class->getMethod('set'.ucfirst($name))->invoke($instance, array($values[$i]));
+      $this->class->getMethod('set'.ucfirst($name))->invoke($instance, [$values[$i]]);
     }
     return $instance;
   }    

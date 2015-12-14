@@ -27,7 +27,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
   #[@beforeClass]
   public static function verifyRdbms() {
     if (!class_exists('rdbms\DriverManager')) {
-      throw new PrerequisitesNotMetError('rdbms module not available', null, array('rdbms'));
+      throw new PrerequisitesNotMetError('rdbms module not available', null, ['rdbms']);
     }
   }
 
@@ -53,13 +53,13 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function getByPrimary() {
-    Job::getPeer()->getConnection()->setResultSet(new MockResultSet(array(
-      array('job_id' => 1549, 'title' => 'Developer')
-    )));
-    $in= $this->newReader("job_id;title\n1549;10248")->withProcessors(array(
+    Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
+      ['job_id' => 1549, 'title' => 'Developer']
+    ]));
+    $in= $this->newReader("job_id;title\n1549;10248")->withProcessors([
       new GetDataSet(create(new JobFinder())->method('byPrimary')),
       null
-    ));
+    ]);
     $in->getHeaders();
     $list= $in->read();
     $this->assertClass($list[0], 'net.xp_framework.unittest.rdbms.dataset.Job');
@@ -68,13 +68,13 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function findByTitle() {
-    Job::getPeer()->getConnection()->setResultSet(new MockResultSet(array(
-      array('job_id' => 1549, 'title' => 'Developer')
-    )));
-    $in= $this->newReader("title;external_id\nDeveloper;10248")->withProcessors(array(
+    Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
+      ['job_id' => 1549, 'title' => 'Developer']
+    ]));
+    $in= $this->newReader("title;external_id\nDeveloper;10248")->withProcessors([
       new GetDataSet(create(new JobFinder())->method('similarTo')),
       null
-    ));
+    ]);
     $in->getHeaders();
     $list= $in->read();
     $this->assertClass($list[0], 'rdbms.unittest.dataset.Job');
@@ -83,11 +83,11 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function getNotFound() {
-    Job::getPeer()->getConnection()->setResultSet(new MockResultSet(array()));
-    $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors(array(
+    Job::getPeer()->getConnection()->setResultSet(new MockResultSet([]));
+    $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors([
       new GetDataSet(create(new JobFinder())->method('byPrimary')),
       null
-    ));
+    ]);
     $in->getHeaders();
     try {
       $in->read();
@@ -97,11 +97,11 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function findNotFound() {
-    Job::getPeer()->getConnection()->setResultSet(new MockResultSet(array()));
-    $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors(array(
+    Job::getPeer()->getConnection()->setResultSet(new MockResultSet([]));
+    $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors([
       new FindDataSet(create(new JobFinder())->method('byPrimary')),
       null
-    ));
+    ]);
     $in->getHeaders();
     $list= $in->read();
     $this->assertNull($list[0]);
@@ -109,14 +109,14 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function ambiguous() {
-    Job::getPeer()->getConnection()->setResultSet(new MockResultSet(array(
-      array('job_id' => 1549, 'title' => 'Developer'),
-      array('job_id' => 1549, 'title' => 'Doppelgänger'),
-    )));
-    $in= $this->newReader("job_id;title\n1549;10248")->withProcessors(array(
+    Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
+      ['job_id' => 1549, 'title' => 'Developer'],
+      ['job_id' => 1549, 'title' => 'Doppelgänger'],
+    ]));
+    $in= $this->newReader("job_id;title\n1549;10248")->withProcessors([
       new GetDataSet(create(new JobFinder())->method('byPrimary')),
       null
-    ));
+    ]);
     $in->getHeaders();
     try {
       $in->read();

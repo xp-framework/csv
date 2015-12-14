@@ -1,5 +1,6 @@
 <?php namespace text\csv\unittest;
 
+use text\csv\CellProcessor;
 use text\csv\CsvListReader;
 use text\csv\CsvListWriter;
 use text\csv\CsvFormat;
@@ -53,259 +54,259 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function asInteger() {
-    $in= $this->newReader('1549;Timm')->withProcessors(array(
+    $in= $this->newReader('1549;Timm')->withProcessors([
       new AsInteger(),
       null
-    ));
-    $this->assertEquals(array(1549, 'Timm'), $in->read());
+    ]);
+    $this->assertEquals([1549, 'Timm'], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function stringAsInteger() {
-    $this->newReader('A;Timm')->withProcessors(array(
+    $this->newReader('A;Timm')->withProcessors([
       new AsInteger(),
       null
-    ))->read();
+    ])->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyAsInteger() {
-    $this->newReader(';Timm')->withProcessors(array(
+    $this->newReader(';Timm')->withProcessors([
       new AsInteger(),
       null
-    ))->read();
+    ])->read();
   }
 
   #[@test]
   public function asDouble() {
-    $in= $this->newReader('1.5;em')->withProcessors(array(
+    $in= $this->newReader('1.5;em')->withProcessors([
       new AsDouble(),
       null
-    ));
-    $this->assertEquals(array(1.5, 'em'), $in->read());
+    ]);
+    $this->assertEquals([1.5, 'em'], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function stringAsDouble() {
-    $this->newReader('A;em')->withProcessors(array(
+    $this->newReader('A;em')->withProcessors([
       new AsDouble(),
       null
-    ))->read();
+    ])->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyAsDouble() {
-    $this->newReader(';em')->withProcessors(array(
+    $this->newReader(';em')->withProcessors([
       new AsDouble(),
       null
-    ))->read();
+    ])->read();
   }
 
   #[@test]
   public function asDate() {
-    $in= $this->newReader('2009-09-09 15:45;Order placed')->withProcessors(array(
+    $in= $this->newReader('2009-09-09 15:45;Order placed')->withProcessors([
       new AsDate(),
       null
-    ));
-    $this->assertEquals(array(new \util\Date('2009-09-09 15:45'), 'Order placed'), $in->read());
+    ]);
+    $this->assertEquals([new \util\Date('2009-09-09 15:45'), 'Order placed'], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function invalidAsDate() {
-    $this->newReader('YYYY-MM-DD HH:MM;Order placed')->withProcessors(array(
+    $this->newReader('YYYY-MM-DD HH:MM;Order placed')->withProcessors([
       new AsDate(),
       null
-    ))->read();
+    ])->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyAsDate() {
-    $this->newReader(';Order placed')->withProcessors(array(
+    $this->newReader(';Order placed')->withProcessors([
       (new AsDate()),
       null
-    ))->read();
+    ])->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyAsDateWithNullDefault() {
-    $this->newReader(';Order placed')->withProcessors(array(
+    $this->newReader(';Order placed')->withProcessors([
       (new AsDate())->withDefault(null),
       null
-    ))->read();
+    ])->read();
   }
 
   #[@test]
   public function emptyAsDateWithDefault() {
     $now= \util\Date::now();
-    $in= $this->newReader(';Order placed')->withProcessors(array(
+    $in= $this->newReader(';Order placed')->withProcessors([
       (new AsDate())->withDefault($now),
       null
-    ));
-    $this->assertEquals(array($now, 'Order placed'), $in->read());
+    ]);
+    $this->assertEquals([$now, 'Order placed'], $in->read());
   }
 
   #[@test]
   public function formatDate() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
       null
-    ));
-    $writer->write(array(new \util\Date('2009-09-09 15:45'), 'Order placed'));
+    ]);
+    $writer->write([new \util\Date('2009-09-09 15:45'), 'Order placed']);
     $this->assertEquals("2009-09-09 15:45;Order placed\n", $this->out->getBytes());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function formatNonDate() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
       null
-    ))->write(array(new \lang\Object(), 'Order placed'));
+    ])->write([new \lang\Object(), 'Order placed']);
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function formatNull() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
       null
-    ))->write(array(null, 'Order placed'));
+    ])->write([null, 'Order placed']);
   }
 
   #[@test]
   public function formatNullWithDefault() {
     $now= \util\Date::now();
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       (new FormatDate('Y-m-d H:i'))->withDefault($now),
       null
-    ));
-    $writer->write(array(null, 'Order placed'));
+    ]);
+    $writer->write([null, 'Order placed']);
     $this->assertEquals($now->toString('Y-m-d H:i').";Order placed\n", $this->out->getBytes());
   }
 
   #[@test]
   public function trueAsBool() {
-    $in= $this->newReader('Timm;true')->withProcessors(array(
+    $in= $this->newReader('Timm;true')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', true), $in->read());
+    ]);
+    $this->assertEquals(['Timm', true], $in->read());
   }
 
   #[@test]
   public function oneAsBool() {
-    $in= $this->newReader('Timm;1')->withProcessors(array(
+    $in= $this->newReader('Timm;1')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', true), $in->read());
+    ]);
+    $this->assertEquals(['Timm', true], $in->read());
   }
 
   #[@test]
   public function yAsBool() {
-    $in= $this->newReader('Timm;Y')->withProcessors(array(
+    $in= $this->newReader('Timm;Y')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', true), $in->read());
+    ]);
+    $this->assertEquals(['Timm', true], $in->read());
   }
 
   #[@test]
   public function falseAsBool() {
-    $in= $this->newReader('Timm;false')->withProcessors(array(
+    $in= $this->newReader('Timm;false')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', false), $in->read());
+    ]);
+    $this->assertEquals(['Timm', false], $in->read());
   }
 
   #[@test]
   public function zeroAsBool() {
-    $in= $this->newReader('Timm;0')->withProcessors(array(
+    $in= $this->newReader('Timm;0')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', false), $in->read());
+    ]);
+    $this->assertEquals(['Timm', false], $in->read());
   }
 
   #[@test]
   public function nAsBool() {
-    $in= $this->newReader('Timm;N')->withProcessors(array(
+    $in= $this->newReader('Timm;N')->withProcessors([
       null,
       new AsBool()
-    ));
-    $this->assertEquals(array('Timm', false), $in->read());
+    ]);
+    $this->assertEquals(['Timm', false], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyAsBool() {
-    $this->newReader('Timm;')->withProcessors(array(
+    $this->newReader('Timm;')->withProcessors([
       null,
       new AsBool()
-    ))->read();
+    ])->read();
   }
 
   #[@test]
   public function formatTrue() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       new FormatBool()
-    ));
-    $writer->write(array('A', true));
+    ]);
+    $writer->write(['A', true]);
     $this->assertEquals("A;true\n", $this->out->getBytes());
   }
 
   #[@test]
   public function formatTrueAsY() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       new FormatBool('Y', 'N')
-    ));
-    $writer->write(array('A', true));
+    ]);
+    $writer->write(['A', true]);
     $this->assertEquals("A;Y\n", $this->out->getBytes());
   }
 
   #[@test]
   public function formatFalse() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       new FormatBool()
-    ));
-    $writer->write(array('A', false));
+    ]);
+    $writer->write(['A', false]);
     $this->assertEquals("A;false\n", $this->out->getBytes());
   }
 
   #[@test]
   public function formatFalseAsN() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       new FormatBool('Y', 'N')
-    ));
-    $writer->write(array('A', false));
+    ]);
+    $writer->write(['A', false]);
     $this->assertEquals("A;N\n", $this->out->getBytes());
   }
 
   #[@test]
   public function pennyCoin() {
-    $in= $this->newReader('200;penny')->withProcessors(array(
+    $in= $this->newReader('200;penny')->withProcessors([
       null,
       new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
-    ));
-    $this->assertEquals(array('200', Coin::$penny), $in->read());
+    ]);
+    $this->assertEquals(['200', Coin::$penny], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function invalidCoin() {
-    $this->newReader('200;dollar')->withProcessors(array(
+    $this->newReader('200;dollar')->withProcessors([
       null,
       new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
-    ))->read();
+    ])->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function emptyCoin() {
-    $this->newReader('200;')->withProcessors(array(
+    $this->newReader('200;')->withProcessors([
       null,
       new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
-    ))->read();
+    ])->read();
   }
 
   /**
@@ -314,179 +315,179 @@ class CellProcessorTest extends \unittest\TestCase {
    */
   #[@test]
   public function formatEnumValue() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       new FormatEnum()
-    ));
-    $writer->write(array('200', Coin::$penny));
+    ]);
+    $writer->write(['200', Coin::$penny]);
     $this->assertEquals("200;penny\n", $this->out->getBytes());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function formatNonEnum() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       null,
       new FormatEnum()
-    ))->write(array('200', new \lang\Object()));
+    ])->write(['200', new \lang\Object()]);
   }
 
   #[@test]
   public function formatNumber() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(5, '.'),
       (new FormatNumber())->withFormat(2, ',', "'")
-    ));
-    $writer->write(array(3.75, 10000000.5));
+    ]);
+    $writer->write([3.75, 10000000.5]);
     $this->assertEquals("3.75000;10'000'000,50\n", $this->out->getBytes());
   }
 
   #[@test]
   public function formatNumberNull() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(2, '.')
-    ));
-    $writer->write(array(null));
+    ]);
+    $writer->write([null]);
     $this->assertEquals("0.00\n", $this->out->getBytes());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function formatNotANumber() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(2, '.')
-    ))->write(array('Hello'));
+    ])->write(['Hello']);
   }
 
   #[@test]
   public function optionalString() {
-    $in= $this->newReader('200;OK')->withProcessors(array(
+    $in= $this->newReader('200;OK')->withProcessors([
       null,
       new Optional()
-    ));
-    $this->assertEquals(array('200', 'OK'), $in->read());
+    ]);
+    $this->assertEquals(['200', 'OK'], $in->read());
   }
   
   #[@test]
   public function optionalEmpty() {
-    $in= $this->newReader('666;')->withProcessors(array(
+    $in= $this->newReader('666;')->withProcessors([
       null,
       new Optional()
-    ));
-    $this->assertEquals(array('666', null), $in->read());
+    ]);
+    $this->assertEquals(['666', null], $in->read());
   }
 
   #[@test]
   public function optionalEmptyWithDefault() {
-    $in= $this->newReader('666;')->withProcessors(array(
+    $in= $this->newReader('666;')->withProcessors([
       null,
       (new Optional())->withDefault('(unknown)')
-    ));
-    $this->assertEquals(array('666', '(unknown)'), $in->read());
+    ]);
+    $this->assertEquals(['666', '(unknown)'], $in->read());
   }
 
   #[@test]
   public function writeOptionalString() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new Optional(),
       null
-    ))->write(array('A', 'Test'));
+    ])->write(['A', 'Test']);
     $this->assertEquals("A;Test\n", $this->out->getBytes());
   }
 
   #[@test]
   public function writeOptionalEmpty() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new Optional(),
       null
-    ))->write(array('', 'Test'));
+    ])->write(['', 'Test']);
     $this->assertEquals(";Test\n", $this->out->getBytes());
   }
 
   #[@test]
   public function writeOptionalNull() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new Optional(),
       null
-    ))->write(array(null, 'Test'));
+    ])->write([null, 'Test']);
     $this->assertEquals(";Test\n", $this->out->getBytes());
   }
 
   #[@test]
   public function writeOptionalWithDefault() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       (new Optional())->withDefault('(unknown)'),
       null
-    ))->write(array('', 'Test'));
+    ])->write(['', 'Test']);
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
   }
 
   #[@test]
   public function writeOptionalNullWithDefault() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       (new Optional())->withDefault('(unknown)'),
       null
-    ))->write(array(null, 'Test'));
+    ])->write([null, 'Test']);
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
   }
 
   #[@test]
   public function requiredString() {
-    $in= $this->newReader('200;OK')->withProcessors(array(
+    $in= $this->newReader('200;OK')->withProcessors([
       null,
       new Required()
-    ));
-    $this->assertEquals(array('200', 'OK'), $in->read());
+    ]);
+    $this->assertEquals(['200', 'OK'], $in->read());
   }
   
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function requiredEmpty() {
-    $this->newReader('666;')->withProcessors(array(
+    $this->newReader('666;')->withProcessors([
       null,
       new Required()
-    ))->read();
+    ])->read();
   }
 
   #[@test]
   public function writeRequired() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new Required(),
       null
-    ))->write(array('A', 'B'));
+    ])->write(['A', 'B']);
     $this->assertEquals("A;B\n", $this->out->getBytes());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function writeEmptyRequired() {
-    $this->newWriter()->withProcessors(array(
+    $this->newWriter()->withProcessors([
       new Required(),
       null
-    ))->write(array('', 'Test'));
+    ])->write(['', 'Test']);
   }
 
   #[@test]
   public function chainingRequired() {
-    $in= $this->newReader('200;OK')->withProcessors(array(
+    $in= $this->newReader('200;OK')->withProcessors([
       new Required(new AsInteger()),
       new Required()
-    ));
-    $this->assertEquals(array(200, 'OK'), $in->read());
+    ]);
+    $this->assertEquals([200, 'OK'], $in->read());
   }
 
   #[@test]
   public function chainingOptional() {
-    $in= $this->newReader('200;')->withProcessors(array(
+    $in= $this->newReader('200;')->withProcessors([
       new Optional(new AsInteger()),
       new Optional(new AsInteger())
-    ));
-    $this->assertEquals(array(200, null), $in->read());
+    ]);
+    $this->assertEquals([200, null], $in->read());
   }
 
   #[@test]
   public function readUnique() {
-    $in= $this->newReader("200;OK\n200;NACK")->withProcessors(array(
+    $in= $this->newReader("200;OK\n200;NACK")->withProcessors([
       new Unique(),
       null
-    ));
-    $this->assertEquals(array('200', 'OK'), $in->read());
+    ]);
+    $this->assertEquals(['200', 'OK'], $in->read());
     try {
       $in->read();
       $this->fail('Duplicate value not detected', null, 'lang.FormatException');
@@ -495,14 +496,14 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function writeUnique() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       new Unique(),
       null,
-    ));
+    ]);
 
-    $writer->write(array('200', 'OK'));
+    $writer->write(['200', 'OK']);
     try {
-      $writer->write(array('200', 'NACK'));
+      $writer->write(['200', 'NACK']);
       $this->fail('Duplicate value not detected', null, 'lang.FormatException');
     } catch (\lang\FormatException $expected) { }
 
@@ -517,7 +518,7 @@ class CellProcessorTest extends \unittest\TestCase {
    * @return  text.csv.CellProcessor
    */
   protected function newUnwantedValueProcessor($value) {
-    return newinstance('text.csv.CellProcessor', array($value), '{
+    return newinstance(CellProcessor::class, [$value], '{
       protected $unwanted= NULL;
       
       public function __construct($value, $next= NULL) {
@@ -534,59 +535,59 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function processorExceptionsDoNotBreakReading() {
-    $in= $this->newReader("200;OK\n404;Not found")->withProcessors(array(
+    $in= $this->newReader("200;OK\n404;Not found")->withProcessors([
       $this->newUnwantedValueProcessor('200'),
       null
-    ));
+    ]);
     try {
       $in->read();
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
     } catch (\lang\FormatException $expected) { }
-    $this->assertEquals(array('404', 'Not found'), $in->read());
+    $this->assertEquals(['404', 'Not found'], $in->read());
   }
 
   #[@test]
   public function processorExceptionsDoNotBreakReadingMultiline() {
-    $in= $this->newReader("200;'OK\nThank god'\n404;'Not found\nFamous'", (new \text\csv\CsvFormat())->withQuote("'"))->withProcessors(array(
+    $in= $this->newReader("200;'OK\nThank god'\n404;'Not found\nFamous'", (new \text\csv\CsvFormat())->withQuote("'"))->withProcessors([
       $this->newUnwantedValueProcessor('200'),
       null
-    ));
+    ]);
     try {
       $in->read();
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
     } catch (\lang\FormatException $expected) { }
-    $this->assertEquals(array('404', "Not found\nFamous"), $in->read());
+    $this->assertEquals(['404', "Not found\nFamous"], $in->read());
   }
 
   #[@test]
   public function processorExceptionsDoNotBreakWriting() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       $this->newUnwantedValueProcessor('200'),
       null
-    ));
+    ]);
 
     try {
-      $writer->write(array('200', 'OK'));
+      $writer->write(['200', 'OK']);
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
     } catch (\lang\FormatException $expected) { }
 
-    $writer->write(array('404', 'Not found'));
+    $writer->write(['404', 'Not found']);
     $this->assertEquals("404;Not found\n", $this->out->getBytes());
   }
 
   #[@test]
   public function processorExceptionsDoNotCausePartialWriting() {
-    $writer= $this->newWriter()->withProcessors(array(
+    $writer= $this->newWriter()->withProcessors([
       null,
       $this->newUnwantedValueProcessor('Internal Server Error')
-    ));
+    ]);
 
     try {
-      $writer->write(array('500', 'Internal Server Error'));
+      $writer->write(['500', 'Internal Server Error']);
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
     } catch (\lang\FormatException $expected) { }
 
-    $writer->write(array('404', 'Not found'));
+    $writer->write(['404', 'Not found']);
     $this->assertEquals("404;Not found\n", $this->out->getBytes());
   }
 }

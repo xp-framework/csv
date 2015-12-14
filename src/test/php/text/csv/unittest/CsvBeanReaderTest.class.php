@@ -28,7 +28,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
-      $in->read(array('id', 'name', 'email'))
+      $in->read(['id', 'name', 'email'])
     );
   }
 
@@ -37,7 +37,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     $in= $this->newReader('friebe@example.com;1549;Timm', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
-      $in->read(array('email', 'id', 'name'))
+      $in->read(['email', 'id', 'name'])
     );
   }
 
@@ -55,13 +55,13 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
       new Person('1549', 'Timm', ''), 
-      $in->read(array('id', 'name'))
+      $in->read(['id', 'name'])
     );
   }
 
   #[@test]
   public function readEmpty() {
     $in= $this->newReader('', XPClass::forName('text.csv.unittest.Person'));
-    $this->assertNull($in->read(array('id', 'name', 'email')));
+    $this->assertNull($in->read(['id', 'name', 'email']));
   }
 }

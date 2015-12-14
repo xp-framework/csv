@@ -18,7 +18,7 @@ class ProcessorAccessorsTest extends \unittest\TestCase {
    * @return void
    */
   public function setUp() {
-    $this->fixture= newinstance('text.csv.AbstractCsvProcessor', []);
+    $this->fixture= newinstance(AbstractCsvProcessor::class, []);
   }
   
   #[@test]

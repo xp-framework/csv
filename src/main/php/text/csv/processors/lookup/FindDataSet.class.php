@@ -34,7 +34,7 @@ class FindDataSet extends CellProcessor {
    */
   public function process($in) {
     try {
-      return $this->method->getFinder()->find($this->method->invoke(array($in)));
+      return $this->method->getFinder()->find($this->method->invoke([$in]));
     } catch (FinderException $e) {
       throw new \lang\FormatException($e->getMessage());
     }

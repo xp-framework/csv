@@ -1,5 +1,7 @@
 <?php namespace text\csv\unittest;
 
+use lang\IllegalArgumentException;
+use lang\IllegalStateException;
 use text\csv\CsvFormat;
 use text\csv\Quoting;
 
@@ -80,27 +82,27 @@ class CsvFormatTest extends \unittest\TestCase {
     $this->assertEquals(Quoting::$ALWAYS, $format->getQuoting());
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function quoteCharMayNotBeLongerThanOneCharacter() {
     (new CsvFormat())->withQuote('Hello');
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function quoteCharMayNotBeEmpty() {
     (new CsvFormat())->withQuote('');
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function delimiterCharMayNotBeLongerThanOneCharacter() {
     (new CsvFormat())->withDelimiter('Hello');
   }
 
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function delimiterCharMayNotBeEmpty() {
     (new CsvFormat())->withDelimiter('');
   }
 
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetDelimiter() {
     CsvFormat::$DEFAULT->setDelimiter(',');
   }
@@ -111,7 +113,7 @@ class CsvFormatTest extends \unittest\TestCase {
     $this->assertFalse($format === CsvFormat::$DEFAULT);
   }
 
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetQuote() {
     CsvFormat::$DEFAULT->setQuote("'");
   }
@@ -122,7 +124,7 @@ class CsvFormatTest extends \unittest\TestCase {
     $this->assertFalse($format === CsvFormat::$DEFAULT);
   }
 
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetQuoting() {
     CsvFormat::$DEFAULT->setQuoting(Quoting::$ALWAYS);
   }

@@ -9,7 +9,7 @@ use io\streams\TextReader;
  * @test     xp://text.csv.unittest.CsvMapReaderTest
  */
 class CsvMapReader extends CsvReader {
-  protected $keys= array();
+  protected $keys= [];
 
   /**
    * Creates a new CSV reader reading data from a given TextReader

@@ -17,8 +17,8 @@ use text\csv\CellProcessor;
  * @see     xp://text.csv.CellProcessor
  */
 class AsBool extends CellProcessor {
-  protected $true= array();
-  protected $false= array();
+  protected $true= [];
+  protected $false= [];
   
   /**
    * Creates a new instance of this processor.
@@ -27,7 +27,7 @@ class AsBool extends CellProcessor {
    * @param   string[] false
    * @param   text.csv.CellProcessor if omitted, no further processing will be done
    */
-  public function __construct($true= array('true', '1', 'Y'), $false = array('false', '0', 'N'), CellProcessor $next= null) {
+  public function __construct($true= ['true', '1', 'Y'], $false = ['false', '0', 'N'], CellProcessor $next= null) {
     parent::__construct($next);
     $this->true= $true;
     $this->false= $false;

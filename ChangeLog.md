@@ -3,6 +3,12 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 6.2.0 / 2015-12-14
+
+* **Heads up**: Changed minimum XP version to run webtests to XP
+  6.5.0, and with it the minimum PHP version to PHP 5.5
+  (@thekid)
+
 ## 6.1.1 / 2015-06-30
 
 * Added handling to skip empty lines or lines consisting completely of

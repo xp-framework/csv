@@ -1,5 +1,7 @@
 <?php namespace text\csv\unittest;
 
+use lang\IllegalStateException;
+use lang\FormatException;
 use unittest\TestCase;
 use text\csv\CsvListReader;
 use text\csv\CsvFormat;
@@ -59,11 +61,11 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function getHeaders() {
     $in= $this->newReader('name;city;zip'."\n".'Alex;Karlsruhe;76131');
-    $this->assertEquals(array('name', 'city', 'zip'), $in->getHeaders());
+    $this->assertEquals(['name', 'city', 'zip'], $in->getHeaders());
     $this->assertEquals(['Alex', 'Karlsruhe', '76131'], $in->read());
   }
 
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function cannotGetHeadersAfterReading() {
     $in= $this->newReader('Timm;Karlsruhe;76137');
     $in->read();
@@ -121,7 +123,7 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function whiteSpaceAndEmpty() {
     $in= $this->newReader('       ;   Karlsruhe   ;   76137');
-    $this->assertEquals(array('', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
@@ -139,7 +141,7 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function readQuotedValueIncludingWhitespace() {
     $in= $this->newReader('"   Timm    ";Karlsruhe;76137');
-    $this->assertEquals(array('   Timm    ', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['   Timm    ', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
@@ -161,7 +163,7 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function readQuotedValueWithSeparator() {
     $in= $this->newReader('"Friebe;Timm";Karlsruhe;76137');
-    $this->assertEquals(array('Friebe;Timm', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['Friebe;Timm', 'Karlsruhe', '76137'], $in->read());
   }
 
   /**
@@ -171,7 +173,7 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function readQuotedValueWithSeparatorInMiddle() {
     $in= $this->newReader('Timm;"Karlsruhe;Germany";76137');
-    $this->assertEquals(array('Timm', 'Karlsruhe;Germany', '76137'), $in->read());
+    $this->assertEquals(['Timm', 'Karlsruhe;Germany', '76137'], $in->read());
   }
 
   /**
@@ -181,37 +183,37 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function readQuotedValueWithSeparatorAtEnd() {
     $in= $this->newReader('Timm;Karlsruhe;"76131;76135;76137"');
-    $this->assertEquals(array('Timm', 'Karlsruhe', '76131;76135;76137'), $in->read());
+    $this->assertEquals(['Timm', 'Karlsruhe', '76131;76135;76137'], $in->read());
   }
 
   #[@test]
   public function readQuotedValueWithQuotes() {
     $in= $this->newReader('"""Hello""";Karlsruhe;76137');
-    $this->assertEquals(array('"Hello"', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['"Hello"', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
   public function readEmptyQuotedValue() {
     $in= $this->newReader('"";Karlsruhe;76137');
-    $this->assertEquals(array('', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
   public function readQuotedValueWithQuotesInside() {
     $in= $this->newReader('"Timm""Karlsruhe";76137');
-    $this->assertEquals(array('Timm"Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['Timm"Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
   public function quotesInsideUnquoted() {
     $in= $this->newReader('He said "Hello";Karlsruhe;76137');
-    $this->assertEquals(array('He said "Hello"', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['He said "Hello"', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
   public function quoteInsideUnquoted() {
     $in= $this->newReader('A single " is OK;Karlsruhe;76137');
-    $this->assertEquals(array('A single " is OK', 'Karlsruhe', '76137'), $in->read());
+    $this->assertEquals(['A single " is OK', 'Karlsruhe', '76137'], $in->read());
   }
 
   #[@test]
@@ -221,7 +223,7 @@ class CsvListReaderTest extends TestCase {
       (new CsvFormat())->withQuote("'")
     );
     $this->assertEquals(
-      array('14:30-15:30', 'Development', "- Fix unittests\n- QA: Apidoc"), 
+      ['14:30-15:30', 'Development', "- Fix unittests\n- QA: Apidoc"], 
       $in->read()
     );
   }
@@ -232,53 +234,53 @@ class CsvListReaderTest extends TestCase {
       "14:30-15:30;Development;'- Fix unittests\n- QA: Apidoc'\n15:30-15:49;Report;- Tests",
       (new CsvFormat())->withQuote("'")
     );
-    $this->assertEquals(array('14:30-15:30', 'Development', "- Fix unittests\n- QA: Apidoc"), $in->read());
-    $this->assertEquals(array('15:30-15:49', 'Report', '- Tests'), $in->read());
+    $this->assertEquals(['14:30-15:30', 'Development', "- Fix unittests\n- QA: Apidoc"], $in->read());
+    $this->assertEquals(['15:30-15:49', 'Report', '- Tests'], $in->read());
   }
 
   #[@test, @ignore('Is this really allowed?')]
   public function partialQuoting() {
     $in= $this->newReader('"Timm"|"Karlsruhe";76137');
-    $this->assertEquals(array('Timm|Karlsruhe', '76131'), $in->read());
+    $this->assertEquals(['Timm|Karlsruhe', '76131'], $in->read());
   }
 
   #[@test, @ignore('Is this really allowed?')]
   public function partialQuotingDelimiter() {
     $in= $this->newReader('Timm";"Karlsruhe;76137');
-    $this->assertEquals(array('Timm;Karlsruhe', '76131'), $in->read());
+    $this->assertEquals(['Timm;Karlsruhe', '76131'], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuote() {
     $this->newReader('"Unterminated;Karlsruhe;76131')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteInTheMiddle() {
     $this->newReader('Timm;"Unterminated;76131')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteRightBeforeSeparator() {
     $this->newReader('";Karlsruhe;76131')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteInTheMiddleRightBeforeSeparator() {
     $this->newReader('Timm;";76131')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteAtEnd() {
     $this->newReader('A;B;"')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteAtEndWithTrailingSeparator() {
     $this->newReader('A;B;";')->read();
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function unterminatedQuoteAtBeginning() {
     $this->newReader('"')->read();
   }
@@ -317,7 +319,7 @@ class CsvListReaderTest extends TestCase {
     $this->assertEquals(['Timm', 'Karlsruhe', '', ''], $in->read());
   }
 
-  #[@test, @expect('lang.FormatException')]
+  #[@test, @expect(FormatException::class)]
   public function illegalQuoting() {
     $this->newReader('"Timm"Karlsruhe";76137')->read();
   }
@@ -325,13 +327,13 @@ class CsvListReaderTest extends TestCase {
   #[@test]
   public function tabDelimiter() {
     $in= $this->newReader("A\tB\tC", CsvFormat::$TABS);
-    $this->assertEquals(array('A', 'B', 'C'), $in->read());
+    $this->assertEquals(['A', 'B', 'C'], $in->read());
   }
 
   #[@test]
   public function spaceDelimiter() {
     $in= $this->newReader('A B C', (new CsvFormat())->withDelimiter(' '));
-    $this->assertEquals(array('A', 'B', 'C'), $in->read());
+    $this->assertEquals(['A', 'B', 'C'], $in->read());
   }
 
   #[@test]
@@ -343,9 +345,9 @@ class CsvListReaderTest extends TestCase {
       'air, moon roof, loaded",4799.00'."\n",
       CsvFormat::$COMMAS
     );
-    $this->assertEquals(array('1997', 'Ford', 'E350', 'ac, abs, moon', '3000.00'), $r->read());
-    $this->assertEquals(array('1999', 'Chevy', 'Venture "Extended Edition"', '', '4900.00'), $r->read());
-    $this->assertEquals(array('1996', 'Jeep', 'Grand Cherokee', "MUST SELL!\nair, moon roof, loaded", '4799.00'), $r->read());
+    $this->assertEquals(['1997', 'Ford', 'E350', 'ac, abs, moon', '3000.00'], $r->read());
+    $this->assertEquals(['1999', 'Chevy', 'Venture "Extended Edition"', '', '4900.00'], $r->read());
+    $this->assertEquals(['1996', 'Jeep', 'Grand Cherokee', "MUST SELL!\nair, moon roof, loaded", '4799.00'], $r->read());
     $this->assertNull($r->read());
   }
 }
