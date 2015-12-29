@@ -156,30 +156,18 @@ class CsvListReaderTest extends TestCase {
     $this->assertEquals(['Timm', 'Karlsruhe', '76137'], $in->read());
   }
 
-  /**
-   * Test reading a quoted value containing the separator character
-   *
-   */
   #[@test]
   public function readQuotedValueWithSeparator() {
     $in= $this->newReader('"Friebe;Timm";Karlsruhe;76137');
     $this->assertEquals(['Friebe;Timm', 'Karlsruhe', '76137'], $in->read());
   }
 
-  /**
-   * Test reading a quoted value containing the separator character
-   *
-   */
   #[@test]
   public function readQuotedValueWithSeparatorInMiddle() {
     $in= $this->newReader('Timm;"Karlsruhe;Germany";76137');
     $this->assertEquals(['Timm', 'Karlsruhe;Germany', '76137'], $in->read());
   }
 
-  /**
-   * Test reading a quoted value containing the separator character
-   *
-   */
   #[@test]
   public function readQuotedValueWithSeparatorAtEnd() {
     $in= $this->newReader('Timm;Karlsruhe;"76131;76135;76137"');
