@@ -3,6 +3,10 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.0.0 / 2016-02-21
+
+* Added version compatibility with XP 7 - @thekid
+
 ## 6.2.0 / 2015-12-14
 
 * **Heads up**: Changed minimum XP version to XP 6.5.0, and with it the
