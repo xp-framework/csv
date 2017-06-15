@@ -9,7 +9,7 @@ use lang\XPClass;
  * Example
  *
  * ```php
- * class Person extends Object {
+ * class Person {
  *   protected $name= '';
  * }
  * 

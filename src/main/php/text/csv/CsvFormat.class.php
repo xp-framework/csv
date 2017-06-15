@@ -21,7 +21,7 @@ use lang\IllegalArgumentException;
  * @test     xp://text.csv.CsvFormatTest
  * @see      xp://text.csv.CsvReader
  */
-class CsvFormat extends \lang\Object {
+class CsvFormat  {
   protected $delimiter= '';
   protected $quote= '';
   protected $quoting= null;

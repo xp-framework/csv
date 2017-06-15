@@ -12,14 +12,13 @@ class CsvObjectWriter extends CsvWriter {
   /**
    * Write a record
    *
-   * @param   lang.Generic object
+   * @param   object object
    * @param   string[] fields if omitted, all fields will be written
    */
-  public function write(Generic $object, array $fields= []) {
+  public function write($object, array $fields= []) {
     $values= [];
-    $class= $object->getClass();
+    $class= typeof($object);
 
-    // Use the array-cast trick to access private and protected members
     if ($fields) {
       foreach ($fields as $name) {
         $values[]= $class->getField($name)->setAccessible(true)->get($object);

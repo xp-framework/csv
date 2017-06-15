@@ -7,7 +7,7 @@
  * @see     rfc://4180
  * @test    xp://text.csv.ProcessorAccessorsTest
  */
-abstract class AbstractCsvProcessor extends \lang\Object {
+abstract class AbstractCsvProcessor  {
   protected $processors= [];
 
   /**

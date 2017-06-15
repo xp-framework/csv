@@ -3,7 +3,7 @@
 /**
  * Processes a cell's value
  */
-abstract class CellProcessor extends \lang\Object {
+abstract class CellProcessor  {
   protected $next= null;
 
   /**

@@ -3,7 +3,7 @@
 /**
  * Person value object
  */
-class Person extends \lang\Object {
+class Person {
   private $id, $name, $email;
   
   /**
@@ -71,20 +71,5 @@ class Person extends \lang\Object {
    */
   public function getEmail() {
     return $this->email;
-  }
-  
-  /**
-   * Returns whether another object is equal to this person
-   *
-   * @param   lang.Generic cmp
-   * @return  bool
-   */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof self && 
-      $cmp->id === $this->id &&
-      $cmp->name === $this->name &&
-      $cmp->email === $this->email
-    );
   }
 }

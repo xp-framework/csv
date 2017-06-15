@@ -2,7 +2,7 @@
 
 use text\csv\CellProcessor;
 use lang\Enum;
-
+use lang\FormatException;
 
 /**
  * Formats enums as cell values. Uses the enum's name member as string
@@ -21,9 +21,8 @@ class FormatEnum extends CellProcessor {
    * @throws  lang.FormatException
    */
   public function process($in) {
-    if (!$in->getClass()->isEnum()) {
-      throw new \lang\FormatException('Cannot format non-enum '.\xp::stringOf($in));
-    }
-    return $this->proceed($in->name());
+    if ($in instanceof Enum) return $this->proceed($in->name());
+
+    throw new FormatException('Cannot format non-enum '.typeof($in)->getName());
   }
 }

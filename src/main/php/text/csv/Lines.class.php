@@ -5,7 +5,7 @@
  *
  * @test  xp://text.csv.unittest.LinesTest
  */
-class Lines extends \lang\Object implements \Iterator {
+class Lines  implements \Iterator {
   const EOF = null;
   private $reader, $line, $number;
 
