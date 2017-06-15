@@ -12,7 +12,9 @@ use lang\Throwable;
  * @see   xp://text.csv.CsvObjectReader
  * @see   xp://text.csv.CsvBeanReader
  */
-abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
+abstract class CsvReader extends AbstractCsvProcessor {
+  const WHITESPACE= " \t";
+
   protected $reader= null;
   protected $delimiter= ';';
   protected $quote= '"';
@@ -62,14 +64,13 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
    * @throws  lang.FormatException if a formatting error is detected
    */
   protected function readValues($raw= false) {
-    static $whitespace= " \t";
 
     // Skip over all-empty lines
     do {
       if (null === ($line= $this->reader->readLine())) return null;
       $this->line++;
       $l= strlen($line);
-    } while ($l === 0 || $l < strspn($line, $whitespace));
+    } while ($l === 0 || $l < strspn($line, self::WHITESPACE));
 
     // Parse line. 
     // * In the easiest form, we have values separated by the delimiter 
@@ -87,7 +88,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
     $o= 0;
     $escape= $this->quote.$this->quote;
     do {
-      $b= $o + strspn($line, $whitespace, $o);                  // Skip leading WS
+      $b= $o + strspn($line, self::WHITESPACE, $o);                  // Skip leading WS
       if ($b >= $l) {
         $value= '';
         $e= 0;
@@ -119,7 +120,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
         } while (1);
         $value= str_replace($escape, $this->quote, substr($line, $b + 1, $e));
         $e+= 2;
-        $e+= strspn($line, $whitespace, $b+ $e);                // Skip trailing WS
+        $e+= strspn($line, self::WHITESPACE, $b+ $e);                // Skip trailing WS
         if ($b + $e < $l && $this->delimiter !== $line{$b + $e}) {
           $this->raise(sprintf(
             'Illegal quoting, expected [%s or <END>], have [%s] beginning at line %d',
@@ -132,7 +133,7 @@ abstract class CsvReader extends \text\csv\AbstractCsvProcessor {
 
         // Find end of unquoted value (= delimiter)
         $e= strcspn($line, $this->delimiter, $b);
-        $value= rtrim(substr($line, $b, $e), $whitespace);   // Trim trailing WS
+        $value= rtrim(substr($line, $b, $e), self::WHITESPACE);   // Trim trailing WS
       }
       
       // Run processors
