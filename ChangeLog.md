@@ -3,6 +3,11 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.0 / 2017-06-15
+
+* **Heads up:** Dropped PHP 5.5 support - @thekid
+* Added forward compatibility with XP 9.0.0 - @thekid
+
 ## 7.1.0 / 2016-08-29
 
 * Added forward compatibility with XP 8.0.0 - @thekid
