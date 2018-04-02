@@ -160,7 +160,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
       null
-    ])->write([new \lang\Object(), 'Order placed']);
+    ])->write([$this, 'Order placed']);
   }
 
   #[@test, @expect(FormatException::class)]
@@ -328,7 +328,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->newWriter()->withProcessors([
       null,
       new FormatEnum()
-    ])->write(['200', new \lang\Object()]);
+    ])->write(['200', $this]);
   }
 
   #[@test]

@@ -45,8 +45,8 @@ class CsvBeanReader extends CsvReader {
   /**
    * Read a record
    *
-   * @param   string[] fields if omitted, class fields are used in order of appearance
-   * @return  lang.Object or NULL if end of the file is reached
+   * @param  string[] $fields if omitted, class fields are used in order of appearance
+   * @return object or NULL if end of the file is reached
    */
   public function read(array $fields= []) {
     if (null === ($values= $this->readValues())) return null;
