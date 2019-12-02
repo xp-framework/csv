@@ -1,8 +1,8 @@
 <?php namespace text\csv;
 
 use io\streams\TextReader;
-use lang\IllegalStateException;
 use lang\FormatException;
+use lang\IllegalStateException;
 use lang\Throwable;
 
 /**
@@ -92,7 +92,7 @@ abstract class CsvReader extends AbstractCsvProcessor {
       if ($b >= $l) {
         $value= '';
         $e= 0;
-      } else if ($this->quote === $line{$b}) {
+      } else if ($this->quote === $line[$b]) {
 
         // Find end of quoted value (= quote not preceded by quote)
         $q= $b + 1;
@@ -121,11 +121,11 @@ abstract class CsvReader extends AbstractCsvProcessor {
         $value= str_replace($escape, $this->quote, substr($line, $b + 1, $e));
         $e+= 2;
         $e+= strspn($line, self::WHITESPACE, $b+ $e);                // Skip trailing WS
-        if ($b + $e < $l && $this->delimiter !== $line{$b + $e}) {
+        if ($b + $e < $l && $this->delimiter !== $line[$b + $e]) {
           $this->raise(sprintf(
             'Illegal quoting, expected [%s or <END>], have [%s] beginning at line %d',
             $this->delimiter,
-            $line{$b + $e},
+            $line[$b + $e],
             $bl
           ));
         }
