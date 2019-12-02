@@ -1,26 +1,26 @@
 <?php namespace text\csv\unittest;
 
-use text\csv\CellProcessor;
-use text\csv\CsvListReader;
-use text\csv\CsvListWriter;
-use text\csv\CsvFormat;
-use text\csv\processors\AsInteger;
-use text\csv\processors\AsDouble;
-use text\csv\processors\AsDate;
-use text\csv\processors\FormatDate;
-use text\csv\processors\AsBool;
-use text\csv\processors\FormatBool;
-use text\csv\processors\AsEnum;
-use text\csv\processors\FormatEnum;
-use text\csv\processors\FormatNumber;
-use text\csv\processors\constraint\Optional;
-use text\csv\processors\constraint\Required;
-use text\csv\processors\constraint\Unique;
 use io\streams\MemoryInputStream;
 use io\streams\MemoryOutputStream;
 use io\streams\TextReader;
 use io\streams\TextWriter;
 use lang\FormatException;
+use text\csv\CellProcessor;
+use text\csv\CsvFormat;
+use text\csv\CsvListReader;
+use text\csv\CsvListWriter;
+use text\csv\processors\AsBool;
+use text\csv\processors\AsDate;
+use text\csv\processors\AsDouble;
+use text\csv\processors\AsEnum;
+use text\csv\processors\AsInteger;
+use text\csv\processors\FormatBool;
+use text\csv\processors\FormatDate;
+use text\csv\processors\FormatEnum;
+use text\csv\processors\FormatNumber;
+use text\csv\processors\constraint\Optional;
+use text\csv\processors\constraint\Required;
+use text\csv\processors\constraint\Unique;
 
 /**
  * TestCase
@@ -528,7 +528,7 @@ class CellProcessorTest extends \unittest\TestCase {
       
       public function process($in) {
         if ($this->unwanted !== $in) return $this->proceed($in);
-        throw new \lang\FormatException("Unwanted value ".\xp::stringOf($this->unwanted)." encountered");
+        throw new \lang\FormatException("Unwanted value ".\util\Objects::stringOf($this->unwanted)." encountered");
       }
     }');
   }

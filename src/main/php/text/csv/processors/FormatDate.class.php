@@ -1,8 +1,9 @@
 <?php namespace text\csv\processors;
 
+use lang\FormatException;
 use text\csv\CellProcessor;
 use util\Date;
-
+use util\Objects;
 
 /**
  * Formats dates as cell values
@@ -48,7 +49,7 @@ class FormatDate extends CellProcessor {
     if (null === $in && null !== $this->default) {
       $date= $this->default;
     } else if (!$in instanceof Date) {
-      throw new \lang\FormatException('Cannot format non-date '.\xp::stringOf($in));
+      throw new FormatException('Cannot format non-date '.Objects::stringOf($in));
     } else {
       $date= $in;
     }

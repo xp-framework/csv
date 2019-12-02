@@ -1,7 +1,8 @@
 <?php namespace text\csv\processors;
 
+use lang\FormatException;
 use text\csv\CellProcessor;
-
+use util\Objects;
 
 /**
  * Formats a given number given the formatting options
@@ -38,7 +39,9 @@ class FormatNumber extends CellProcessor {
    * @throws  lang.FormatException
    */
   public function process($in) {
-    if (!(null === $in || is_numeric($in))) throw new \lang\FormatException('Cannot format non-number '.\xp::stringOf($in));
+    if (!(null === $in || is_numeric($in))) {
+      throw new FormatException('Cannot format non-number '.Objects::stringOf($in));
+    }
     return $this->proceed(number_format($in, $this->decimals, $this->decimalPoint, $this->thousandsSeparator));
   }
 }

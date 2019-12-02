@@ -1,7 +1,7 @@
 <?php namespace text\csv;
 
-use lang\IllegalStateException;
 use lang\IllegalArgumentException;
+use lang\IllegalStateException;
 
 /**
  * CSV format: Specifies which delimiter and quoting characters should
@@ -70,7 +70,7 @@ class CsvFormat  {
       throw new IllegalStateException('Cannot change final object');
     }
     if (strlen($delimiter) != 1) {
-      throw new IllegalArgumentException('Delimiter '.\xp::stringOf($delimiter).' must be 1 character long');
+      throw new IllegalArgumentException('Delimiter "'.$delimiter.'" must be 1 character long');
     }
     $this->delimiter= $delimiter;
   }    
@@ -111,7 +111,7 @@ class CsvFormat  {
       throw new IllegalStateException('Cannot change final object');
     }
     if (strlen($quote) != 1) {
-      throw new IllegalArgumentException('Quote '.\xp::stringOf($quote).' must be 1 character long');
+      throw new IllegalArgumentException('Quote "'.$quote.'" must be 1 character long');
     }
     $this->quote= $quote;
     return $this;

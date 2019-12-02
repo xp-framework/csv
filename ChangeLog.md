@@ -3,9 +3,10 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
-## 9.0.2 / 2019-12-02
+## 8.0.2 / 2019-12-02
 
 * Made compatible with XP 10 - @thekid
+* Replaced xp::stringOf() with util.Objects::stringOf() - @thekid
 
 ## 8.0.1 / 2018-04-02
 
