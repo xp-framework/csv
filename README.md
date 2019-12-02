@@ -16,8 +16,7 @@ CSV data can be read off any input stream. Character set decoding is accomplishe
 
 ```php
 use text\csv\CsvListReader;
-use io\streams\TextReader;
-use io\streams\FileInputStream;
+use io\streams\{TextReader, FileInputStream};
 
 $in= new CsvListReader(new TextReader(new FileInputStream('in.csv')));
 
@@ -35,8 +34,7 @@ CSV data can be written to any output stream. Character set encoding is accompli
 
 ```php
 use text\csv\CsvListWriter;
-use io\streams\TextWriter;
-use io\streams\FileOutputStream;
+use io\streams\{TextWriter, FileOutputStream};
 
 $out= new CsvListWriter(new TextWriter(new FileOutputStream('out.csv')));
 
