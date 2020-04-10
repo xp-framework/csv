@@ -3,6 +3,15 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.0 / 2020-04-10
+
+* Implemented xp-framework/rfc#334: Drop PHP 5.6:
+  . **Heads up:** Minimum required PHP version now is PHP 7.0.0
+  . Rewrote code base, grouping use statements
+  . Converted `newinstance` to anonymous classes
+  . Rewrote `isset(X) ? X : default` to `X ?? default`
+  (@thekid)
+
 ## 8.0.2 / 2019-12-02
 
 * Made compatible with XP 10 - @thekid
@@ -44,7 +53,7 @@ CSV File handling for the XP Framework ChangeLog
 
 ## 6.0.1 / 2015-02-12
 
-* Changed dependency to use XP ~6.0 (instead of dev-master) - @thekid
+* Changed dependency to use XP 6.0 (instead of dev-master) - @thekid
 
 ## 6.0.0 / 2015-01-10
 
