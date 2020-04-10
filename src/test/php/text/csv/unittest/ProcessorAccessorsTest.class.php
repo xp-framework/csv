@@ -2,22 +2,14 @@
 
 use text\csv\AbstractCsvProcessor;
 use text\csv\processors\constraint\{Optional, Required};
+use unittest\TestCase;
 
-/**
- * TestCase
- *
- * @see      xp://text.csv.AbstractCsvProcessor
- */
-class ProcessorAccessorsTest extends \unittest\TestCase {
+class ProcessorAccessorsTest extends TestCase {
   protected $fixture= null;
 
-  /**
-   * Sets up test case
-   *
-   * @return void
-   */
+  /** @return void */
   public function setUp() {
-    $this->fixture= newinstance(AbstractCsvProcessor::class, []);
+    $this->fixture= new class() extends AbstractCsvProcessor { };
   }
   
   #[@test]

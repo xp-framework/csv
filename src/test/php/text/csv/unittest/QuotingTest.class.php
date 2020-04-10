@@ -17,11 +17,11 @@ class QuotingTest extends \unittest\TestCase {
    */
   #[@beforeClass]
   public static function neverQuotingStrategy() {
-    self::$never= newinstance(QuotingStrategy::class, [], '{
+    self::$never= new class() implements QuotingStrategy {
       public function necessary($value, $delimiter, $quote) {
         return false;
       }
-    }');
+    };
   }
 
   /**
