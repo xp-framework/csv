@@ -33,7 +33,7 @@ class CsvMapWriter extends CsvWriter {
       }
     } else {
       foreach ($this->keys as $key) {
-        $values[]= isset($map[$key]) ? $map[$key] : null;
+        $values[]= $map[$key] ?? null;
       }
     }
     return $this->writeValues($values);
