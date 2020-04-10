@@ -1,10 +1,11 @@
 <?php namespace text\csv\unittest;
 
 use io\streams\{MemoryInputStream, MemoryOutputStream, TextReader, TextWriter};
-use lang\FormatException;
-use text\csv\{CellProcessor, CsvFormat, CsvListReader, CsvListWriter};
-use text\csv\processors\{AsBool, AsDate, AsDouble, AsEnum, AsInteger, FormatBool, FormatDate, FormatEnum, FormatNumber};
+use lang\{FormatException, XPClass};
 use text\csv\processors\constraint\{Optional, Required, Unique};
+use text\csv\processors\{AsBool, AsDate, AsDouble, AsEnum, AsInteger, FormatBool, FormatDate, FormatEnum, FormatNumber};
+use text\csv\{CellProcessor, CsvFormat, CsvListReader, CsvListWriter};
+use util\{Date, Objects};
 
 /**
  * TestCase
@@ -92,7 +93,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new AsDate(),
       null
     ]);
-    $this->assertEquals([new \util\Date('2009-09-09 15:45'), 'Order placed'], $in->read());
+    $this->assertEquals([new Date('2009-09-09 15:45'), 'Order placed'], $in->read());
   }
 
   #[@test, @expect(FormatException::class)]
@@ -121,7 +122,7 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function emptyAsDateWithDefault() {
-    $now= \util\Date::now();
+    $now= Date::now();
     $in= $this->newReader(';Order placed')->withProcessors([
       (new AsDate())->withDefault($now),
       null
@@ -135,7 +136,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatDate('Y-m-d H:i'),
       null
     ]);
-    $writer->write([new \util\Date('2009-09-09 15:45'), 'Order placed']);
+    $writer->write([new Date('2009-09-09 15:45'), 'Order placed']);
     $this->assertEquals("2009-09-09 15:45;Order placed\n", $this->out->getBytes());
   }
 
@@ -157,7 +158,7 @@ class CellProcessorTest extends \unittest\TestCase {
 
   #[@test]
   public function formatNullWithDefault() {
-    $now= \util\Date::now();
+    $now= Date::now();
     $writer= $this->newWriter()->withProcessors([
       (new FormatDate('Y-m-d H:i'))->withDefault($now),
       null
@@ -272,7 +273,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function pennyCoin() {
     $in= $this->newReader('200;penny')->withProcessors([
       null,
-      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
+      new AsEnum(XPClass::forName('text.csv.unittest.Coin'))
     ]);
     $this->assertEquals(['200', Coin::$penny], $in->read());
   }
@@ -281,7 +282,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function invalidCoin() {
     $this->newReader('200;dollar')->withProcessors([
       null,
-      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
+      new AsEnum(XPClass::forName('text.csv.unittest.Coin'))
     ])->read();
   }
 
@@ -289,7 +290,7 @@ class CellProcessorTest extends \unittest\TestCase {
   public function emptyCoin() {
     $this->newReader('200;')->withProcessors([
       null,
-      new AsEnum(\lang\XPClass::forName('text.csv.unittest.Coin'))
+      new AsEnum(XPClass::forName('text.csv.unittest.Coin'))
     ])->read();
   }
 
@@ -475,7 +476,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $in->read();
       $this->fail('Duplicate value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
   }
 
   #[@test]
@@ -489,7 +490,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $writer->write(['200', 'NACK']);
       $this->fail('Duplicate value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
 
     $this->assertEquals("200;OK\n", $this->out->getBytes());
   }
@@ -502,7 +503,7 @@ class CellProcessorTest extends \unittest\TestCase {
    * @return  text.csv.CellProcessor
    */
   protected function newUnwantedValueProcessor($value) {
-    return newinstance(CellProcessor::class, [$value], '{
+    return new class($value) extends CellProcessor {
       protected $unwanted= NULL;
       
       public function __construct($value, $next= NULL) {
@@ -512,9 +513,9 @@ class CellProcessorTest extends \unittest\TestCase {
       
       public function process($in) {
         if ($this->unwanted !== $in) return $this->proceed($in);
-        throw new \lang\FormatException("Unwanted value ".\util\Objects::stringOf($this->unwanted)." encountered");
+        throw new FormatException("Unwanted value ".Objects::stringOf($this->unwanted)." encountered");
       }
-    }');
+    };
   }
 
   #[@test]
@@ -526,7 +527,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $in->read();
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
     $this->assertEquals(['404', 'Not found'], $in->read());
   }
 
@@ -539,7 +540,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $in->read();
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
     $this->assertEquals(['404', "Not found\nFamous"], $in->read());
   }
 
@@ -553,7 +554,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $writer->write(['200', 'OK']);
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
 
     $writer->write(['404', 'Not found']);
     $this->assertEquals("404;Not found\n", $this->out->getBytes());
@@ -569,7 +570,7 @@ class CellProcessorTest extends \unittest\TestCase {
     try {
       $writer->write(['500', 'Internal Server Error']);
       $this->fail('Unwanted value not detected', null, 'lang.FormatException');
-    } catch (\lang\FormatException $expected) { }
+    } catch (FormatException $expected) { }
 
     $writer->write(['404', 'Not found']);
     $this->assertEquals("404;Not found\n", $this->out->getBytes());
