@@ -1,26 +1,10 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\MemoryInputStream;
-use io\streams\MemoryOutputStream;
-use io\streams\TextReader;
-use io\streams\TextWriter;
+use io\streams\{MemoryInputStream, MemoryOutputStream, TextReader, TextWriter};
 use lang\FormatException;
-use text\csv\CellProcessor;
-use text\csv\CsvFormat;
-use text\csv\CsvListReader;
-use text\csv\CsvListWriter;
-use text\csv\processors\AsBool;
-use text\csv\processors\AsDate;
-use text\csv\processors\AsDouble;
-use text\csv\processors\AsEnum;
-use text\csv\processors\AsInteger;
-use text\csv\processors\FormatBool;
-use text\csv\processors\FormatDate;
-use text\csv\processors\FormatEnum;
-use text\csv\processors\FormatNumber;
-use text\csv\processors\constraint\Optional;
-use text\csv\processors\constraint\Required;
-use text\csv\processors\constraint\Unique;
+use text\csv\{CellProcessor, CsvFormat, CsvListReader, CsvListWriter};
+use text\csv\processors\{AsBool, AsDate, AsDouble, AsEnum, AsInteger, FormatBool, FormatDate, FormatEnum, FormatNumber};
+use text\csv\processors\constraint\{Optional, Required, Unique};
 
 /**
  * TestCase

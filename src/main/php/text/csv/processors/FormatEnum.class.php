@@ -1,8 +1,7 @@
 <?php namespace text\csv\processors;
 
+use lang\{Enum, FormatException};
 use text\csv\CellProcessor;
-use lang\Enum;
-use lang\FormatException;
 
 /**
  * Formats enums as cell values. Uses the enum's name member as string

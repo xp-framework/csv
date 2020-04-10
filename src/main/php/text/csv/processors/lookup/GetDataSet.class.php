@@ -1,7 +1,7 @@
 <?php namespace text\csv\processors\lookup;
 
-use text\csv\CellProcessor;
 use rdbms\finder\FinderMethod;
+use text\csv\CellProcessor;
 
 
 /**

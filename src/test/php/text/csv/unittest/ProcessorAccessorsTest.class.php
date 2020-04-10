@@ -1,8 +1,7 @@
 <?php namespace text\csv\unittest;
 
 use text\csv\AbstractCsvProcessor;
-use text\csv\processors\constraint\Optional;
-use text\csv\processors\constraint\Required;
+use text\csv\processors\constraint\{Optional, Required};
 
 /**
  * TestCase

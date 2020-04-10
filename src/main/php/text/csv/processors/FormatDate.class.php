@@ -2,8 +2,7 @@
 
 use lang\FormatException;
 use text\csv\CellProcessor;
-use util\Date;
-use util\Objects;
+use util\{Date, Objects};
 
 /**
  * Formats dates as cell values

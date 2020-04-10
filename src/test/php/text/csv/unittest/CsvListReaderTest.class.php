@@ -1,12 +1,9 @@
 <?php namespace text\csv\unittest;
 
-use lang\IllegalStateException;
-use lang\FormatException;
+use io\streams\{MemoryInputStream, TextReader};
+use lang\{FormatException, IllegalStateException};
+use text\csv\{CsvFormat, CsvListReader};
 use unittest\TestCase;
-use text\csv\CsvListReader;
-use text\csv\CsvFormat;
-use io\streams\MemoryInputStream;
-use io\streams\TextReader;
 
 /**
  * TestCase

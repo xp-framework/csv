@@ -1,7 +1,7 @@
 <?php namespace text\csv\processors;
 
-use text\csv\CellProcessor;
 use lang\Enum;
+use text\csv\CellProcessor;
 
 
 /**

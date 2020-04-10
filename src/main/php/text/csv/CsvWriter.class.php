@@ -1,9 +1,7 @@
 <?php namespace text\csv;
 
 use io\streams\TextWriter;
-use lang\IllegalStateException;
-use lang\FormatException;
-use lang\Throwable;
+use lang\{FormatException, IllegalStateException, Throwable};
 
 /**
  * Abstract base class

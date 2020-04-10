@@ -1,10 +1,8 @@
 <?php namespace text\csv\unittest;
 
+use io\streams\{MemoryOutputStream, TextWriter};
+use text\csv\{CsvBeanWriter, CsvFormat};
 use unittest\TestCase;
-use text\csv\CsvBeanWriter;
-use text\csv\CsvFormat;
-use io\streams\MemoryOutputStream;
-use io\streams\TextWriter;
 
 /**
  * TestCase

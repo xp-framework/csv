@@ -1,9 +1,7 @@
 <?php namespace text\csv\unittest;
 
-use lang\IllegalArgumentException;
-use lang\IllegalStateException;
-use text\csv\CsvFormat;
-use text\csv\Quoting;
+use lang\{IllegalArgumentException, IllegalStateException};
+use text\csv\{CsvFormat, Quoting};
 
 /**
  * TestCase

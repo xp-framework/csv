@@ -1,12 +1,10 @@
 <?php namespace text\csv\unittest;
 
+use io\streams\{MemoryOutputStream, TextWriter};
 use lang\IllegalStateException;
-use unittest\TestCase;
-use text\csv\CsvListWriter;
-use text\csv\CsvFormat;
+use text\csv\{CsvFormat, CsvListWriter};
 use text\csv\processors\FormatDate;
-use io\streams\TextWriter;
-use io\streams\MemoryOutputStream;
+use unittest\TestCase;
 
 /**
  * TestCase

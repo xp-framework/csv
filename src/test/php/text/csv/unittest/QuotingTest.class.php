@@ -1,7 +1,6 @@
 <?php namespace text\csv\unittest;
 
-use text\csv\QuotingStrategy;
-use text\csv\Quoting;
+use text\csv\{Quoting, QuotingStrategy};
 
 /**
  * TestCase

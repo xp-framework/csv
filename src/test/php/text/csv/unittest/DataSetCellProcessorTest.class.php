@@ -1,17 +1,17 @@
 <?php namespace text\csv\unittest;
 
-use text\csv\CsvListReader;
-use text\csv\processors\lookup\GetDataSet;
-use text\csv\processors\lookup\FindDataSet;
-use text\csv\CsvFormat;
+use io\streams\MemoryInputStream;
+use io\streams\TextReader;
+use lang\XPClass;
 use rdbms\DriverManager;
 use rdbms\unittest\dataset\Job;
 use rdbms\unittest\dataset\JobFinder;
 use rdbms\unittest\mock\MockConnection;
 use rdbms\unittest\mock\MockResultSet;
-use io\streams\MemoryInputStream;
-use io\streams\TextReader;
-use lang\XPClass;
+use text\csv\CsvFormat;
+use text\csv\CsvListReader;
+use text\csv\processors\lookup\FindDataSet;
+use text\csv\processors\lookup\GetDataSet;
 use unittest\PrerequisitesNotMetError;
 
 /**
@@ -111,7 +111,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
   public function ambiguous() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
       ['job_id' => 1549, 'title' => 'Developer'],
-      ['job_id' => 1549, 'title' => 'Doppelgänger'],
+      ['job_id' => 1549, 'title' => 'DoppelgÃ¤nger'],
     ]));
     $in= $this->newReader("job_id;title\n1549;10248")->withProcessors([
       new GetDataSet(create(new JobFinder())->method('byPrimary')),

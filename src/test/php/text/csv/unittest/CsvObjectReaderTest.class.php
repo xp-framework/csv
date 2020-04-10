@@ -1,8 +1,8 @@
 <?php namespace text\csv\unittest;
 
-use unittest\TestCase;
-use text\csv\CsvObjectReader;
 use io\streams\MemoryInputStream;
+use text\csv\CsvObjectReader;
+use unittest\TestCase;
 
 /**
  * TestCase

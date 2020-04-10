@@ -1,9 +1,7 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\MemoryInputStream;
-use io\streams\TextReader;
-use text\csv\CsvListReader;
-use text\csv\Lines;
+use io\streams\{MemoryInputStream, TextReader};
+use text\csv\{CsvListReader, Lines};
 
 class LinesTest extends \unittest\TestCase {
 

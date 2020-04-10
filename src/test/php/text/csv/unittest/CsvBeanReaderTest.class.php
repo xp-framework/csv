@@ -1,9 +1,8 @@
 <?php namespace text\csv\unittest;
 
-use text\csv\CsvBeanReader;
-use io\streams\MemoryInputStream;
-use io\streams\TextReader;
+use io\streams\{MemoryInputStream, TextReader};
 use lang\XPClass;
+use text\csv\CsvBeanReader;
 
 /**
  * TestCase

@@ -1,8 +1,8 @@
 <?php namespace text\csv\unittest;
 
-use unittest\TestCase;
-use text\csv\CsvMapWriter;
 use io\streams\MemoryOutputStream;
+use text\csv\CsvMapWriter;
+use unittest\TestCase;
 
 /**
  * TestCase

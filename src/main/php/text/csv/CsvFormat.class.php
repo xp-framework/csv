@@ -1,7 +1,6 @@
 <?php namespace text\csv;
 
-use lang\IllegalArgumentException;
-use lang\IllegalStateException;
+use lang\{IllegalArgumentException, IllegalStateException};
 
 /**
  * CSV format: Specifies which delimiter and quoting characters should
