@@ -11,7 +11,7 @@ Contains the XP Framework's CSV API
 
 Reading
 ------
-CSV data can be read off any input stream. Character set decoding is accomplished by passing a charset to TextReader, or `NULL` to use auto-detection.
+CSV data can be read off any input stream. Character set decoding is accomplished by passing a charset to TextReader, or `null` to use auto-detection.
 
 ```php
 use text\csv\CsvListReader;
