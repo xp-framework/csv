@@ -2,7 +2,7 @@
 
 use io\streams\{MemoryInputStream, TextReader};
 use text\csv\CsvMapReader;
-use unittest\TestCase;
+use unittest\{Test, TestCase, Values};
 
 /**
  * TestCase
@@ -22,7 +22,7 @@ class CsvMapReaderTest extends TestCase {
     return new CsvMapReader(new TextReader(new MemoryInputStream($str)), $keys);
   }
 
-  #[@test]
+  #[Test]
   public function setKeys() {
     with ($keys= ['id', 'name', 'email']); {
       $in= $this->newReader('');
@@ -31,7 +31,7 @@ class CsvMapReaderTest extends TestCase {
     }
   }
 
-  #[@test]
+  #[Test]
   public function withKeys() {
     with ($keys= ['id', 'name', 'email']); {
       $in= $this->newReader('');
@@ -40,7 +40,7 @@ class CsvMapReaderTest extends TestCase {
     }
   }
 
-  #[@test]
+  #[Test]
   public function readRecord() {
     $in= $this->newReader('1549;Timm;friebe@example.com', ['id', 'name', 'email']);
     $this->assertEquals(
@@ -49,7 +49,7 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readRecordWithHeaders() {
     $in= $this->newReader("id;name;email\n1549;Timm;friebe@example.com");
     $in->setKeys($in->getHeaders());
@@ -59,13 +59,13 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test, @values(["", "\n", "\n\n"])]
+  #[Test, Values(["", "\n", "\n\n"])]
   public function readEmpty($input) {
     $in= $this->newReader($input, ['id', 'name', 'email']);
     $this->assertNull($in->read());
   }
 
-  #[@test]
+  #[Test]
   public function readRecordWithExcess() {
     $in= $this->newReader('1549;Timm;friebe@example.com;WILL_NOT_APPEAR', ['id', 'name', 'email']);
     $this->assertEquals(
@@ -74,7 +74,7 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readRecordWithUnderrun() {
     $in= $this->newReader('1549;Timm', ['id', 'name', 'email']);
     $this->assertEquals(
@@ -83,7 +83,7 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readRecordAfterEmptyLine() {
     $in= $this->newReader("\n1549;Timm", ['id', 'name']);
     $this->assertEquals(
@@ -92,7 +92,7 @@ class CsvMapReaderTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readRecordsWithEmptyLineInBetween() {
     $in= $this->newReader("1549;Timm\n1552;Alex", ['id', 'name']);
     $this->assertEquals(

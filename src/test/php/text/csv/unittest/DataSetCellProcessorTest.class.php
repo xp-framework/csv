@@ -1,18 +1,13 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\MemoryInputStream;
-use io\streams\TextReader;
+use io\streams\{MemoryInputStream, TextReader};
 use lang\XPClass;
 use rdbms\DriverManager;
-use rdbms\unittest\dataset\Job;
-use rdbms\unittest\dataset\JobFinder;
-use rdbms\unittest\mock\MockConnection;
-use rdbms\unittest\mock\MockResultSet;
-use text\csv\CsvFormat;
-use text\csv\CsvListReader;
-use text\csv\processors\lookup\FindDataSet;
-use text\csv\processors\lookup\GetDataSet;
-use unittest\PrerequisitesNotMetError;
+use rdbms\unittest\dataset\{Job, JobFinder};
+use rdbms\unittest\mock\{MockConnection, MockResultSet};
+use text\csv\processors\lookup\{FindDataSet, GetDataSet};
+use text\csv\{CsvFormat, CsvListReader};
+use unittest\{BeforeClass, PrerequisitesNotMetError, Test};
 
 /**
  * TestCase
@@ -24,7 +19,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
   /**
    * Verify RDBMS module is available
    */  
-  #[@beforeClass]
+  #[BeforeClass]
   public static function verifyRdbms() {
     if (!class_exists('rdbms\DriverManager')) {
       throw new PrerequisitesNotMetError('rdbms module not available', null, ['rdbms']);
@@ -34,7 +29,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
   /**
    * Mock connection registration
    */  
-  #[@beforeClass]
+  #[BeforeClass]
   public static function registerMockConnection() {
     DriverManager::register('mock', XPClass::forName('rdbms.unittest.mock.MockConnection'));
     Job::getPeer()->setConnection(DriverManager::getConnection('mock://mock/JOBS?autoconnect=1'));
@@ -51,7 +46,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
     return new CsvListReader(new TextReader(new MemoryInputStream($str)), $format);
   }
 
-  #[@test]
+  #[Test]
   public function getByPrimary() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
       ['job_id' => 1549, 'title' => 'Developer']
@@ -66,7 +61,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(1549, $list[0]->getJob_id());
   }
 
-  #[@test]
+  #[Test]
   public function findByTitle() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
       ['job_id' => 1549, 'title' => 'Developer']
@@ -81,7 +76,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(1549, $list[0]->getJob_id());
   }
 
-  #[@test]
+  #[Test]
   public function getNotFound() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([]));
     $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors([
@@ -95,7 +90,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
     } catch (\lang\FormatException $expected) { }
   }
 
-  #[@test]
+  #[Test]
   public function findNotFound() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([]));
     $in= $this->newReader("job_id;title\n1549;Developer")->withProcessors([
@@ -107,7 +102,7 @@ class DataSetCellProcessorTest extends \unittest\TestCase {
     $this->assertNull($list[0]);
   }
 
-  #[@test]
+  #[Test]
   public function ambiguous() {
     Job::getPeer()->getConnection()->setResultSet(new MockResultSet([
       ['job_id' => 1549, 'title' => 'Developer'],

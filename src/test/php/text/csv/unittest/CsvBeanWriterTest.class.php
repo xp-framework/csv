@@ -2,7 +2,7 @@
 
 use io\streams\{MemoryOutputStream, TextWriter};
 use text\csv\{CsvBeanWriter, CsvFormat};
-use unittest\TestCase;
+use unittest\{Test, TestCase};
 
 /**
  * TestCase
@@ -23,19 +23,19 @@ class CsvBeanWriterTest extends TestCase {
     return new CsvBeanWriter(new TextWriter($this->out), $format);
   }
 
-  #[@test]
+  #[Test]
   public function writePerson() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'));
     $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writePersonReSorted() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['email', 'id', 'name']);
     $this->assertEquals("friebe@example.com;1549;Timm\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writePersonPartially() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['id', 'name']);
     $this->assertEquals("1549;Timm\n", $this->out->getBytes());

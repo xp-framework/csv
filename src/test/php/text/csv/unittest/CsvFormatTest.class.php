@@ -2,6 +2,7 @@
 
 use lang\{IllegalArgumentException, IllegalStateException};
 use text\csv\{CsvFormat, Quoting};
+use unittest\{Expect, Test};
 
 /**
  * TestCase
@@ -10,124 +11,124 @@ use text\csv\{CsvFormat, Quoting};
  */
 class CsvFormatTest extends \unittest\TestCase {
 
-  #[@test]
+  #[Test]
   public function defaultFormat() {
     $format= CsvFormat::$DEFAULT;
     $this->assertEquals(';', $format->getDelimiter());
     $this->assertEquals('"', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function pipesFormat() {
     $format= CsvFormat::$PIPES;
     $this->assertEquals('|', $format->getDelimiter());
     $this->assertEquals('"', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function commasFormat() {
     $format= CsvFormat::$COMMAS;
     $this->assertEquals(',', $format->getDelimiter());
     $this->assertEquals('"', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function tabsFormat() {
     $format= CsvFormat::$TABS;
     $this->assertEquals("\t", $format->getDelimiter());
     $this->assertEquals('"', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function quoteAccessors() {
     $format= new CsvFormat();
     $format->setQuote('`');
     $this->assertEquals('`', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function withQuoteAccessor() {
     $format= new CsvFormat();
     $this->assertEquals($format, $format->withQuote('`'));
     $this->assertEquals('`', $format->getQuote());
   }
 
-  #[@test]
+  #[Test]
   public function delimiterAccessors() {
     $format= new CsvFormat();
     $format->setDelimiter(' ');
     $this->assertEquals(' ', $format->getDelimiter());
   }
 
-  #[@test]
+  #[Test]
   public function withDelimiterAccessor() {
     $format= new CsvFormat();
     $this->assertEquals($format, $format->withDelimiter(' '));
     $this->assertEquals(' ', $format->getDelimiter());
   }
 
-  #[@test]
+  #[Test]
   public function quotingAccessors() {
     $format= new CsvFormat();
     $format->setQuoting(Quoting::$ALWAYS);
     $this->assertEquals(Quoting::$ALWAYS, $format->getQuoting());
   }
 
-  #[@test]
+  #[Test]
   public function withQuotingAccessor() {
     $format= new CsvFormat();
     $this->assertEquals($format, $format->withQuoting(Quoting::$ALWAYS));
     $this->assertEquals(Quoting::$ALWAYS, $format->getQuoting());
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function quoteCharMayNotBeLongerThanOneCharacter() {
     (new CsvFormat())->withQuote('Hello');
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function quoteCharMayNotBeEmpty() {
     (new CsvFormat())->withQuote('');
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function delimiterCharMayNotBeLongerThanOneCharacter() {
     (new CsvFormat())->withDelimiter('Hello');
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function delimiterCharMayNotBeEmpty() {
     (new CsvFormat())->withDelimiter('');
   }
 
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetDelimiter() {
     CsvFormat::$DEFAULT->setDelimiter(',');
   }
 
-  #[@test]
+  #[Test]
   public function withDelimiterClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withDelimiter(',');
     $this->assertFalse($format === CsvFormat::$DEFAULT);
   }
 
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetQuote() {
     CsvFormat::$DEFAULT->setQuote("'");
   }
 
-  #[@test]
+  #[Test]
   public function withQuoteClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withQuote("'");
     $this->assertFalse($format === CsvFormat::$DEFAULT);
   }
 
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function defaultFormatUnchangeableBySetQuoting() {
     CsvFormat::$DEFAULT->setQuoting(Quoting::$ALWAYS);
   }
 
-  #[@test]
+  #[Test]
   public function withQuotingClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withQuoting(Quoting::$ALWAYS);
     $this->assertFalse($format === CsvFormat::$DEFAULT);

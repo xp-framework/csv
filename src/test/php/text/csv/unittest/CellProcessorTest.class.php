@@ -5,6 +5,7 @@ use lang\{FormatException, XPClass};
 use text\csv\processors\constraint\{Optional, Required, Unique};
 use text\csv\processors\{AsBool, AsDate, AsDouble, AsEnum, AsInteger, FormatBool, FormatDate, FormatEnum, FormatNumber};
 use text\csv\{CellProcessor, CsvFormat, CsvListReader, CsvListWriter};
+use unittest\{Expect, Test};
 use util\{Date, Objects};
 
 /**
@@ -37,7 +38,7 @@ class CellProcessorTest extends \unittest\TestCase {
     return new CsvListWriter(new TextWriter($this->out), $format);
   }
 
-  #[@test]
+  #[Test]
   public function asInteger() {
     $in= $this->newReader('1549;Timm')->withProcessors([
       new AsInteger(),
@@ -46,7 +47,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([1549, 'Timm'], $in->read());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function stringAsInteger() {
     $this->newReader('A;Timm')->withProcessors([
       new AsInteger(),
@@ -54,7 +55,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyAsInteger() {
     $this->newReader(';Timm')->withProcessors([
       new AsInteger(),
@@ -62,7 +63,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test]
+  #[Test]
   public function asDouble() {
     $in= $this->newReader('1.5;em')->withProcessors([
       new AsDouble(),
@@ -71,7 +72,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([1.5, 'em'], $in->read());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function stringAsDouble() {
     $this->newReader('A;em')->withProcessors([
       new AsDouble(),
@@ -79,7 +80,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyAsDouble() {
     $this->newReader(';em')->withProcessors([
       new AsDouble(),
@@ -87,7 +88,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test]
+  #[Test]
   public function asDate() {
     $in= $this->newReader('2009-09-09 15:45;Order placed')->withProcessors([
       new AsDate(),
@@ -96,7 +97,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([new Date('2009-09-09 15:45'), 'Order placed'], $in->read());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function invalidAsDate() {
     $this->newReader('YYYY-MM-DD HH:MM;Order placed')->withProcessors([
       new AsDate(),
@@ -104,7 +105,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyAsDate() {
     $this->newReader(';Order placed')->withProcessors([
       (new AsDate()),
@@ -112,7 +113,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyAsDateWithNullDefault() {
     $this->newReader(';Order placed')->withProcessors([
       (new AsDate())->withDefault(null),
@@ -120,7 +121,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test]
+  #[Test]
   public function emptyAsDateWithDefault() {
     $now= Date::now();
     $in= $this->newReader(';Order placed')->withProcessors([
@@ -130,7 +131,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([$now, 'Order placed'], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function formatDate() {
     $writer= $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
@@ -140,7 +141,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("2009-09-09 15:45;Order placed\n", $this->out->getBytes());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function formatNonDate() {
     $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
@@ -148,7 +149,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->write([$this, 'Order placed']);
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function formatNull() {
     $this->newWriter()->withProcessors([
       new FormatDate('Y-m-d H:i'),
@@ -156,7 +157,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->write([null, 'Order placed']);
   }
 
-  #[@test]
+  #[Test]
   public function formatNullWithDefault() {
     $now= Date::now();
     $writer= $this->newWriter()->withProcessors([
@@ -167,7 +168,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals($now->toString('Y-m-d H:i').";Order placed\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function trueAsBool() {
     $in= $this->newReader('Timm;true')->withProcessors([
       null,
@@ -176,7 +177,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', true], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function oneAsBool() {
     $in= $this->newReader('Timm;1')->withProcessors([
       null,
@@ -185,7 +186,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', true], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function yAsBool() {
     $in= $this->newReader('Timm;Y')->withProcessors([
       null,
@@ -194,7 +195,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', true], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function falseAsBool() {
     $in= $this->newReader('Timm;false')->withProcessors([
       null,
@@ -203,7 +204,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', false], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function zeroAsBool() {
     $in= $this->newReader('Timm;0')->withProcessors([
       null,
@@ -212,7 +213,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', false], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function nAsBool() {
     $in= $this->newReader('Timm;N')->withProcessors([
       null,
@@ -221,7 +222,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['Timm', false], $in->read());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyAsBool() {
     $this->newReader('Timm;')->withProcessors([
       null,
@@ -229,7 +230,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test]
+  #[Test]
   public function formatTrue() {
     $writer= $this->newWriter()->withProcessors([
       null,
@@ -239,7 +240,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;true\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function formatTrueAsY() {
     $writer= $this->newWriter()->withProcessors([
       null,
@@ -249,7 +250,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;Y\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function formatFalse() {
     $writer= $this->newWriter()->withProcessors([
       null,
@@ -259,7 +260,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;false\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function formatFalseAsN() {
     $writer= $this->newWriter()->withProcessors([
       null,
@@ -269,7 +270,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;N\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function pennyCoin() {
     $in= $this->newReader('200;penny')->withProcessors([
       null,
@@ -278,7 +279,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['200', Coin::$penny], $in->read());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function invalidCoin() {
     $this->newReader('200;dollar')->withProcessors([
       null,
@@ -286,7 +287,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function emptyCoin() {
     $this->newReader('200;')->withProcessors([
       null,
@@ -298,7 +299,7 @@ class CellProcessorTest extends \unittest\TestCase {
    * Test FormatEnum processor
    *
    */
-  #[@test]
+  #[Test]
   public function formatEnumValue() {
     $writer= $this->newWriter()->withProcessors([
       null,
@@ -308,7 +309,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("200;penny\n", $this->out->getBytes());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function formatNonEnum() {
     $this->newWriter()->withProcessors([
       null,
@@ -316,7 +317,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->write(['200', $this]);
   }
 
-  #[@test]
+  #[Test]
   public function formatNumber() {
     $writer= $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(5, '.'),
@@ -326,7 +327,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("3.75000;10'000'000,50\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function formatNumberNull() {
     $writer= $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(2, '.')
@@ -335,14 +336,14 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("0.00\n", $this->out->getBytes());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function formatNotANumber() {
     $this->newWriter()->withProcessors([
       (new FormatNumber())->withFormat(2, '.')
     ])->write(['Hello']);
   }
 
-  #[@test]
+  #[Test]
   public function optionalString() {
     $in= $this->newReader('200;OK')->withProcessors([
       null,
@@ -351,7 +352,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['200', 'OK'], $in->read());
   }
   
-  #[@test]
+  #[Test]
   public function optionalEmpty() {
     $in= $this->newReader('666;')->withProcessors([
       null,
@@ -360,7 +361,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['666', null], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function optionalEmptyWithDefault() {
     $in= $this->newReader('666;')->withProcessors([
       null,
@@ -369,7 +370,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['666', '(unknown)'], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function writeOptionalString() {
     $this->newWriter()->withProcessors([
       new Optional(),
@@ -378,7 +379,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;Test\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeOptionalEmpty() {
     $this->newWriter()->withProcessors([
       new Optional(),
@@ -387,7 +388,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(";Test\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeOptionalNull() {
     $this->newWriter()->withProcessors([
       new Optional(),
@@ -396,7 +397,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(";Test\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeOptionalWithDefault() {
     $this->newWriter()->withProcessors([
       (new Optional())->withDefault('(unknown)'),
@@ -405,7 +406,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeOptionalNullWithDefault() {
     $this->newWriter()->withProcessors([
       (new Optional())->withDefault('(unknown)'),
@@ -414,7 +415,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function requiredString() {
     $in= $this->newReader('200;OK')->withProcessors([
       null,
@@ -423,7 +424,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['200', 'OK'], $in->read());
   }
   
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function requiredEmpty() {
     $this->newReader('666;')->withProcessors([
       null,
@@ -431,7 +432,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->read();
   }
 
-  #[@test]
+  #[Test]
   public function writeRequired() {
     $this->newWriter()->withProcessors([
       new Required(),
@@ -440,7 +441,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("A;B\n", $this->out->getBytes());
   }
 
-  #[@test, @expect(FormatException::class)]
+  #[Test, Expect(FormatException::class)]
   public function writeEmptyRequired() {
     $this->newWriter()->withProcessors([
       new Required(),
@@ -448,7 +449,7 @@ class CellProcessorTest extends \unittest\TestCase {
     ])->write(['', 'Test']);
   }
 
-  #[@test]
+  #[Test]
   public function chainingRequired() {
     $in= $this->newReader('200;OK')->withProcessors([
       new Required(new AsInteger()),
@@ -457,7 +458,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([200, 'OK'], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function chainingOptional() {
     $in= $this->newReader('200;')->withProcessors([
       new Optional(new AsInteger()),
@@ -466,7 +467,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals([200, null], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function readUnique() {
     $in= $this->newReader("200;OK\n200;NACK")->withProcessors([
       new Unique(),
@@ -479,7 +480,7 @@ class CellProcessorTest extends \unittest\TestCase {
     } catch (FormatException $expected) { }
   }
 
-  #[@test]
+  #[Test]
   public function writeUnique() {
     $writer= $this->newWriter()->withProcessors([
       new Unique(),
@@ -518,7 +519,7 @@ class CellProcessorTest extends \unittest\TestCase {
     };
   }
 
-  #[@test]
+  #[Test]
   public function processorExceptionsDoNotBreakReading() {
     $in= $this->newReader("200;OK\n404;Not found")->withProcessors([
       $this->newUnwantedValueProcessor('200'),
@@ -531,7 +532,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['404', 'Not found'], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function processorExceptionsDoNotBreakReadingMultiline() {
     $in= $this->newReader("200;'OK\nThank god'\n404;'Not found\nFamous'", (new \text\csv\CsvFormat())->withQuote("'"))->withProcessors([
       $this->newUnwantedValueProcessor('200'),
@@ -544,7 +545,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals(['404', "Not found\nFamous"], $in->read());
   }
 
-  #[@test]
+  #[Test]
   public function processorExceptionsDoNotBreakWriting() {
     $writer= $this->newWriter()->withProcessors([
       $this->newUnwantedValueProcessor('200'),
@@ -560,7 +561,7 @@ class CellProcessorTest extends \unittest\TestCase {
     $this->assertEquals("404;Not found\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function processorExceptionsDoNotCausePartialWriting() {
     $writer= $this->newWriter()->withProcessors([
       null,

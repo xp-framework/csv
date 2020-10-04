@@ -2,7 +2,7 @@
 
 use io\streams\{MemoryOutputStream, TextWriter};
 use text\csv\{CsvFormat, CsvObjectWriter};
-use unittest\TestCase;
+use unittest\{Test, TestCase};
 
 /**
  * TestCase
@@ -23,31 +23,31 @@ class CsvObjectWriterTest extends TestCase {
     return new CsvObjectWriter(new TextWriter($this->out), $format);
   }
 
-  #[@test]
+  #[Test]
   public function writePerson() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'));
     $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writePersonReSorted() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['email', 'id', 'name']);
     $this->assertEquals("friebe@example.com;1549;Timm\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writePersonPartially() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['id', 'name']);
     $this->assertEquals("1549;Timm\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeAddress() {
     $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'));
     $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeAddressPartially() {
     $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'), ['city', 'zip']);
     $this->assertEquals("Karlsruhe;76137\n", $this->out->getBytes());

@@ -2,9 +2,9 @@
 
 use io\streams\{MemoryOutputStream, TextWriter};
 use lang\IllegalStateException;
-use text\csv\{CsvFormat, CsvListWriter};
 use text\csv\processors\FormatDate;
-use unittest\TestCase;
+use text\csv\{CsvFormat, CsvListWriter};
+use unittest\{Expect, Test, TestCase};
 
 /**
  * TestCase
@@ -25,19 +25,19 @@ class CsvListWriterTest extends TestCase {
     return new CsvListWriter(new TextWriter($this->out), $format);
   }
 
-  #[@test]
+  #[Test]
   public function writeLine() {
     $this->newWriter()->write(['Timm', 'Karlsruhe', '76137']);
     $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeEmptyValue() {
     $this->newWriter()->write(['Timm', '', '76137']);
     $this->assertEquals("Timm;;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function setHeaders() {
     $writer= $this->newWriter();
     $writer->setHeaders(['name', 'city', 'zip']);
@@ -45,68 +45,68 @@ class CsvListWriterTest extends TestCase {
     $this->assertEquals("name;city;zip\nTimm;Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function cannotSetHeadersAfterWriting() {
     $writer= $this->newWriter();
     $writer->write(['Timm', 'Karlsruhe', '76137']);
     $writer->setHeaders(['name', 'city', 'zip']);
   }
 
-  #[@test]
+  #[Test]
   public function writeUnixMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\nKarlsruhe\nGermany"]);
     $this->assertEquals("Timm;'76137\nKarlsruhe\nGermany'\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeMacMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\rKarlsruhe\rGermany"]);
     $this->assertEquals("Timm;'76137\rKarlsruhe\rGermany'\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeWindowsMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\r\nKarlsruhe\r\nGermany"]);
     $this->assertEquals("Timm;'76137\r\nKarlsruhe\r\nGermany'\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function valueWithDelimiterIsQuoted() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm;Friebe', 'Karlsruhe', '76137']);
     $this->assertEquals("'Timm;Friebe';Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function delimiterIsQuoted() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write([';', 'Karlsruhe', '76137']);
     $this->assertEquals("';';Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function quotesAroundValueAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["'Hello'", 'Karlsruhe', '76137']);
     $this->assertEquals("'''Hello''';Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function quotesInsideValueAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["He said 'Hello' to me", 'Karlsruhe', '76137']);
     $this->assertEquals("'He said ''Hello'' to me';Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function quotesAroundEmptyAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["''", 'Karlsruhe', '76137']);
     $this->assertEquals("'''''';Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeLineFromMap() {
     $this->newWriter()->write(['name' => 'Timm', 'city' => 'Karlsruhe', 'zip' => '76137']);
     $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeLineFromMapWithProcessor() {
     $writer= $this->newWriter();
     $writer->setProcessor(1, new FormatDate('d.m.Y'));

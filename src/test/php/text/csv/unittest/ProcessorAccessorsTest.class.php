@@ -2,7 +2,7 @@
 
 use text\csv\AbstractCsvProcessor;
 use text\csv\processors\constraint\{Optional, Required};
-use unittest\TestCase;
+use unittest\{Test, TestCase};
 
 class ProcessorAccessorsTest extends TestCase {
   protected $fixture= null;
@@ -12,26 +12,26 @@ class ProcessorAccessorsTest extends TestCase {
     $this->fixture= new class() extends AbstractCsvProcessor { };
   }
   
-  #[@test]
+  #[Test]
   public function setProcessors() {
     $processors= [new Optional(), new Required()];
     $this->fixture->setProcessors($processors);
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
-  #[@test]
+  #[Test]
   public function withProcessors() {
     $processors= [new Optional(), new Required()];
     $this->fixture->withProcessors($processors);
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
-  #[@test]
+  #[Test]
   public function withProcessors_returns_fixture() {
     $this->assertEquals($this->fixture, $this->fixture->withProcessors([]));
   }
 
-  #[@test]
+  #[Test]
   public function addProcessor() {
     $processors= [new Optional(), new Required()];
     $this->fixture->addProcessor($processors[0]);
@@ -39,7 +39,7 @@ class ProcessorAccessorsTest extends TestCase {
     $this->assertEquals($processors, $this->fixture->getProcessors());
   }
 
-  #[@test]
+  #[Test]
   public function addProcessor_returns_added_processor() {
     $processor= new Optional();
     $this->assertEquals($processor, $this->fixture->addProcessor($processor));

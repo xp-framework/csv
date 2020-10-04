@@ -3,6 +3,7 @@
 use io\streams\{MemoryInputStream, TextReader};
 use lang\XPClass;
 use text\csv\CsvBeanReader;
+use unittest\Test;
 
 /**
  * TestCase
@@ -22,7 +23,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     return new CsvBeanReader(new TextReader(new MemoryInputStream($str)), $class);
   }
 
-  #[@test]
+  #[Test]
   public function readPerson() {
     $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
@@ -31,7 +32,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readPersonReSorted() {
     $in= $this->newReader('friebe@example.com;1549;Timm', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
@@ -40,7 +41,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readPersonCompletely() {
     $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
@@ -49,7 +50,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readPersonPartially() {
     $in= $this->newReader('1549;Timm;friebe@example.com', XPClass::forName('text.csv.unittest.Person'));
     $this->assertEquals(
@@ -58,7 +59,7 @@ class CsvBeanReaderTest extends \unittest\TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function readEmpty() {
     $in= $this->newReader('', XPClass::forName('text.csv.unittest.Person'));
     $this->assertNull($in->read(['id', 'name', 'email']));

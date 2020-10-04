@@ -2,7 +2,7 @@
 
 use io\streams\MemoryOutputStream;
 use text\csv\CsvMapWriter;
-use unittest\TestCase;
+use unittest\{Test, TestCase};
 
 /**
  * TestCase
@@ -23,13 +23,13 @@ class CsvMapWriterTest extends TestCase {
     return new CsvMapWriter(new \io\streams\TextWriter($this->out), $format);
   }
 
-  #[@test]
+  #[Test]
   public function writeRecord() {
     $this->newWriter()->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com']);
     $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeRecordWithHeaders() {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
@@ -37,7 +37,7 @@ class CsvMapWriterTest extends TestCase {
     $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeUnorderedRecordWithHeaders() {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
@@ -46,7 +46,7 @@ class CsvMapWriterTest extends TestCase {
   }
 
 
-  #[@test]
+  #[Test]
   public function writeIncompleteRecordWithHeaders() {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
@@ -54,7 +54,7 @@ class CsvMapWriterTest extends TestCase {
     $this->assertEquals("id;name;email\n1549;;friebe@example.com\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeEmptyRecordWithHeaders() {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
@@ -62,7 +62,7 @@ class CsvMapWriterTest extends TestCase {
     $this->assertEquals("id;name;email\n;;\n", $this->out->getBytes());
   }
 
-  #[@test]
+  #[Test]
   public function writeRecordWithExtraDataWithHeaders() {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
