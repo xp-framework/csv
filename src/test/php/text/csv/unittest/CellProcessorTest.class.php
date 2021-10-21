@@ -138,7 +138,7 @@ class CellProcessorTest extends \unittest\TestCase {
       null
     ]);
     $writer->write([new Date('2009-09-09 15:45'), 'Order placed']);
-    $this->assertEquals("2009-09-09 15:45;Order placed\n", $this->out->getBytes());
+    $this->assertEquals("2009-09-09 15:45;Order placed\n", $this->out->bytes());
   }
 
   #[Test, Expect(FormatException::class)]
@@ -165,7 +165,7 @@ class CellProcessorTest extends \unittest\TestCase {
       null
     ]);
     $writer->write([null, 'Order placed']);
-    $this->assertEquals($now->toString('Y-m-d H:i').";Order placed\n", $this->out->getBytes());
+    $this->assertEquals($now->toString('Y-m-d H:i').";Order placed\n", $this->out->bytes());
   }
 
   #[Test]
@@ -237,7 +237,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatBool()
     ]);
     $writer->write(['A', true]);
-    $this->assertEquals("A;true\n", $this->out->getBytes());
+    $this->assertEquals("A;true\n", $this->out->bytes());
   }
 
   #[Test]
@@ -247,7 +247,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatBool('Y', 'N')
     ]);
     $writer->write(['A', true]);
-    $this->assertEquals("A;Y\n", $this->out->getBytes());
+    $this->assertEquals("A;Y\n", $this->out->bytes());
   }
 
   #[Test]
@@ -257,7 +257,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatBool()
     ]);
     $writer->write(['A', false]);
-    $this->assertEquals("A;false\n", $this->out->getBytes());
+    $this->assertEquals("A;false\n", $this->out->bytes());
   }
 
   #[Test]
@@ -267,7 +267,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatBool('Y', 'N')
     ]);
     $writer->write(['A', false]);
-    $this->assertEquals("A;N\n", $this->out->getBytes());
+    $this->assertEquals("A;N\n", $this->out->bytes());
   }
 
   #[Test]
@@ -306,7 +306,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new FormatEnum()
     ]);
     $writer->write(['200', Coin::$penny]);
-    $this->assertEquals("200;penny\n", $this->out->getBytes());
+    $this->assertEquals("200;penny\n", $this->out->bytes());
   }
 
   #[Test, Expect(FormatException::class)]
@@ -324,7 +324,7 @@ class CellProcessorTest extends \unittest\TestCase {
       (new FormatNumber())->withFormat(2, ',', "'")
     ]);
     $writer->write([3.75, 10000000.5]);
-    $this->assertEquals("3.75000;10'000'000,50\n", $this->out->getBytes());
+    $this->assertEquals("3.75000;10'000'000,50\n", $this->out->bytes());
   }
 
   #[Test]
@@ -333,7 +333,7 @@ class CellProcessorTest extends \unittest\TestCase {
       (new FormatNumber())->withFormat(2, '.')
     ]);
     $writer->write([null]);
-    $this->assertEquals("0.00\n", $this->out->getBytes());
+    $this->assertEquals("0.00\n", $this->out->bytes());
   }
 
   #[Test, Expect(FormatException::class)]
@@ -376,7 +376,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new Optional(),
       null
     ])->write(['A', 'Test']);
-    $this->assertEquals("A;Test\n", $this->out->getBytes());
+    $this->assertEquals("A;Test\n", $this->out->bytes());
   }
 
   #[Test]
@@ -385,7 +385,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new Optional(),
       null
     ])->write(['', 'Test']);
-    $this->assertEquals(";Test\n", $this->out->getBytes());
+    $this->assertEquals(";Test\n", $this->out->bytes());
   }
 
   #[Test]
@@ -394,7 +394,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new Optional(),
       null
     ])->write([null, 'Test']);
-    $this->assertEquals(";Test\n", $this->out->getBytes());
+    $this->assertEquals(";Test\n", $this->out->bytes());
   }
 
   #[Test]
@@ -403,7 +403,7 @@ class CellProcessorTest extends \unittest\TestCase {
       (new Optional())->withDefault('(unknown)'),
       null
     ])->write(['', 'Test']);
-    $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
+    $this->assertEquals("(unknown);Test\n", $this->out->bytes());
   }
 
   #[Test]
@@ -412,7 +412,7 @@ class CellProcessorTest extends \unittest\TestCase {
       (new Optional())->withDefault('(unknown)'),
       null
     ])->write([null, 'Test']);
-    $this->assertEquals("(unknown);Test\n", $this->out->getBytes());
+    $this->assertEquals("(unknown);Test\n", $this->out->bytes());
   }
 
   #[Test]
@@ -438,7 +438,7 @@ class CellProcessorTest extends \unittest\TestCase {
       new Required(),
       null
     ])->write(['A', 'B']);
-    $this->assertEquals("A;B\n", $this->out->getBytes());
+    $this->assertEquals("A;B\n", $this->out->bytes());
   }
 
   #[Test, Expect(FormatException::class)]
@@ -493,7 +493,7 @@ class CellProcessorTest extends \unittest\TestCase {
       $this->fail('Duplicate value not detected', null, 'lang.FormatException');
     } catch (FormatException $expected) { }
 
-    $this->assertEquals("200;OK\n", $this->out->getBytes());
+    $this->assertEquals("200;OK\n", $this->out->bytes());
   }
   
   /**
@@ -558,7 +558,7 @@ class CellProcessorTest extends \unittest\TestCase {
     } catch (FormatException $expected) { }
 
     $writer->write(['404', 'Not found']);
-    $this->assertEquals("404;Not found\n", $this->out->getBytes());
+    $this->assertEquals("404;Not found\n", $this->out->bytes());
   }
 
   #[Test]
@@ -574,6 +574,6 @@ class CellProcessorTest extends \unittest\TestCase {
     } catch (FormatException $expected) { }
 
     $writer->write(['404', 'Not found']);
-    $this->assertEquals("404;Not found\n", $this->out->getBytes());
+    $this->assertEquals("404;Not found\n", $this->out->bytes());
   }
 }

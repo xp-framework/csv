@@ -26,7 +26,7 @@ class CsvMapWriterTest extends TestCase {
   #[Test]
   public function writeRecord() {
     $this->newWriter()->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com']);
-    $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->bytes());
   }
 
   #[Test]
@@ -34,7 +34,7 @@ class CsvMapWriterTest extends TestCase {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
     $out->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com']);
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->bytes());
   }
 
   #[Test]
@@ -42,7 +42,7 @@ class CsvMapWriterTest extends TestCase {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
     $out->write(['email' => 'friebe@example.com', 'name' => 'Timm', 'id' => 1549]);
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->bytes());
   }
 
 
@@ -51,7 +51,7 @@ class CsvMapWriterTest extends TestCase {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
     $out->write(['id' => 1549, 'email' => 'friebe@example.com']);
-    $this->assertEquals("id;name;email\n1549;;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("id;name;email\n1549;;friebe@example.com\n", $this->out->bytes());
   }
 
   #[Test]
@@ -59,7 +59,7 @@ class CsvMapWriterTest extends TestCase {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
     $out->write([]);
-    $this->assertEquals("id;name;email\n;;\n", $this->out->getBytes());
+    $this->assertEquals("id;name;email\n;;\n", $this->out->bytes());
   }
 
   #[Test]
@@ -67,6 +67,6 @@ class CsvMapWriterTest extends TestCase {
     $out= $this->newWriter();
     $out->setHeaders(['id', 'name', 'email']);
     $out->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com', 'extra' => 'WILL_NOT_APPEAR']);
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $this->out->bytes());
   }
 }

@@ -28,13 +28,13 @@ class CsvListWriterTest extends TestCase {
   #[Test]
   public function writeLine() {
     $this->newWriter()->write(['Timm', 'Karlsruhe', '76137']);
-    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeEmptyValue() {
     $this->newWriter()->write(['Timm', '', '76137']);
-    $this->assertEquals("Timm;;76137\n", $this->out->getBytes());
+    $this->assertEquals("Timm;;76137\n", $this->out->bytes());
   }
 
   #[Test]
@@ -42,7 +42,7 @@ class CsvListWriterTest extends TestCase {
     $writer= $this->newWriter();
     $writer->setHeaders(['name', 'city', 'zip']);
     $writer->write(['Timm', 'Karlsruhe', '76137']);
-    $this->assertEquals("name;city;zip\nTimm;Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("name;city;zip\nTimm;Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test, Expect(IllegalStateException::class)]
@@ -55,55 +55,55 @@ class CsvListWriterTest extends TestCase {
   #[Test]
   public function writeUnixMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\nKarlsruhe\nGermany"]);
-    $this->assertEquals("Timm;'76137\nKarlsruhe\nGermany'\n", $this->out->getBytes());
+    $this->assertEquals("Timm;'76137\nKarlsruhe\nGermany'\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeMacMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\rKarlsruhe\rGermany"]);
-    $this->assertEquals("Timm;'76137\rKarlsruhe\rGermany'\n", $this->out->getBytes());
+    $this->assertEquals("Timm;'76137\rKarlsruhe\rGermany'\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeWindowsMultiLineValue() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm', "76137\r\nKarlsruhe\r\nGermany"]);
-    $this->assertEquals("Timm;'76137\r\nKarlsruhe\r\nGermany'\n", $this->out->getBytes());
+    $this->assertEquals("Timm;'76137\r\nKarlsruhe\r\nGermany'\n", $this->out->bytes());
   }
 
   #[Test]
   public function valueWithDelimiterIsQuoted() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(['Timm;Friebe', 'Karlsruhe', '76137']);
-    $this->assertEquals("'Timm;Friebe';Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("'Timm;Friebe';Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function delimiterIsQuoted() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write([';', 'Karlsruhe', '76137']);
-    $this->assertEquals("';';Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("';';Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function quotesAroundValueAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["'Hello'", 'Karlsruhe', '76137']);
-    $this->assertEquals("'''Hello''';Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("'''Hello''';Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function quotesInsideValueAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["He said 'Hello' to me", 'Karlsruhe', '76137']);
-    $this->assertEquals("'He said ''Hello'' to me';Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("'He said ''Hello'' to me';Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function quotesAroundEmptyAreEscaped() {
     $this->newWriter((new CsvFormat())->withQuote("'"))->write(["''", 'Karlsruhe', '76137']);
-    $this->assertEquals("'''''';Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("'''''';Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeLineFromMap() {
     $this->newWriter()->write(['name' => 'Timm', 'city' => 'Karlsruhe', 'zip' => '76137']);
-    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
@@ -111,6 +111,6 @@ class CsvListWriterTest extends TestCase {
     $writer= $this->newWriter();
     $writer->setProcessor(1, new FormatDate('d.m.Y'));
     $writer->write(['id' => 1, 'date' => new \util\Date('2012-02-10')]);
-    $this->assertEquals("1;10.02.2012\n", $this->out->getBytes());
+    $this->assertEquals("1;10.02.2012\n", $this->out->bytes());
   }
 }

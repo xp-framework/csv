@@ -39,9 +39,9 @@ class FormatNumber extends CellProcessor {
    * @throws  lang.FormatException
    */
   public function process($in) {
-    if (!(null === $in || is_numeric($in))) {
+    if (null !== $in && !is_numeric($in)) {
       throw new FormatException('Cannot format non-number '.Objects::stringOf($in));
     }
-    return $this->proceed(number_format($in, $this->decimals, $this->decimalPoint, $this->thousandsSeparator));
+    return $this->proceed(number_format((float)$in, $this->decimals, $this->decimalPoint, $this->thousandsSeparator));
   }
 }

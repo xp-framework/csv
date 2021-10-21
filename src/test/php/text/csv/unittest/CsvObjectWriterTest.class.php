@@ -26,30 +26,30 @@ class CsvObjectWriterTest extends TestCase {
   #[Test]
   public function writePerson() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'));
-    $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->getBytes());
+    $this->assertEquals("1549;Timm;friebe@example.com\n", $this->out->bytes());
   }
 
   #[Test]
   public function writePersonReSorted() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['email', 'id', 'name']);
-    $this->assertEquals("friebe@example.com;1549;Timm\n", $this->out->getBytes());
+    $this->assertEquals("friebe@example.com;1549;Timm\n", $this->out->bytes());
   }
 
   #[Test]
   public function writePersonPartially() {
     $this->newWriter()->write(new Person(1549, 'Timm', 'friebe@example.com'), ['id', 'name']);
-    $this->assertEquals("1549;Timm\n", $this->out->getBytes());
+    $this->assertEquals("1549;Timm\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeAddress() {
     $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'));
-    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("Timm;Karlsruhe;76137\n", $this->out->bytes());
   }
 
   #[Test]
   public function writeAddressPartially() {
     $this->newWriter()->write(new Address('Timm', 'Karlsruhe', '76137'), ['city', 'zip']);
-    $this->assertEquals("Karlsruhe;76137\n", $this->out->getBytes());
+    $this->assertEquals("Karlsruhe;76137\n", $this->out->bytes());
   }
 }
