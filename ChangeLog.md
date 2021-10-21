@@ -3,6 +3,13 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 10.0.0 / 2020-10-21
+
+* Implemented xp-framework/rfc#341, dropping compatibility with XP 9
+  (@thekid)
+* Made compatible with PHP 8.1 - add `ReturnTypeWillChange` attributes to
+  iterator, see https://wiki.php.net/rfc/internal_method_return_types
+
 ## 9.0.0 / 2020-04-10
 
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
