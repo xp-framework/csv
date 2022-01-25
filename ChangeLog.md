@@ -14,7 +14,7 @@ CSV File handling for the XP Framework ChangeLog
 * Changed all CSV writers to accept `io.streams.OutputStream`, `io.Channel`
   as well as `io.streams.TextWriter` instances
   (@thekid)
-* Merged PR #2: Make CsvReader and CsvWriter closeable - @thekid
+* Merged PR #3: Make CsvReader and CsvWriter closeable - @thekid
 
 ## 10.0.0 / 2021-10-21
 
