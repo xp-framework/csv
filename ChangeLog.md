@@ -3,6 +3,8 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Merged PR #2: Make CsvReader and CsvWriter closeable - @thekid
+
 ## 10.0.0 / 2020-10-21
 
 * Implemented xp-framework/rfc#341, dropping compatibility with XP 9
