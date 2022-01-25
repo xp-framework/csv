@@ -1,21 +1,21 @@
 <?php namespace text\csv\unittest;
 
 use io\streams\{MemoryInputStream, TextReader};
+use lang\XPClass;
 use text\csv\CsvObjectReader;
 use unittest\Test;
-use lang\XPClass;
 
 class CsvObjectReaderTest extends CsvReaderTest {
 
   /**
    * Creates a new CSV reader fixture
    *
-   * @param  io.streams.InputStream $stream
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvReader
    */
-  protected function newFixture($stream, $format= null) {
-    return new CsvObjectReader(new TextReader($stream), new XPClass(Person::class), $format);
+  protected function newFixture($in, $format= null) {
+    return new CsvObjectReader($in, new XPClass(Person::class), $format);
   }
 
   #[Test]

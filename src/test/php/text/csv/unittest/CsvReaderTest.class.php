@@ -1,6 +1,7 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\{InputStream, MemoryInputStream};
+use io\Channel;
+use io\streams\{InputStream, MemoryInputStream, TextReader};
 use unittest\{Test, TestCase};
 
 abstract class CsvReaderTest extends TestCase {
@@ -8,15 +9,33 @@ abstract class CsvReaderTest extends TestCase {
   /**
    * Creates a new CSV reader fixture
    *
-   * @param  io.streams.InputStream $stream
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvReader
    */
-  protected abstract function newFixture($stream, $format= null);
+  protected abstract function newFixture($in, $format= null);
 
   #[Test]
-  public function can_create() {
+  public function can_create_from_channel() {
+    $this->newFixture(new class() implements Channel {
+      public function in() { return new MemoryInputStream(''); }
+      public function out() { /** NOOP */ }
+    });
+  }
+
+  #[Test]
+  public function can_create_from_stream() {
     $this->newFixture(new MemoryInputStream(''));
+  }
+
+  #[Test]
+  public function can_create_from_reader() {
+    $this->newFixture(new TextReader(new MemoryInputStream('')));
+  }
+
+  #[Test]
+  public function can_create_from_string() {
+    $this->newFixture('');
   }
 
   #[Test]

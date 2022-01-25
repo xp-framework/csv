@@ -1,6 +1,6 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\{MemoryOutputStream, TextWriter};
+use io\streams\MemoryOutputStream;
 use text\csv\{CsvBeanWriter, CsvFormat};
 use unittest\Test;
 
@@ -9,12 +9,12 @@ class CsvBeanWriterTest extends CsvWriterTest {
   /**
    * Creates a new CSV writer fixture
    *
-   * @param  io.streams.OutputStream $stream
+   * @param  io.streams.Writer|io.streams.OutputStream|io.Channel|string $out
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvWriter
    */
-  protected function newFixture($stream, $format= null) {
-    return new CsvBeanWriter(new TextWriter($stream), $format);
+  protected function newFixture($out, $format= null) {
+    return new CsvBeanWriter($out, $format);
   }
 
   #[Test]

@@ -15,12 +15,12 @@ class CsvMapReader extends CsvReader {
    * Creates a new CSV reader reading data from a given TextReader
    * creating Beans for a given class.
    *
-   * @param   io.streams.TextReader reader
-   * @param   string[] keys
-   * @param   text.csv.CsvFormat format
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
+   * @param  string[] $keys
+   * @param  text.csv.CsvFormat $format
    */
-  public function  __construct(TextReader $reader, array $keys= [], CsvFormat $format= null) {
-    parent::__construct($reader, $format);
+  public function  __construct($in, array $keys= [], CsvFormat $format= null) {
+    parent::__construct($in, $format);
     $this->keys= $keys;
   }
   

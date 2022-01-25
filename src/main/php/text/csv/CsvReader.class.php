@@ -1,14 +1,14 @@
 <?php namespace text\csv;
 
-use io\streams\TextReader;
+use io\streams\{Reader, StringReader};
 use lang\{FormatException, IllegalStateException, Closeable, Throwable};
 
 /**
  * Abstract base class
  *
- * @see   xp://text.csv.CsvListReader
- * @see   xp://text.csv.CsvObjectReader
- * @see   xp://text.csv.CsvBeanReader
+ * @see  text.csv.CsvListReader
+ * @see  text.csv.CsvObjectReader
+ * @see  text.csv.CsvBeanReader
  */
 abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
   const WHITESPACE= " \t";
@@ -19,13 +19,13 @@ abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
   protected $line= 0;
 
   /**
-   * Creates a new CSV reader reading data from a given TextReader
+   * Creates a new CSV reader reading data
    *
-   * @param   io.streams.TextReader reader
-   * @param   text.csv.CsvFormat format
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
+   * @param  text.csv.CsvFormat $format
    */
-  public function  __construct(TextReader $reader, CsvFormat $format= null) {
-    $this->reader= $reader;
+  public function  __construct($in, CsvFormat $format= null) {
+    $this->reader= $in instanceof Reader ? $in : new StringReader($in);
     with ($f= $format ?: CsvFormat::$DEFAULT); {
       $this->delimiter= $f->getDelimiter();
       $this->quote= $f->getQuote();

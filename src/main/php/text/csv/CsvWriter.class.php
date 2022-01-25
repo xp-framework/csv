@@ -1,14 +1,14 @@
 <?php namespace text\csv;
 
-use io\streams\TextWriter;
+use io\streams\{Writer, StringWriter};
 use lang\{FormatException, IllegalStateException, Throwable, Closeable};
 
 /**
  * Abstract base class
  *
- * @see   xp://text.csv.CsvListWriter
- * @see   xp://text.csv.CsvObjectWriter
- * @see   xp://text.csv.CsvBeanWriter
+ * @see  text.csv.CsvListWriter
+ * @see  text.csv.CsvObjectWriter
+ * @see  text.csv.CsvBeanWriter
  */
 abstract class CsvWriter extends AbstractCsvProcessor implements Closeable {
   protected $writer= null;
@@ -16,13 +16,13 @@ abstract class CsvWriter extends AbstractCsvProcessor implements Closeable {
   protected $line= 0;
 
   /**
-   * Creates a new CSV writer writing data to a given TextWriter
+   * Creates a new CSV writer writing data
    *
-   * @param   io.streams.TextWriter writer
-   * @param   text.csv.CsvFormat format
+   * @param  io.streams.Writer|io.streams.OutputStream|io.Channel|string $out
+   * @param  text.csv.CsvFormat $format
    */
-  public function  __construct(TextWriter $writer, CsvFormat $format= null) {
-    $this->writer= $writer;
+  public function  __construct($out, CsvFormat $format= null) {
+    $this->writer= $out instanceof Writer ? $out : new StringWriter($out);
     $this->format= $format ? $format : CsvFormat::$DEFAULT;
   }
 

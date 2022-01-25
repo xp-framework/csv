@@ -10,12 +10,12 @@ class CsvListReaderTest extends CsvReaderTest {
   /**
    * Creates a new CSV reader fixture
    *
-   * @param  io.streams.InputStream $stream
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvReader
    */
-  protected function newFixture($stream, $format= null) {
-    return new CsvListReader(new TextReader($stream), $format);
+  protected function newFixture($in, $format= null) {
+    return new CsvListReader($in, $format);
   }
 
   #[Test]

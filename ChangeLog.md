@@ -3,6 +3,12 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Changed all CSV readers to accept `io.streams.InputStream`, `io.Channel`
+  as well as `io.streams.TextReader` instances
+  (@thekid)
+* Changed all CSV writers to accept `io.streams.OutputStream`, `io.Channel`
+  as well as `io.streams.TextWriter` instances
+  (@thekid)
 * Merged PR #2: Make CsvReader and CsvWriter closeable - @thekid
 
 ## 10.0.0 / 2020-10-21

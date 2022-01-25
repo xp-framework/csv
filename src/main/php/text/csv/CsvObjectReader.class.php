@@ -30,12 +30,12 @@ class CsvObjectReader extends CsvReader {
    * Creates a new CSV reader reading data from a given TextReader
    * creating objects for a given class.
    *
-   * @param   io.streams.TextReader reader
-   * @param   lang.XPClass class
-   * @param   text.csv.CsvFormat format
+   * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
+   * @param  lang.XPClass $class
+   * @param  text.csv.CsvFormat $format
    */
-  public function  __construct(TextReader $reader, XPClass $class, CsvFormat $format= null) {
-    parent::__construct($reader, $format);
+  public function  __construct($in, XPClass $class, CsvFormat $format= null) {
+    parent::__construct($in, $format);
     $this->class= $class;
   }
   

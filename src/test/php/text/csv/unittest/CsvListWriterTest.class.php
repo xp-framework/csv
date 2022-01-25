@@ -1,6 +1,6 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\{MemoryOutputStream, TextWriter};
+use io\streams\MemoryOutputStream;
 use lang\IllegalStateException;
 use text\csv\processors\FormatDate;
 use text\csv\{CsvFormat, CsvListWriter};
@@ -11,12 +11,12 @@ class CsvListWriterTest extends CsvWriterTest {
   /**
    * Creates a new CSV writer fixture
    *
-   * @param  io.streams.OutputStream $stream
+   * @param  io.streams.Writer|io.streams.OutputStream|io.Channel|string $out
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvWriter
    */
-  protected function newFixture($stream, $format= null) {
-    return new CsvListWriter(new TextWriter($stream), $format);
+  protected function newFixture($out, $format= null) {
+    return new CsvListWriter($out, $format);
   }
 
   #[Test]

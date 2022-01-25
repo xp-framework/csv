@@ -1,6 +1,7 @@
 <?php namespace text\csv\unittest;
 
-use io\streams\{OutputStream, MemoryOutputStream};
+use io\Channel;
+use io\streams\{OutputStream, MemoryOutputStream, TextWriter};
 use unittest\{Test, TestCase};
 
 abstract class CsvWriterTest extends TestCase {
@@ -8,15 +9,33 @@ abstract class CsvWriterTest extends TestCase {
   /**
    * Creates a new CSV writer fixture
    *
-   * @param  io.streams.OutputStream $stream
+   * @param  io.streams.Writer|io.streams.OutputStream|io.Channel|string $out
    * @param  text.csv.CsvFormat $format
    * @return text.csv.CsvWriter
    */
-  protected abstract function newFixture($stream, $format= null);
+  protected abstract function newFixture($out, $format= null);
 
   #[Test]
-  public function can_create() {
-    $this->newFixture(new MemoryOutputStream());
+  public function can_create_from_channel() {
+    $this->newFixture(new class() implements Channel {
+      public function in() { /** NOOP */ }
+      public function out() { return new MemoryOutputStream(''); }
+    });
+  }
+
+  #[Test]
+  public function can_create_from_stream() {
+    $this->newFixture(new MemoryOutputStream(''));
+  }
+
+  #[Test]
+  public function can_create_from_writer() {
+    $this->newFixture(new TextWriter(new MemoryOutputStream('')));
+  }
+
+  #[Test]
+  public function can_create_from_string() {
+    $this->newFixture('');
   }
 
   #[Test]
