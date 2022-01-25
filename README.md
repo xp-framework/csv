@@ -11,21 +11,22 @@ CSV File handling for the XP Framework
 Contains the XP Framework's CSV API
 
 Reading
-------
-CSV data can be read off any input stream. Character set decoding is accomplished by passing a charset to TextReader, or `null` to use auto-detection.
+-------
+CSV data can be read off any input stream, reader or channel:
 
 ```php
+use util\cmd\Console;
 use text\csv\CsvListReader;
-use io\streams\{TextReader, FileInputStream};
+use io\streams\FileInputStream;
 
-$in= new CsvListReader(new TextReader(new FileInputStream('in.csv')));
+$csv= new CsvListReader(new FileInputStream('in.csv'));
+Console::writeLine($csv->getHeaders());
 
-Console::writeLine($in->getHeaders());
-while ($record= $in->read()) {
+while ($record= $csv->read()) {
   Console::writeLine('- ', $record);
 }
 
-$in->close();
+$csv->close();
 ```
 
 Writing
@@ -33,16 +34,33 @@ Writing
 CSV data can be written to any output stream. Character set encoding is accomplished by passing a charset to TextWriter.
 
 ```php
+use util\cmd\Console;
 use text\csv\CsvListWriter;
-use io\streams\{TextWriter, FileOutputStream};
+use io\streams\FileOutputStream;
 
-$out= new CsvListWriter(new TextWriter(new FileOutputStream('out.csv')));
+$csv= new CsvListWriter(new FileOutputStream('out.csv'));
 
-$out->setHeader(['name', 'city', 'zip']);
-$out->write(['Timm', 'Karlsruhe', 76137]);
-$out->write(['Alex', 'Karlsruhe', 76131]);
+$csv->setHeader(['name', 'city', 'zip']);
+$csv->write(['Timm', 'Karlsruhe', 76137]);
+$csv->write(['Alex', 'Karlsruhe', 76131]);
 
-$out->close();
+$csv->close();
+```
+
+Character set conversion
+------------------------
+Character set decoding is accomplished by passing a TextReader or TextWriter instance with a given character set:
+
+```php
+use util\cmd\Console;
+use text\csv\{CsvListReader, CsvListWriter};
+use io\streams\{FileInputStream, FileOutputStream, TextReader, TextWriter};
+
+// Read from in.csv, which is in cp1252
+$in= new CsvListReader(new TextReader(new FileInputStream('in.csv'), 'cp1252'));
+
+// Write to out.csv, converting everything to cp1252
+$out= new CsvListWriter(new TextWriter(new FileOutputStream('out.csv'), 'cp1252'));
 ```
 
 Format
