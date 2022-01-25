@@ -15,7 +15,7 @@ class CsvBeanReaderTest extends CsvReaderTest {
    * @return text.csv.CsvBeanReader
    */
   protected function newFixture($in, $format= null) {
-    return new CsvBeanReader($in, new XPClass(Person::class), $format);
+    return new CsvBeanReader($in, Person::class, $format);
   }
 
   #[Test]

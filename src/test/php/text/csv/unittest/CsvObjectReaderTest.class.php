@@ -15,7 +15,7 @@ class CsvObjectReaderTest extends CsvReaderTest {
    * @return text.csv.CsvReader
    */
   protected function newFixture($in, $format= null) {
-    return new CsvObjectReader($in, new XPClass(Person::class), $format);
+    return new CsvObjectReader($in, Person::class, $format);
   }
 
   #[Test]

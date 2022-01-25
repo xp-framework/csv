@@ -31,12 +31,12 @@ class CsvObjectReader extends CsvReader {
    * creating objects for a given class.
    *
    * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
-   * @param  lang.XPClass $class
+   * @param  string|lang.XPClass $class
    * @param  text.csv.CsvFormat $format
    */
-  public function  __construct($in, XPClass $class, CsvFormat $format= null) {
+  public function  __construct($in, $class, CsvFormat $format= null) {
     parent::__construct($in, $format);
-    $this->class= $class;
+    $this->class= $class instanceof XPClass ? $class : XPClass::forName($class);
   }
   
   /**

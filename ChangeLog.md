@@ -3,6 +3,9 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Made object and bean readers accept class names along with `lang.XPClass`
+  instances
+  (@thekid)
 * Changed all CSV readers to accept `io.streams.InputStream`, `io.Channel`
   as well as `io.streams.TextReader` instances
   (@thekid)
@@ -11,7 +14,7 @@ CSV File handling for the XP Framework ChangeLog
   (@thekid)
 * Merged PR #2: Make CsvReader and CsvWriter closeable - @thekid
 
-## 10.0.0 / 2020-10-21
+## 10.0.0 / 2021-10-21
 
 * Implemented xp-framework/rfc#341, dropping compatibility with XP 9
   (@thekid)
