@@ -31,7 +31,7 @@ $csv->close();
 
 Writing
 -------
-CSV data can be written to any output stream. Character set encoding is accomplished by passing a charset to TextWriter.
+CSV data can be written to any output stream, writer or channel:
 
 ```php
 use util\cmd\Console;
@@ -52,7 +52,6 @@ Character set conversion
 Character set decoding is accomplished by passing a TextReader or TextWriter instance with a given character set:
 
 ```php
-use util\cmd\Console;
 use text\csv\{CsvListReader, CsvListWriter};
 use io\streams\{FileInputStream, FileOutputStream, TextReader, TextWriter};
 
@@ -68,6 +67,8 @@ Format
 CSV files usually use the semi-colon to separate values. Depending on the file we're parsing, this might be a different character. Both readers and writers accept an optional second parameter with which the format can be changed.
 
 ```php
+use text\csv\{CsvFormat, CsvListReader, CsvListWriter};
+
 $format= (new CsvFormat())->withDelimiter(',');
 $format= CsvFormat::$COMMAS;    // Short-hand for the above
 
