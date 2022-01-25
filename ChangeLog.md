@@ -3,6 +3,8 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 10.1.0 / 2022-01-25
+
 * Made object and bean readers accept class names along with `lang.XPClass`
   instances
   (@thekid)
