@@ -1,7 +1,7 @@
 <?php namespace text\csv;
 
 use io\streams\TextWriter;
-use lang\{FormatException, IllegalStateException, Throwable};
+use lang\{FormatException, IllegalStateException, Throwable, Closeable};
 
 /**
  * Abstract base class
@@ -10,7 +10,7 @@ use lang\{FormatException, IllegalStateException, Throwable};
  * @see   xp://text.csv.CsvObjectWriter
  * @see   xp://text.csv.CsvBeanWriter
  */
-abstract class CsvWriter extends \text\csv\AbstractCsvProcessor {
+abstract class CsvWriter extends AbstractCsvProcessor implements Closeable {
   protected $writer= null;
   protected $format= null;
   protected $line= 0;
@@ -73,5 +73,10 @@ abstract class CsvWriter extends \text\csv\AbstractCsvProcessor {
     }
     $this->line++;
     $this->writer->writeLine(substr($line, 0, -1));
+  }
+
+  /** @return void */
+  public function close() {
+    $this->writer->close();
   }
 }
