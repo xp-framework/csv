@@ -1,7 +1,7 @@
 <?php namespace text\csv;
 
 use io\streams\TextReader;
-use lang\{FormatException, IllegalStateException, Throwable};
+use lang\{FormatException, IllegalStateException, Closeable, Throwable};
 
 /**
  * Abstract base class
@@ -10,7 +10,7 @@ use lang\{FormatException, IllegalStateException, Throwable};
  * @see   xp://text.csv.CsvObjectReader
  * @see   xp://text.csv.CsvBeanReader
  */
-abstract class CsvReader extends AbstractCsvProcessor {
+abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
   const WHITESPACE= " \t";
 
   protected $reader= null;
@@ -154,4 +154,9 @@ abstract class CsvReader extends AbstractCsvProcessor {
 
   /** @return text.csv.Lines */
   public function lines() { return new Lines($this); }
+
+  /** @return void */
+  public function close() {
+    $this->reader->close();
+  }
 }
