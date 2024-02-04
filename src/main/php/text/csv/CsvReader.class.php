@@ -10,7 +10,7 @@ use lang\{FormatException, IllegalStateException, Closeable, Throwable};
  * @see  text.csv.CsvObjectReader
  * @see  text.csv.CsvBeanReader
  */
-abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
+abstract class CsvReader implements Closeable {
   const WHITESPACE= " \t";
 
   protected $reader= null;
@@ -57,11 +57,10 @@ abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
   /**
    * Reads values
    *
-   * @param   bool raw
    * @return  string[]
    * @throws  lang.FormatException if a formatting error is detected
    */
-  protected function readValues($raw= false) {
+  protected function readValues() {
 
     // Skip over all-empty lines
     do {
@@ -134,17 +133,7 @@ abstract class CsvReader extends AbstractCsvProcessor implements Closeable {
         $value= rtrim(substr($line, $b, $e), self::WHITESPACE);   // Trim trailing WS
       }
       
-      // Run processors
-      if (!$raw && isset($this->processors[$v])) {
-        try {
-          $values[$v]= $this->processors[$v]->process($value);
-        } catch (Throwable $exception) {
-          // Store for later
-        }
-      } else {
-        $values[$v]= $value;
-      }
-      $v++;
+      $values[$v++]= $value;
       $o= $b + $e + 1;
     } while ($o <= $l);
 

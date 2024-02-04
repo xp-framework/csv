@@ -2,10 +2,9 @@
 
 use io\streams\MemoryOutputStream;
 use lang\IllegalStateException;
-use text\csv\processors\FormatDate;
-use text\csv\{CsvFormat, CsvListWriter};
 use test\Assert;
 use test\{Expect, Test};
+use text\csv\{CsvFormat, CsvListWriter};
 
 class CsvListWriterTest extends CsvWriterTest {
 
@@ -116,15 +115,5 @@ class CsvListWriterTest extends CsvWriterTest {
     $this->newFixture($out)->write(['name' => 'Timm', 'city' => 'Karlsruhe', 'zip' => '76137']);
 
     Assert::equals("Timm;Karlsruhe;76137\n", $out->bytes());
-  }
-
-  #[Test]
-  public function write_line_from_map_with_processor() {
-    $out= new MemoryOutputStream();
-    $writer= $this->newFixture($out);
-    $writer->setProcessor(1, new FormatDate('d.m.Y'));
-    $writer->write(['id' => 1, 'date' => new \util\Date('2012-02-10')]);
-
-    Assert::equals("1;10.02.2012\n", $out->bytes());
   }
 }
