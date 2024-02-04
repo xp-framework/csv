@@ -2,7 +2,8 @@
 
 use io\streams\{MemoryInputStream, TextReader};
 use text\csv\CsvMapReader;
-use unittest\{Test, TestCase, Values};
+use test\Assert;
+use test\{Test, TestCase, Values};
 
 class CsvMapReaderTest extends CsvReaderTest {
 
@@ -22,7 +23,7 @@ class CsvMapReaderTest extends CsvReaderTest {
     with ($keys= ['id', 'name', 'email']); {
       $in= $this->newFixture(new MemoryInputStream(''));
       $in->setKeys($keys);
-      $this->assertEquals($keys, $in->getKeys());
+      Assert::equals($keys, $in->getKeys());
     }
   }
 
@@ -30,15 +31,15 @@ class CsvMapReaderTest extends CsvReaderTest {
   public function with_keys() {
     with ($keys= ['id', 'name', 'email']); {
       $in= $this->newFixture(new MemoryInputStream(''));
-      $this->assertEquals($in, $in->withKeys($keys));
-      $this->assertEquals($keys, $in->getKeys());
+      Assert::equals($in, $in->withKeys($keys));
+      Assert::equals($keys, $in->getKeys());
     }
   }
 
   #[Test]
   public function read_record() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm;friebe@example.com'))->withKeys(['id', 'name', 'email']);
-    $this->assertEquals(
+    Assert::equals(
       ['id' => '1549', 'name' => 'Timm', 'email' => 'friebe@example.com'],
       $in->read()
     );
@@ -48,7 +49,7 @@ class CsvMapReaderTest extends CsvReaderTest {
   public function read_record_with_headers() {
     $in= $this->newFixture(new MemoryInputStream("id;name;email\n1549;Timm;friebe@example.com"));
     $in->setKeys($in->getHeaders());
-    $this->assertEquals(
+    Assert::equals(
       ['id' => '1549', 'name' => 'Timm', 'email' => 'friebe@example.com'],
       $in->read()
     );
@@ -57,13 +58,13 @@ class CsvMapReaderTest extends CsvReaderTest {
   #[Test, Values(["", "\n", "\n\n"])]
   public function read_empty($input) {
     $in= $this->newFixture(new MemoryInputStream($input))->withKeys(['id', 'name', 'email']);
-    $this->assertNull($in->read());
+    Assert::null($in->read());
   }
 
   #[Test]
   public function read_record_with_excess() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm;friebe@example.com;WILL_NOT_APPEAR'))->withKeys(['id', 'name', 'email']);
-    $this->assertEquals(
+    Assert::equals(
       ['id' => '1549', 'name' => 'Timm', 'email' => 'friebe@example.com'],
       $in->read()
     );
@@ -72,7 +73,7 @@ class CsvMapReaderTest extends CsvReaderTest {
   #[Test]
   public function read_record_with_underrun() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm'))->withKeys(['id', 'name', 'email']);
-    $this->assertEquals(
+    Assert::equals(
       ['id' => '1549', 'name' => 'Timm', 'email' => null],
       $in->read()
     );
@@ -81,7 +82,7 @@ class CsvMapReaderTest extends CsvReaderTest {
   #[Test]
   public function read_record_after_empty_line() {
     $in= $this->newFixture(new MemoryInputStream("\n1549;Timm"))->withKeys(['id', 'name']);
-    $this->assertEquals(
+    Assert::equals(
       ['id' => '1549', 'name' => 'Timm'],
       $in->read()
     );
@@ -90,7 +91,7 @@ class CsvMapReaderTest extends CsvReaderTest {
   #[Test]
   public function read_records_with_empty_line_in_between() {
     $in= $this->newFixture(new MemoryInputStream("1549;Timm\n1552;Alex"))->withKeys(['id', 'name']);
-    $this->assertEquals(
+    Assert::equals(
       [['id' => '1549', 'name' => 'Timm'], ['id' => '1552', 'name' => 'Alex']],
       [$in->read(), $in->read()]
     );

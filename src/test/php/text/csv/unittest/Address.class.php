@@ -1,5 +1,4 @@
 <?php namespace text\csv\unittest;
-
 /**
  * Address value object
  */

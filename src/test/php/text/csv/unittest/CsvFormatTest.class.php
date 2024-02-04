@@ -2,83 +2,84 @@
 
 use lang\{IllegalArgumentException, IllegalStateException};
 use text\csv\{CsvFormat, Quoting};
-use unittest\{Expect, Test};
+use test\Assert;
+use test\{Expect, Test};
 
 /**
  * TestCase
  *
  * @see      xp://text.csv.CsvFormat
  */
-class CsvFormatTest extends \unittest\TestCase {
+class CsvFormatTest {
 
   #[Test]
   public function defaultFormat() {
     $format= CsvFormat::$DEFAULT;
-    $this->assertEquals(';', $format->getDelimiter());
-    $this->assertEquals('"', $format->getQuote());
+    Assert::equals(';', $format->getDelimiter());
+    Assert::equals('"', $format->getQuote());
   }
 
   #[Test]
   public function pipesFormat() {
     $format= CsvFormat::$PIPES;
-    $this->assertEquals('|', $format->getDelimiter());
-    $this->assertEquals('"', $format->getQuote());
+    Assert::equals('|', $format->getDelimiter());
+    Assert::equals('"', $format->getQuote());
   }
 
   #[Test]
   public function commasFormat() {
     $format= CsvFormat::$COMMAS;
-    $this->assertEquals(',', $format->getDelimiter());
-    $this->assertEquals('"', $format->getQuote());
+    Assert::equals(',', $format->getDelimiter());
+    Assert::equals('"', $format->getQuote());
   }
 
   #[Test]
   public function tabsFormat() {
     $format= CsvFormat::$TABS;
-    $this->assertEquals("\t", $format->getDelimiter());
-    $this->assertEquals('"', $format->getQuote());
+    Assert::equals("\t", $format->getDelimiter());
+    Assert::equals('"', $format->getQuote());
   }
 
   #[Test]
   public function quoteAccessors() {
     $format= new CsvFormat();
     $format->setQuote('`');
-    $this->assertEquals('`', $format->getQuote());
+    Assert::equals('`', $format->getQuote());
   }
 
   #[Test]
   public function withQuoteAccessor() {
     $format= new CsvFormat();
-    $this->assertEquals($format, $format->withQuote('`'));
-    $this->assertEquals('`', $format->getQuote());
+    Assert::equals($format, $format->withQuote('`'));
+    Assert::equals('`', $format->getQuote());
   }
 
   #[Test]
   public function delimiterAccessors() {
     $format= new CsvFormat();
     $format->setDelimiter(' ');
-    $this->assertEquals(' ', $format->getDelimiter());
+    Assert::equals(' ', $format->getDelimiter());
   }
 
   #[Test]
   public function withDelimiterAccessor() {
     $format= new CsvFormat();
-    $this->assertEquals($format, $format->withDelimiter(' '));
-    $this->assertEquals(' ', $format->getDelimiter());
+    Assert::equals($format, $format->withDelimiter(' '));
+    Assert::equals(' ', $format->getDelimiter());
   }
 
   #[Test]
   public function quotingAccessors() {
     $format= new CsvFormat();
     $format->setQuoting(Quoting::$ALWAYS);
-    $this->assertEquals(Quoting::$ALWAYS, $format->getQuoting());
+    Assert::equals(Quoting::$ALWAYS, $format->getQuoting());
   }
 
   #[Test]
   public function withQuotingAccessor() {
     $format= new CsvFormat();
-    $this->assertEquals($format, $format->withQuoting(Quoting::$ALWAYS));
-    $this->assertEquals(Quoting::$ALWAYS, $format->getQuoting());
+    Assert::equals($format, $format->withQuoting(Quoting::$ALWAYS));
+    Assert::equals(Quoting::$ALWAYS, $format->getQuoting());
   }
 
   #[Test, Expect(IllegalArgumentException::class)]
@@ -109,7 +110,7 @@ class CsvFormatTest extends \unittest\TestCase {
   #[Test]
   public function withDelimiterClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withDelimiter(',');
-    $this->assertFalse($format === CsvFormat::$DEFAULT);
+    Assert::false($format === CsvFormat::$DEFAULT);
   }
 
   #[Test, Expect(IllegalStateException::class)]
@@ -120,7 +121,7 @@ class CsvFormatTest extends \unittest\TestCase {
   #[Test]
   public function withQuoteClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withQuote("'");
-    $this->assertFalse($format === CsvFormat::$DEFAULT);
+    Assert::false($format === CsvFormat::$DEFAULT);
   }
 
   #[Test, Expect(IllegalStateException::class)]
@@ -131,6 +132,6 @@ class CsvFormatTest extends \unittest\TestCase {
   #[Test]
   public function withQuotingClonesDefaults() {
     $format= CsvFormat::$DEFAULT->withQuoting(Quoting::$ALWAYS);
-    $this->assertFalse($format === CsvFormat::$DEFAULT);
+    Assert::false($format === CsvFormat::$DEFAULT);
   }
 }

@@ -1,10 +1,11 @@
 <?php namespace text\csv\unittest;
 
 use io\Channel;
-use io\streams\{OutputStream, MemoryOutputStream, TextWriter};
-use unittest\{Test, TestCase};
+use io\streams\{MemoryOutputStream, OutputStream, TextWriter};
+use test\Assert;
+use test\{Test, TestCase};
 
-abstract class CsvWriterTest extends TestCase {
+abstract class CsvWriterTest {
 
   /**
    * Creates a new CSV writer fixture
@@ -48,6 +49,6 @@ abstract class CsvWriterTest extends TestCase {
     };
     $this->newFixture($out)->close();
 
-    $this->assertTrue($out->closed);
+    Assert::true($out->closed);
   }
 }

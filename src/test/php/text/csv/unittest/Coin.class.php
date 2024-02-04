@@ -1,5 +1,4 @@
 <?php namespace text\csv\unittest;
-
 /**
  * Coin enumeration
  */

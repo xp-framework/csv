@@ -3,7 +3,8 @@
 use io\streams\{MemoryInputStream, TextReader};
 use lang\XPClass;
 use text\csv\CsvBeanReader;
-use unittest\{Test, TestCase};
+use test\Assert;
+use test\{Test, TestCase};
 
 class CsvBeanReaderTest extends CsvReaderTest {
 
@@ -21,7 +22,7 @@ class CsvBeanReaderTest extends CsvReaderTest {
   #[Test]
   public function read_person() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm;friebe@example.com'));
-    $this->assertEquals(
+    Assert::equals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(['id', 'name', 'email'])
     );
@@ -30,7 +31,7 @@ class CsvBeanReaderTest extends CsvReaderTest {
   #[Test]
   public function read_person_resorted() {
     $in= $this->newFixture(new MemoryInputStream('friebe@example.com;1549;Timm'));
-    $this->assertEquals(
+    Assert::equals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read(['email', 'id', 'name'])
     );
@@ -39,7 +40,7 @@ class CsvBeanReaderTest extends CsvReaderTest {
   #[Test]
   public function read_person_completely() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm;friebe@example.com'));
-    $this->assertEquals(
+    Assert::equals(
       new Person('1549', 'Timm', 'friebe@example.com'), 
       $in->read()
     );
@@ -48,7 +49,7 @@ class CsvBeanReaderTest extends CsvReaderTest {
   #[Test]
   public function read_person_partially() {
     $in= $this->newFixture(new MemoryInputStream('1549;Timm;friebe@example.com'));
-    $this->assertEquals(
+    Assert::equals(
       new Person('1549', 'Timm', ''), 
       $in->read(['id', 'name'])
     );
@@ -57,6 +58,6 @@ class CsvBeanReaderTest extends CsvReaderTest {
   #[Test]
   public function read_empty() {
     $in= $this->newFixture(new MemoryInputStream(''));
-    $this->assertNull($in->read(['id', 'name', 'email']));
+    Assert::null($in->read(['id', 'name', 'email']));
   }
 }

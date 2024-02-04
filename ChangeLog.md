@@ -3,6 +3,9 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+* Added PHP 8.3 and 8.4 to the test matrix - @thekid
+* Migrated to new testing library - @thekid
+
 ## 10.1.0 / 2022-01-25
 
 * Made object and bean readers accept class names along with `lang.XPClass`

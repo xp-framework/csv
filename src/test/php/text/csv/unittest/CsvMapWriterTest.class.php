@@ -1,8 +1,9 @@
 <?php namespace text\csv\unittest;
 
 use io\streams\MemoryOutputStream;
-use text\csv\{CsvMapWriter, CsvFormat};
-use unittest\Test;
+use text\csv\{CsvFormat, CsvMapWriter};
+use test\Assert;
+use test\Test;
 
 class CsvMapWriterTest extends CsvWriterTest {
 
@@ -22,7 +23,7 @@ class CsvMapWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com']);
 
-    $this->assertEquals("1549;Timm;friebe@example.com\n", $out->bytes());
+    Assert::equals("1549;Timm;friebe@example.com\n", $out->bytes());
   }
 
   #[Test]
@@ -32,7 +33,7 @@ class CsvMapWriterTest extends CsvWriterTest {
     $fixture->setHeaders(['id', 'name', 'email']);
     $fixture->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com']);
 
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
+    Assert::equals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
   }
 
   #[Test]
@@ -42,7 +43,7 @@ class CsvMapWriterTest extends CsvWriterTest {
     $fixture->setHeaders(['id', 'name', 'email']);
     $fixture->write(['email' => 'friebe@example.com', 'name' => 'Timm', 'id' => 1549]);
 
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
+    Assert::equals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
   }
 
 
@@ -53,7 +54,7 @@ class CsvMapWriterTest extends CsvWriterTest {
     $fixture->setHeaders(['id', 'name', 'email']);
     $fixture->write(['id' => 1549, 'email' => 'friebe@example.com']);
 
-    $this->assertEquals("id;name;email\n1549;;friebe@example.com\n", $out->bytes());
+    Assert::equals("id;name;email\n1549;;friebe@example.com\n", $out->bytes());
   }
 
   #[Test]
@@ -63,7 +64,7 @@ class CsvMapWriterTest extends CsvWriterTest {
     $fixture->setHeaders(['id', 'name', 'email']);
     $fixture->write([]);
 
-    $this->assertEquals("id;name;email\n;;\n", $out->bytes());
+    Assert::equals("id;name;email\n;;\n", $out->bytes());
   }
 
   #[Test]
@@ -73,6 +74,6 @@ class CsvMapWriterTest extends CsvWriterTest {
     $fixture->setHeaders(['id', 'name', 'email']);
     $fixture->write(['id' => 1549, 'name' => 'Timm', 'email' => 'friebe@example.com', 'extra' => 'WILL_NOT_APPEAR']);
 
-    $this->assertEquals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
+    Assert::equals("id;name;email\n1549;Timm;friebe@example.com\n", $out->bytes());
   }
 }

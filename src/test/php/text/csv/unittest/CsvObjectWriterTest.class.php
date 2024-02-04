@@ -2,7 +2,8 @@
 
 use io\streams\MemoryOutputStream;
 use text\csv\{CsvFormat, CsvObjectWriter};
-use unittest\Test;
+use test\Assert;
+use test\Test;
 
 class CsvObjectWriterTest extends CsvWriterTest {
 
@@ -22,7 +23,7 @@ class CsvObjectWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(new Person(1549, 'Timm', 'friebe@example.com'));
 
-    $this->assertEquals("1549;Timm;friebe@example.com\n", $out->bytes());
+    Assert::equals("1549;Timm;friebe@example.com\n", $out->bytes());
   }
 
   #[Test]
@@ -30,7 +31,7 @@ class CsvObjectWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(new Person(1549, 'Timm', 'friebe@example.com'), ['email', 'id', 'name']);
 
-    $this->assertEquals("friebe@example.com;1549;Timm\n", $out->bytes());
+    Assert::equals("friebe@example.com;1549;Timm\n", $out->bytes());
   }
 
   #[Test]
@@ -38,7 +39,7 @@ class CsvObjectWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(new Person(1549, 'Timm', 'friebe@example.com'), ['id', 'name']);
 
-    $this->assertEquals("1549;Timm\n", $out->bytes());
+    Assert::equals("1549;Timm\n", $out->bytes());
   }
 
   #[Test]
@@ -46,7 +47,7 @@ class CsvObjectWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(new Address('Timm', 'Karlsruhe', '76137'));
 
-    $this->assertEquals("Timm;Karlsruhe;76137\n", $out->bytes());
+    Assert::equals("Timm;Karlsruhe;76137\n", $out->bytes());
   }
 
   #[Test]
@@ -54,6 +55,6 @@ class CsvObjectWriterTest extends CsvWriterTest {
     $out= new MemoryOutputStream();
     $this->newFixture($out)->write(new Address('Timm', 'Karlsruhe', '76137'), ['city', 'zip']);
 
-    $this->assertEquals("Karlsruhe;76137\n", $out->bytes());
+    Assert::equals("Karlsruhe;76137\n", $out->bytes());
   }
 }

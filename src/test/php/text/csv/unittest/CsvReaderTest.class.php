@@ -2,9 +2,10 @@
 
 use io\Channel;
 use io\streams\{InputStream, MemoryInputStream, TextReader};
-use unittest\{Test, TestCase};
+use test\Assert;
+use test\{Test, TestCase};
 
-abstract class CsvReaderTest extends TestCase {
+abstract class CsvReaderTest {
 
   /**
    * Creates a new CSV reader fixture
@@ -48,6 +49,6 @@ abstract class CsvReaderTest extends TestCase {
     };
     $this->newFixture($in)->close();
 
-    $this->assertTrue($in->closed);
+    Assert::true($in->closed);
   }
 }
