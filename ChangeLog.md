@@ -3,6 +3,8 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 11.0.0 / 2024-02-04
+
 * Merged PR #5: Remove object I/O: CsvObject & CsvBean reader & writers
   (@thekid)
 * Merged PR #4: Remove processing API - @thekid
