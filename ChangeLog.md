@@ -3,6 +3,8 @@ CSV File handling for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 10.2.0 / 2024-02-04
+
 * Added PHP 8.3 and 8.4 to the test matrix - @thekid
 * Migrated to new testing library - @thekid
 
