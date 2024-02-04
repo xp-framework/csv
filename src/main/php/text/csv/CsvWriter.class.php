@@ -10,7 +10,7 @@ use lang\{FormatException, IllegalStateException, Throwable, Closeable};
  * @see  text.csv.CsvObjectWriter
  * @see  text.csv.CsvBeanWriter
  */
-abstract class CsvWriter extends AbstractCsvProcessor implements Closeable {
+abstract class CsvWriter implements Closeable {
   protected $writer= null;
   protected $format= null;
   protected $line= 0;
@@ -53,22 +53,11 @@ abstract class CsvWriter extends AbstractCsvProcessor implements Closeable {
    * Writes values
    *
    * @param   var[] values
-   * @param   bool raw
    * @throws  lang.FormatException if a formatting error is detected
    */
-  protected function writeValues($values, $raw= false) {
+  protected function writeValues($values) {
     $line= '';
-    $i= 0;
     foreach ($values as $value) {
-      if (!$raw && isset($this->processors[$i])) {
-        try {
-          $value= $this->processors[$i]->process($value);
-        } catch (Throwable $e) {
-          $this->raise($e->getMessage());
-        }
-      }
-      
-      $i++;
       $line.= $this->format->format((string)$value);
     }
     $this->line++;
