@@ -19,11 +19,11 @@ abstract class CsvWriter implements Closeable {
    * Creates a new CSV writer writing data
    *
    * @param  io.streams.Writer|io.streams.OutputStream|io.Channel|string $out
-   * @param  text.csv.CsvFormat $format
+   * @param  ?text.csv.CsvFormat $format
    */
-  public function  __construct($out, CsvFormat $format= null) {
+  public function  __construct($out, $format= null) {
     $this->writer= $out instanceof Writer ? $out : new StringWriter($out);
-    $this->format= $format ? $format : CsvFormat::$DEFAULT;
+    $this->format= $format ?? CsvFormat::$DEFAULT;
   }
 
   /**

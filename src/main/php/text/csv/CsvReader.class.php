@@ -22,14 +22,14 @@ abstract class CsvReader implements Closeable {
    * Creates a new CSV reader reading data
    *
    * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
-   * @param  text.csv.CsvFormat $format
+   * @param  ?text.csv.CsvFormat $format
    */
-  public function  __construct($in, CsvFormat $format= null) {
+  public function  __construct($in, $format= null) {
     $this->reader= $in instanceof Reader ? $in : new StringReader($in);
-    with ($f= $format ?: CsvFormat::$DEFAULT); {
-      $this->delimiter= $f->getDelimiter();
-      $this->quote= $f->getQuote();
-    }
+
+    $format ?? $format= CsvFormat::$DEFAULT;
+    $this->delimiter= $format->getDelimiter();
+    $this->quote= $format->getQuote();
   }
 
   /**

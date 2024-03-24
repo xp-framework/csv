@@ -17,9 +17,9 @@ class CsvMapReader extends CsvReader {
    *
    * @param  io.streams.Reader|io.streams.InputStream|io.Channel|string $in
    * @param  string[] $keys
-   * @param  text.csv.CsvFormat $format
+   * @param  ?text.csv.CsvFormat $format
    */
-  public function  __construct($in, array $keys= [], CsvFormat $format= null) {
+  public function  __construct($in, array $keys= [], $format= null) {
     parent::__construct($in, $format);
     $this->keys= $keys;
   }
